@@ -1,0 +1,21 @@
+.toolbar {
+    height: 100%;
+    width: 100px;
+    position: fixed;
+    top: 2;
+    left: 3;
+    background-color: #009BFF;
+    padding-top: 20px;
+    border-radius: 10px;
+    
+}
+
+.material-symbols-outlined {
+    background-color: #009BFF;
+    font-size: 80px;
+}
+
+.buttonToolBar {
+    background-color: #009BFF;
+    border: none;
+}
