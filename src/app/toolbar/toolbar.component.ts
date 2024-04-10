@@ -9,8 +9,8 @@ import { AuthService } from '../auth/auth.service';
 })
 export class ToolbarComponent implements OnInit {
   
-  mostrarToolBar : boolean = false;
-
+  mostrarToolBar : boolean = true;
+  //TODO: VOLTAR PARA FALSE O MOSTRARBARRA
   constructor(
     private router : Router,
     private authService : AuthService

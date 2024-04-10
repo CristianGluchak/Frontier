@@ -1,1 +1,6 @@
-<p class="outToolBar">funcionario works!</p>
+<div id="outToolBar" class="col s6 offset-s6">
+    <p>funcionario works!</p>
+    <div *ngFor="let funcionario of funcionarios; let i = index">
+        {{funcionario.nome}}
+    </div>
+</div>
