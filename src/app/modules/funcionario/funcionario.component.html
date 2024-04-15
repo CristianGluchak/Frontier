@@ -1,5 +1,5 @@
 <div id="outToolBar" class="col s6 offset-s6">
-    <div *ngFor="let funcionario of funcionarios; let i = index" id="funcionario" onclick="goToDetalhes(funcinario.id)">
-        {{funcionario.nome}}
+    <div *ngFor="let funcionario of funcionarios; let i = index" id="funcionario">
+        {{funcionario.nome}}--{{funcionario.cpf}}--{{funcionario.cargo}}--{{funcionario.horaSemanais}}--{{funcionario.salario}}--{{funcionario.isEnable}}
     </div>
 </div>

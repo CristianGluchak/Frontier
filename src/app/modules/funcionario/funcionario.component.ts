@@ -15,10 +15,10 @@ export class FuncionarioComponent implements OnInit {
   }
 
   funcionarios  = [
-    {'id':1 , 'nome':'1Cristian'},
-    {'id':2 , 'nome':'2Cristian'},
-    {'id':3 , 'nome':'3Cristian'},
-    {'id':4 , 'nome':'4Cristian'},
+    {'id':1 , 'nome':'1Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':2 , 'nome':'2Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':3 , 'nome':'3Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':4 , 'nome':'4Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
    ];
 
   ngOnInit() {
