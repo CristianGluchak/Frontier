@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario',
@@ -7,7 +8,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FuncionarioComponent implements OnInit {
 
-  constructor( ){
+  constructor(
+    private router : Router
+   ){
 
   }
 
@@ -21,5 +24,9 @@ export class FuncionarioComponent implements OnInit {
   ngOnInit() {
     this.funcionarios;
     console.log(this.funcionarios)
+  }
+
+  goToDetalhes(id: number){
+    this.router.navigate(["/id"])
   }
 }

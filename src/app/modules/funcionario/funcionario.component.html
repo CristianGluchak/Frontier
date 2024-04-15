@@ -1,6 +1,5 @@
 <div id="outToolBar" class="col s6 offset-s6">
-    <p>funcionario works!</p>
-    <div *ngFor="let funcionario of funcionarios; let i = index">
+    <div *ngFor="let funcionario of funcionarios; let i = index" id="funcionario" onclick="goToDetalhes(funcinario.id)">
         {{funcionario.nome}}
     </div>
 </div>
