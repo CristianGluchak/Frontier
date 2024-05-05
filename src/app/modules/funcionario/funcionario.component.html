@@ -1,5 +1,7 @@
 <div id="outToolBar" class="col s6 offset-s6">
-    <div *ngFor="let funcionario of funcionarios; let i = index" id="funcionario">
-        {{funcionario.nome}}--{{funcionario.cpf}}--{{funcionario.cargo}}--{{funcionario.horaSemanais}}--{{funcionario.salario}}--{{funcionario.isEnable}}
+    <div *ngFor="let funcionario of funcionarios;
+            let i = index" id="funcionario" (click)="goToDetalhes(funcionario.id)">
+        {{funcionario.nome}}--{{funcionario.cpf}}--{{funcionario.cargo}}--{{funcionario.horasSemanais}}--{{funcionario.salario}}--{{funcionario.isEnable}}
     </div>
+    <a class="btn-floating "><i class="material-icons" (click)="goToNew()">add</i></a>
 </div>

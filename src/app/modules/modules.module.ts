@@ -4,6 +4,8 @@ import { CalculaFolhaComponent } from './calcula-folha/calcula-folha.component';
 import { EmpresaComponent } from './empresa/empresa.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { HomeComponent } from './home/home.component';
+import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
+import { NewComponent } from './funcionario/new/new.component';
 
 
 
@@ -12,7 +14,9 @@ import { HomeComponent } from './home/home.component';
     EmpresaComponent,
     FuncionarioComponent,
     CalculaFolhaComponent,
-    HomeComponent
+    HomeComponent,
+    DetalhesComponent,
+    NewComponent
   ],
   imports: [
     CommonModule

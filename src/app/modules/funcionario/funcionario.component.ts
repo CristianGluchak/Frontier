@@ -15,18 +15,20 @@ export class FuncionarioComponent implements OnInit {
   }
 
   funcionarios  = [
-    {'id':1 , 'nome':'1Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
-    {'id':2 , 'nome':'2Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
-    {'id':3 , 'nome':'3Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
-    {'id':4 , 'nome':'4Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horaSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':1 , 'nome':'1Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horasSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':2 , 'nome':'2Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horasSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':3 , 'nome':'3Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horasSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
+    {'id':4 , 'nome':'4Cristian', 'cpf':'99999999999', 'cargo':'motorista', 'horasSemanais':'40', 'salario':'1500', 'isEnable' : 'sim(1)/nao(0)'},
    ];
 
   ngOnInit() {
     this.funcionarios;
-    console.log(this.funcionarios)
   }
 
   goToDetalhes(id: number){
-    this.router.navigate(["/id"])
+    this.router.navigate(["funcionario/",id])
+  }
+  goToNew(){
+    this.router.navigate(["funcionario/new"])
   }
 }

@@ -15,9 +15,9 @@ import { CommonModule } from '@angular/common';
     ToolbarComponent,
   ],
   imports: [
+    AppRoutingModule,
     CommonModule,
     BrowserModule,
-    AppRoutingModule,
     ModulesModule,
     AuthModule
   ],
