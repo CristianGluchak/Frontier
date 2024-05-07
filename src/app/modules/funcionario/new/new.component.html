@@ -1,11 +1,11 @@
 <div id="outToolBar" class="col s6 offset-s6">
     <p>new works!</p>
-    <input type="text" placeholder="Nome">
-    <input type="text" placeholder="CPF">
-    <input type="text" placeholder="Cargo">
-    <input type="text" placeholder="horas semanais">
-    <input type="text" placeholder="Salario">
-    <br>
-    <input type="checkbox" placeholder="Ativo" [defaultChecked]="1">ativo
-
+    <form [formGroup]="funcionarioForm">
+        <p>Nome <input type="text" formControlName="nome"></p>
+        <p>CPF <input type="text" formControlName="cpf"></p>
+        <p>Cargo <input type="text" formControlName="cargo"></p>
+        <p>Horas semanais <input type="number" formControlName="horasSemanais"></p>
+        <p>Salario <input type="number" formControlName="salario"></p>
+        <p>Ativo <input type="checkbox" formControlName="isEnable"></p>
+    </form>
 </div>

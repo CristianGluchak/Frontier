@@ -19,7 +19,7 @@ import { CommonModule } from '@angular/common';
     CommonModule,
     BrowserModule,
     ModulesModule,
-    AuthModule
+    AuthModule,
   ],
   providers: [
     AuthService,

@@ -6,6 +6,7 @@ import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { HomeComponent } from './home/home.component';
 import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
 import { NewComponent } from './funcionario/new/new.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -19,7 +20,8 @@ import { NewComponent } from './funcionario/new/new.component';
     NewComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ]
 })
 export class ModulesModule { }

@@ -1,9 +1,11 @@
 <div id="outToolBar" class="col s6 offset-s6">
     <p>detalhes works!</p>
-    <p>Nome {{funcionario.nome}}</p>
-    <p>CPF {{funcionario.cpf}}</p>
-    <p>Cargo {{funcionario.cargo}}</p>
-    <p>Horas semanais {{funcionario.horasSemanais}}</p>
-    <p>Salario {{funcionario.salario}}</p>
-    <p>Ativo {{funcionario.isEnable}}</p>
+    <form [formGroup]="funcionarioForm">
+        <p>Nome <input type="text" formControlName="nome"></p>
+        <p>CPF <input type="text" formControlName="cpf"></p>
+        <p>Cargo <input type="text" formControlName="cargo"></p>
+        <p>Horas semanais <input type="number" formControlName="horasSemanais"></p>
+        <p>Salario <input type="number" formControlName="salario"></p>
+        <p>Ativo <input type="checkbox" formControlName="isEnable"></p>
+    </form>
 </div>
