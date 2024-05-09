@@ -2,10 +2,38 @@
     <p>detalhes works!</p>
     <form [formGroup]="funcionarioForm">
         <p>Nome <input type="text" formControlName="nome"></p>
+        <p *ngIf="funcionarioForm.get('nome')?.invalid && (funcionarioForm.get('nome')?.dirty || funcionarioForm.get('nome')?.touched)">
+            <span *ngIf="funcionarioForm.get('nome')?.errors?.['required']">Nome é obrigatório.</span>
+            <span *ngIf="funcionarioForm.get('nome')?.errors?.['minlength']">Nome deve ter no mínimo 4 caracteres.</span>
+        </p>
+
         <p>CPF <input type="text" formControlName="cpf"></p>
+        <p *ngIf="funcionarioForm.get('cpf')?.invalid && (funcionarioForm.get('cpf')?.dirty || funcionarioForm.get('cpf')?.touched)">
+          <span *ngIf="funcionarioForm.get('cpf')?.errors?.['required']">CPF é obrigatório.</span>
+          <span *ngIf="funcionarioForm.get('cpf')?.errors?.['cpfInvalido']">CPF inválido.</span>
+        </p>
+
         <p>Cargo <input type="text" formControlName="cargo"></p>
+        <p *ngIf="funcionarioForm.get('cargo')?.invalid && (funcionarioForm.get('cargo')?.dirty || funcionarioForm.get('cargo')?.touched)">
+            <span *ngIf="funcionarioForm.get('cargo')?.errors?.['required']">Cargo é obrigatório.</span>
+            <span *ngIf="funcionarioForm.get('cargo')?.errors?.['minlength']">Cargo deve ter no mínimo 6 caracteres.</span>
+        </p>
+
         <p>Horas semanais <input type="number" formControlName="horasSemanais"></p>
+        <p *ngIf="funcionarioForm.get('horasSemanais')?.invalid && (funcionarioForm.get('horasSemanais')?.dirty || funcionarioForm.get('horasSemanais')?.touched)">
+            <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['required']">Horas semanais são obrigatórias.</span>
+            <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['min']">Horas semanais devem ser um número positivo.</span>
+        </p>
+
         <p>Salario <input type="number" formControlName="salario"></p>
+        <p *ngIf="funcionarioForm.get('salario')?.invalid && (funcionarioForm.get('salario')?.dirty || funcionarioForm.get('salario')?.touched)">
+            <span *ngIf="funcionarioForm.get('salario')?.errors?.['required']">Salário é obrigatório.</span>
+            <span *ngIf="funcionarioForm.get('salario')?.errors?.['pattern']">Salário deve ser um número válido.</span>
+            <span *ngIf="funcionarioForm.get('salario')?.errors?.['min']">Salário deve ser um número positivo.</span>
+        </p>
+
         <p>Ativo <input type="checkbox" formControlName="isEnable"></p>
+
+        <button type="submit">Submit</button>
     </form>
 </div>

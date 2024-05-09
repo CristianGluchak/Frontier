@@ -8,6 +8,7 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
+import { ValidarCpfService } from './modules/services/validar-cpf.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { CommonModule } from '@angular/common';
     AuthModule,
   ],
   providers: [
-    AuthService,
+    AuthService, ValidarCpfService
   ],
   bootstrap: [AppComponent]
 })
