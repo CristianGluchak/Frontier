@@ -2,3 +2,44 @@
     position: absolute;
     left: 10%;  
     }
+
+.mat-error{
+    color: red;
+}
+
+.mat-placeholder{
+    color: gray;
+}
+mat-card {
+    border: 1px solid #ccc; 
+    border-radius: 8px; 
+    padding: 16px; 
+  }
+  
+
+  .botao-salvar {
+    
+    background-color: #0095FF;
+    color: white;
+    width: 75px; 
+    height: 75px;
+    border-radius: 50%; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .botao-salvar:hover {
+    background-color: #00e065; 
+    transform: scale(1.1); 
+  }
+  
+  .material-symbols-outlined {
+    font-size: 50px; 
+  }
+  
+  
