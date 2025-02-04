@@ -26,17 +26,14 @@ export class ToolbarComponent implements OnInit {
 
   goToEmpresa() {
     this.router.navigate(['/empresa'])
-    return console.log("caminho para editar empresa logada");
   }
 
   goToCadastroPessoa() {
     this.router.navigate(['/pessoa'])
-    return console.log("caminho para cadastrar pessoa");
   }
 
   goToCadastroFuncionario() {
     this.router.navigate(['/funcionario'])
-    return console.log("caminho para cadastrar funcionario");
   }
 
   goToCalcularFolha() {
