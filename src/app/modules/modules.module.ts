@@ -7,6 +7,9 @@ import { HomeComponent } from './home/home.component';
 import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
 import { NewComponent } from './funcionario/new/new.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 
 
 
@@ -20,6 +23,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     NewComponent
   ],
   imports: [
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
     CommonModule,
     ReactiveFormsModule
   ]
