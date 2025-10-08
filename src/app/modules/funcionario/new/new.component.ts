@@ -33,5 +33,11 @@ export class NewComponent implements OnInit {
       return null;
     }
 
+    save(){
+
+    }
+    cancel(){
+      
+    }
 }
 

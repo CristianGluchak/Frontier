@@ -1,8 +1,49 @@
-#outToolBar{
-    position: absolute;
-    left: 10%;   
-    }
+.example-container {
+    width: 100%;
+    margin: auto;
+}
 
-#funcionario{
-    font-size: xx-large
+.mat-table {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th.mat-header-cell, td.mat-cell {
+    text-align: left;
+  
+    font-size: 14px;
+}
+
+/* Estilização do botão flutuante */
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    
+}
+
+button[mat-fab] {
+    background-color: #0095FF; /* Azul Capri */
+    border-radius: 30%;
+    border:none;
+    color: white;
+}
+
+button[mat-fab]:hover {
+    background-color: #007acc;
+}
+
+
+.container-pesquisa{
+    display: flex;
+    flex-direction: row;
+    min-height: 30px;
+}
+
+.action-container{
+    width: 100%;
+    display: flex;
+        direction: rtl;
+        align-self: end;
 }

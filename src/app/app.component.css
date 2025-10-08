@@ -1,0 +1,4 @@
+#conteudo-principal {
+    margin-left: 60px; /* Mesma largura da toolbar */
+    padding-left: 20px; /* Para evitar que os elementos fiquem grudados */
+}
