@@ -5,20 +5,16 @@ import { Usuario } from './usuario';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  public usuario: Usuario = new Usuario();
 
-  public usuario:Usuario = new Usuario();
+  constructor(private authService: AuthService) {}
 
-constructor(private authService: AuthService){
+  ngOnInit() {}
 
-}
-
-  ngOnInit(){
-}
-
-validateUser () {
-  this.authService.fazerLogin(this.usuario);
-}
+  validateUser() {
+    this.authService.fazerLogin(this.usuario);
+  }
 }

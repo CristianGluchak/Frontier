@@ -16,8 +16,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
-
-
 @NgModule({
   declarations: [
     EmpresaComponent,
@@ -25,7 +23,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     CalculaFolhaComponent,
     HomeComponent,
     DetalhesComponent,
-    NewComponent
+    NewComponent,
   ],
   imports: [
     MatCardModule,
@@ -37,7 +35,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatIconModule,
     MatSelectModule,
     CommonModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class ModulesModule { }
+export class ModulesModule {}

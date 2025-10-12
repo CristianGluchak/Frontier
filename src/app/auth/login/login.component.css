@@ -1,42 +1,41 @@
-#outToolBar{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #009BFF;
-    border-radius: 20px;
-    width: 400px;
-    height: 200px;
-    
+#outToolBar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #009bff;
+  border-radius: 20px;
+  width: 400px;
+  height: 200px;
 }
 
-.centralUser{
-    position: absolute;
-    width: 200px; 
-    height: 50px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.centralUser {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  border-radius: 20px;
+  text-align: center;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.centralPassword{
-    position: absolute;
-    width: 200px;
-    height: 50px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.centralPassword {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  border-radius: 20px;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
-.centralButton{
-    position: absolute;
-    width: 90px;
-    height: 60px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.centralButton {
+  position: absolute;
+  width: 90px;
+  height: 60px;
+  border-radius: 20px;
+  text-align: center;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }

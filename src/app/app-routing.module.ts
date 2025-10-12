@@ -8,7 +8,10 @@ import { DetalhesComponent } from './modules/funcionario/detalhes/detalhes.compo
 import { NewComponent } from './modules/funcionario/new/new.component';
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule) },
+  {
+    path: '',
+    loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: 'home', component: HomeComponent },
   { path: 'empresa', component: EmpresaComponent },
   { path: 'funcionario', component: FuncionarioComponent },
@@ -19,6 +22,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
