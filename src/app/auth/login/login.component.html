@@ -1,19 +1,21 @@
-<div id="outToolBar" class="col s6 offset-s6">
-  <input
-    type="text"
-    name="usuario"
-    [(ngModel)]="usuario.nome"
-    placeholder="Usuario"
-    class="centralUser"
-  />
-  <input
-    type="password"
-    name="senha"
-    [(ngModel)]="usuario.senha"
-    placeholder="senha"
-    class="centralPassword"
-  />
-  <button class="centralButton" (click)="validateUser()">
-    <h2>Entrar</h2>
-  </button>
+<div class="login-container col s6 offset-s6">
+  <div id="loginToolBar">
+    <input
+      type="text"
+      name="usuario"
+      [(ngModel)]="usuario.nome"
+      placeholder="Usuario"
+      class="centralUser"
+    />
+    <input
+      type="password"
+      name="senha"
+      [(ngModel)]="usuario.senha"
+      placeholder="senha"
+      class="centralPassword"
+    />
+    <button class="centralButton" (click)="validateUser()">
+      <h2>Entrar</h2>
+    </button>
+  </div>
 </div>

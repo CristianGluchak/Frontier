@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+.cdk-overlay-container,
+.cdk-overlay-pane {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  z-index: 1000 !important;
+}
+
+mat-sidenav-container,  /* se estiver usando */
+mat-drawer-container {
+  transform: none !important;
+}
+
+body,
+html,
+app-root {
+  overflow: visible !important;
+  position: static !important;
+  transform: none !important;
+}
