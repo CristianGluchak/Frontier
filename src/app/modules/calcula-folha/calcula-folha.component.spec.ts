@@ -8,9 +8,8 @@ describe('CalculaFolhaComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CalculaFolhaComponent ]
-    })
-    .compileComponents();
+      declarations: [CalculaFolhaComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(CalculaFolhaComponent);
     component = fixture.componentInstance;

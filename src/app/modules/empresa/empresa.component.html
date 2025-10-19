@@ -2,32 +2,46 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <h3>
-          Identificação
-        </h3>
+        <h3>Identificação</h3>
       </mat-card-title>
     </mat-card-header>
 
     <mat-card-content>
       <div>
-        <form [formGroup]="empresaForm" >
+        <form [formGroup]="empresaForm">
           <!-- Razão Social -->
-          <div row-inline >
-            <mat-form-field appearance="fill"  col-10>
+          <div row-inline>
+            <mat-form-field appearance="fill" col-10>
               <mat-label class="mat-placeholder">Razão Social </mat-label>
-              <input matInput type="text" formControlName="razaoSocial" required>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('razaoSocial')?.hasError('required')">
+              <input
+                matInput
+                type="text"
+                formControlName="razaoSocial"
+                required
+              />
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('razaoSocial')?.hasError('required')"
+              >
                 Razão Social é obrigatória.
               </mat-error>
             </mat-form-field>
           </div>
 
           <!-- Nome Fantasia -->
-          <div row-inline >
-            <mat-form-field appearance="fill"  >
+          <div row-inline>
+            <mat-form-field appearance="fill">
               <mat-label class="mat-placeholder">Nome Fantasia </mat-label>
-              <input matInput type="text" formControlName="nomeFantasia" required>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('nomeFantasia')?.hasError('required')">
+              <input
+                matInput
+                type="text"
+                formControlName="nomeFantasia"
+                required
+              />
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('nomeFantasia')?.hasError('required')"
+              >
                 Nome Fantasia é obrigatória.
               </mat-error>
             </mat-form-field>
@@ -37,11 +51,17 @@
           <div class="col-md-6">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label class="mat-placeholder">CNPJ </mat-label>
-              <input matInput type="text" formControlName="cnpj" required>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('cnpj')?.hasError('required')">
+              <input matInput type="text" formControlName="cnpj" required />
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('cnpj')?.hasError('required')"
+              >
                 CNPJ é obrigatório.
               </mat-error>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('cnpj')?.hasError('pattern')">
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('cnpj')?.hasError('pattern')"
+              >
                 Formato inválido. Use xx.xxx.xxx/xxxx-xx.
               </mat-error>
             </mat-form-field>
@@ -51,18 +71,21 @@
           <div class="col-md-6">
             <mat-form-field appearance="fill" class="w-100">
               <mat-label class="mat-placeholder">E-mail </mat-label>
-              <input matInput type="email" formControlName="email" required>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('email')?.hasError('required')">
+              <input matInput type="email" formControlName="email" required />
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('email')?.hasError('required')"
+              >
                 E-mail é obrigatório.
               </mat-error>
-              <mat-error class="mat-error" *ngIf="empresaForm.get('email')?.hasError('email')">
+              <mat-error
+                class="mat-error"
+                *ngIf="empresaForm.get('email')?.hasError('email')"
+              >
                 E-mail inválido.
               </mat-error>
             </mat-form-field>
           </div>
-
-
-
         </form>
       </div>
     </mat-card-content>
@@ -71,9 +94,7 @@
   <mat-card>
     <mat-card-header>
       <mat-card-title>
-        <h3>
-          Endereço
-        </h3>
+        <h3>Endereço</h3>
       </mat-card-title>
     </mat-card-header>
 
@@ -83,8 +104,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">CEP </mat-label>
-            <input matInput type="text" formControlName="cep" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('cep')?.hasError('required')">
+            <input matInput type="text" formControlName="cep" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('cep')?.hasError('required')"
+            >
               CEP é obrigatório.
             </mat-error>
           </mat-form-field>
@@ -94,8 +118,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">País </mat-label>
-            <input matInput type="text" formControlName="pais" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('pais')?.hasError('required')">
+            <input matInput type="text" formControlName="pais" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('pais')?.hasError('required')"
+            >
               País é obrigatório.
             </mat-error>
           </mat-form-field>
@@ -105,8 +132,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">UF </mat-label>
-            <input matInput type="text" formControlName="uf" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('uf')?.hasError('required')">
+            <input matInput type="text" formControlName="uf" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('uf')?.hasError('required')"
+            >
               UF é obrigatória.
             </mat-error>
           </mat-form-field>
@@ -116,8 +146,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">Cidade </mat-label>
-            <input matInput type="text" formControlName="cidade" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('cidade')?.hasError('required')">
+            <input matInput type="text" formControlName="cidade" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('cidade')?.hasError('required')"
+            >
               Cidade é obrigatória.
             </mat-error>
           </mat-form-field>
@@ -127,8 +160,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">Rua </mat-label>
-            <input matInput type="text" formControlName="rua" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('rua')?.hasError('required')">
+            <input matInput type="text" formControlName="rua" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('rua')?.hasError('required')"
+            >
               Rua é obrigatória.
             </mat-error>
           </mat-form-field>
@@ -138,8 +174,11 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">Número </mat-label>
-            <input matInput type="text" formControlName="numero" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('numero')?.hasError('required')">
+            <input matInput type="text" formControlName="numero" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('numero')?.hasError('required')"
+            >
               Número é obrigatório.
             </mat-error>
           </mat-form-field>
@@ -149,7 +188,7 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">Complemento </mat-label>
-            <input matInput type="text" formControlName="complemento">
+            <input matInput type="text" formControlName="complemento" />
           </mat-form-field>
         </div>
 
@@ -157,23 +196,27 @@
         <div class="col-md-6">
           <mat-form-field appearance="fill" class="w-100">
             <mat-label class="mat-placeholder">Bairro </mat-label>
-            <input matInput type="text" formControlName="bairro" required>
-            <mat-error class="mat-error" *ngIf="empresaForm.get('bairro')?.hasError('required')">
+            <input matInput type="text" formControlName="bairro" required />
+            <mat-error
+              class="mat-error"
+              *ngIf="empresaForm.get('bairro')?.hasError('required')"
+            >
               Bairro é obrigatório.
             </mat-error>
           </mat-form-field>
         </div>
-
       </form>
     </mat-card-content>
   </mat-card>
 
-
-<div class="">
-  <button mat-raised-button class="botao-salvar" type="submit" (click)="send()">
-    <span class="material-symbols-outlined">
-      check
-      </span>
-  </button>
-</div>
+  <div class="">
+    <button
+      mat-raised-button
+      class="botao-salvar"
+      type="submit"
+      (click)="send()"
+    >
+      <span class="material-symbols-outlined"> check </span>
+    </button>
+  </div>
 </div>

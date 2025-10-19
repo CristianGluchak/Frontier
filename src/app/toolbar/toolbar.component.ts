@@ -5,40 +5,33 @@ import { AuthService } from '../auth/auth.service';
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
-  styleUrls: ['./toolbar.component.css']
+  styleUrls: ['./toolbar.component.css'],
 })
 export class ToolbarComponent implements OnInit {
-  
-  mostrarToolBar : boolean = true;
+  mostrarToolBar: boolean = true;
   //TODO: VOLTAR PARA FALSE O MOSTRARBARRA
-  constructor(
-    private router : Router,
-    private authService : AuthService
-  ){
+  constructor(private router: Router, private authService: AuthService) {}
 
-  }
-
-  ngOnInit(){
-      this.authService.mostrarToolBarEmitter.subscribe(
-        mostrar =>this.mostrarToolBar = mostrar
-      );
+  ngOnInit() {
+    this.authService.mostrarToolBarEmitter.subscribe(
+      (mostrar) => (this.mostrarToolBar = mostrar)
+    );
   }
 
   goToEmpresa() {
-    this.router.navigate(['/empresa'])
+    this.router.navigate(['/empresa']);
   }
 
   goToCadastroPessoa() {
-    this.router.navigate(['/pessoa'])
+    this.router.navigate(['/pessoa']);
   }
 
   goToCadastroFuncionario() {
-    this.router.navigate(['/funcionario'])
+    this.router.navigate(['/funcionario']);
   }
 
   goToCalcularFolha() {
-    this.router.navigate(['/calcula-folha'])
-    return console.log("caminho para calcular folha");
+    this.router.navigate(['/calcula-folha']);
+    return console.log('caminho para calcular folha');
   }
-
 }

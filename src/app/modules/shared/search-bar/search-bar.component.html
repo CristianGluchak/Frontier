@@ -1,0 +1,15 @@
+<form [formGroup]="form" (ngSubmit)="onSearch()" class="search-bar">
+  <ng-container *ngFor="let field of fields">
+    <input
+      type="text"
+      [formControlName]="field.key"
+      [placeholder]="
+        field.placeholder || 'Buscar por ' + field.label.toLowerCase()
+      "
+      (keypress)="onKeyPress($event)"
+    />
+  </ng-container>
+
+  <button type="submit">Pesquisar</button>
+  <button type="button" (click)="clear()">Limpar</button>
+</form>

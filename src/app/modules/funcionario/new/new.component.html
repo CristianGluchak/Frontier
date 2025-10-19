@@ -1,39 +1,100 @@
-<div id="outToolBar" class="col s6 offset-s6">
-    <p>new works!</p>
-    <form [formGroup]="funcionarioForm">
-        <p>Nome <input type="text" formControlName="nome"></p>
-        <p *ngIf="funcionarioForm.get('nome')?.invalid && (funcionarioForm.get('nome')?.dirty || funcionarioForm.get('nome')?.touched)">
-            <span *ngIf="funcionarioForm.get('nome')?.errors?.['required']">Nome é obrigatório.</span>
-            <span *ngIf="funcionarioForm.get('nome')?.errors?.['minlength']">Nome deve ter no mínimo 4 caracteres.</span>
-        </p>
+<div class="container">
+  <mat-card class="funcionario-card">
+    <mat-card-title>Cadastro de Funcionário</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="funcionarioForm">
+        <!-- Nome -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome</mat-label>
+          <input matInput type="text" formControlName="nome" />
+          <mat-error *ngIf="funcionarioForm.get('nome')?.hasError('required')">
+            Nome é obrigatório.
+          </mat-error>
+          <mat-error *ngIf="funcionarioForm.get('nome')?.hasError('minlength')">
+            Mínimo 4 caracteres.
+          </mat-error>
+        </mat-form-field>
 
-        <p>CPF <input type="text" formControlName="cpf"></p>
-        <p *ngIf="funcionarioForm.get('cpf')?.invalid && (funcionarioForm.get('cpf')?.dirty || funcionarioForm.get('cpf')?.touched)">
-          <span *ngIf="funcionarioForm.get('cpf')?.errors?.['required']">CPF é obrigatório.</span>
-          <span *ngIf="funcionarioForm.get('cpf')?.errors?.['cpfInvalido']">CPF inválido.</span>
-        </p>
+        <!-- CPF -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>CPF</mat-label>
+          <input matInput type="text" formControlName="cpf" />
+          <mat-error *ngIf="funcionarioForm.get('cpf')?.hasError('required')">
+            CPF é obrigatório.
+          </mat-error>
+          <mat-error
+            *ngIf="funcionarioForm.get('cpf')?.hasError('cpfInvalido')"
+          >
+            CPF inválido.
+          </mat-error>
+        </mat-form-field>
 
-        <p>Cargo <input type="text" formControlName="cargo"></p>
-        <p *ngIf="funcionarioForm.get('cargo')?.invalid && (funcionarioForm.get('cargo')?.dirty || funcionarioForm.get('cargo')?.touched)">
-            <span *ngIf="funcionarioForm.get('cargo')?.errors?.['required']">Cargo é obrigatório.</span>
-            <span *ngIf="funcionarioForm.get('cargo')?.errors?.['minlength']">Cargo deve ter no mínimo 6 caracteres.</span>
-        </p>
+        <!-- Cargo -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Cargo</mat-label>
+          <input matInput type="text" formControlName="cargo" />
+          <mat-error *ngIf="funcionarioForm.get('cargo')?.hasError('required')">
+            Cargo é obrigatório.
+          </mat-error>
+          <mat-error
+            *ngIf="funcionarioForm.get('cargo')?.hasError('minlength')"
+          >
+            Mínimo 6 caracteres.
+          </mat-error>
+        </mat-form-field>
 
-        <p>Horas semanais <input type="number" formControlName="horasSemanais"></p>
-        <p *ngIf="funcionarioForm.get('horasSemanais')?.invalid && (funcionarioForm.get('horasSemanais')?.dirty || funcionarioForm.get('horasSemanais')?.touched)">
-            <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['required']">Horas semanais são obrigatórias.</span>
-            <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['min']">Horas semanais devem ser um número positivo.</span>
-        </p>
+        <!-- Horas Semanais -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Horas Semanais</mat-label>
+          <input matInput type="number" formControlName="horasSemanais" />
+          <mat-error
+            *ngIf="funcionarioForm.get('horasSemanais')?.hasError('required')"
+          >
+            Obrigatório.
+          </mat-error>
+          <mat-error
+            *ngIf="funcionarioForm.get('horasSemanais')?.hasError('min')"
+          >
+            Deve ser positivo.
+          </mat-error>
+        </mat-form-field>
 
-        <p>Salario <input type="number" formControlName="salario"></p>
-        <p *ngIf="funcionarioForm.get('salario')?.invalid && (funcionarioForm.get('salario')?.dirty || funcionarioForm.get('salario')?.touched)">
-            <span *ngIf="funcionarioForm.get('salario')?.errors?.['required']">Salário é obrigatório.</span>
-            <span *ngIf="funcionarioForm.get('salario')?.errors?.['pattern']">Salário deve ser um número válido.</span>
-            <span *ngIf="funcionarioForm.get('salario')?.errors?.['min']">Salário deve ser um número positivo.</span>
-        </p>
+        <!-- Salário -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Salário</mat-label>
+          <input matInput type="number" formControlName="salario" />
+          <mat-error
+            *ngIf="funcionarioForm.get('salario')?.hasError('required')"
+          >
+            Obrigatório.
+          </mat-error>
+          <mat-error *ngIf="funcionarioForm.get('salario')?.hasError('min')">
+            Deve ser positivo.
+          </mat-error>
+        </mat-form-field>
 
-        <p>Ativo <input type="checkbox" formControlName="isEnable"></p>
+        <!-- Status (Ativo/Inativo) com Radio Button -->
+        <div class="status-container">
+          <label>Status:</label>
+          <mat-radio-group formControlName="isEnable" class="radio-group">
+            <mat-radio-button value="true">Ativo</mat-radio-button>
+            <mat-radio-button value="false">Inativo</mat-radio-button>
+          </mat-radio-group>
+        </div>
 
-        <button type="submit">Submit</button>
-    </form>
+        <!-- Botão Salvar -->
+        <div class="button-container">
+          <button
+            mat-raised-button
+            color="primary"
+            class="botao-salvar"
+            type="submit"
+          >
+            <span class="material-symbols-outlined">check</span>
+            Salvar
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
 </div>

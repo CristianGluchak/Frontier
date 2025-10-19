@@ -19,12 +19,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    ToolbarComponent,
-  ],imports: [
+  declarations: [AppComponent, ToolbarComponent],
+  imports: [
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
@@ -37,10 +34,9 @@ import { MatInputModule } from '@angular/material/input';
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
-    AngularFireAuthModule],
-  providers: [
-    AuthService, ValidarCpfService
+    AngularFireAuthModule,
   ],
-  bootstrap: [AppComponent]
+  providers: [AuthService, ValidarCpfService],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

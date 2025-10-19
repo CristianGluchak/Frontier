@@ -10,8 +10,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
-
-
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -20,14 +24,20 @@ import { MatCardModule } from '@angular/material/card';
     CalculaFolhaComponent,
     HomeComponent,
     DetalhesComponent,
-    NewComponent
+    NewComponent,
+    SearchBarComponent,
   ],
   imports: [
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
+    MatTableModule,
+    MatRadioModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatSelectModule,
     CommonModule,
-    ReactiveFormsModule
-  ]
+    ReactiveFormsModule,
+  ],
 })
-export class ModulesModule { }
+export class ModulesModule {}

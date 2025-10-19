@@ -1,42 +1,31 @@
-#outToolBar{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #009BFF;
-    border-radius: 20px;
-    width: 400px;
-    height: 200px;
-    
+#loginToolBar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -200px;
+  background-color: #009bff;
+  border-radius: 20px;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  padding: 20px;
 }
 
-.centralUser{
-    position: absolute;
-    width: 200px; 
-    height: 50px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 20%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.centralUser,
+.centralPassword {
+  width: 200px;
+  height: 50px;
+  border-radius: 20px;
+  text-align: center;
 }
-.centralPassword{
-    position: absolute;
-    width: 200px;
-    height: 50px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.centralButton{
-    position: absolute;
-    width: 90px;
-    height: 60px; 
-    border-radius: 20px;
-    text-align: center; 
-    top: 80%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+
+.centralButton {
+  width: 90px;
+  height: 60px;
+  border-radius: 20px;
+  text-align: center;
 }

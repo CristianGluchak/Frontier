@@ -1,20 +1,24 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ValidarCpfService {
-
-  constructor() { }
+  constructor() {}
   public validandoCPF(cpf: string): boolean {
-    if (cpf === null || cpf.length !== 11 || !this.apenasNumeros(cpf) || this.todosCaracteresIguais(cpf)) {
+    if (
+      cpf === null ||
+      cpf.length !== 11 ||
+      !this.apenasNumeros(cpf) ||
+      this.todosCaracteresIguais(cpf)
+    ) {
       return false;
     }
     let j: number = 10;
     let somatorio: number = 0;
     let cpfAux = cpf.substring(0, 9);
     for (let i: number = 0; i < 9; i++) {
-      somatorio = somatorio + (+cpfAux.charAt(i) * j);
+      somatorio = somatorio + +cpfAux.charAt(i) * j;
       j--;
     }
     let resto = somatorio % 11;
@@ -26,7 +30,7 @@ export class ValidarCpfService {
     somatorio = 0;
     cpfAux = cpfAux + digito1.toString();
     for (let i: number = 0; i < 10; i++) {
-      somatorio = somatorio + (+cpfAux.charAt(i) * j);
+      somatorio = somatorio + +cpfAux.charAt(i) * j;
       j--;
     }
     resto = somatorio % 11;
@@ -51,7 +55,6 @@ export class ValidarCpfService {
   }
 
   private todosCaracteresIguais(cpf: string): boolean {
-    return cpf.split('').every(char => char === cpf[0]);
+    return cpf.split('').every((char) => char === cpf[0]);
   }
-
 }

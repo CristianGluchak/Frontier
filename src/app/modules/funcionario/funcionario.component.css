@@ -1,8 +1,111 @@
-#outToolBar{
-    position: absolute;
-    left: 10%;   
-    }
+.example-container {
+  width: 100%;
+  margin: auto;
+}
 
-#funcionario{
-    font-size: xx-large
+.mat-table {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  overflow: hidden;
+}
+
+th.mat-header-cell,
+td.mat-cell {
+  text-align: left;
+  font-size: 14px;
+}
+
+/* Estilização do botão flutuante */
+.floating-button {
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  z-index: 1000;
+}
+
+button[mat-fab] {
+  background-color: #0095ff;
+  border-radius: 50%;
+  border: none;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button[mat-fab]:hover {
+  background-color: #007acc;
+  /* transform: scale(1.05); */
+}
+
+/* Footer com paginator */
+.paginator-footer {
+  position: fixed;
+  bottom: 0;
+  left: 80px;
+  right: 0;
+  background-color: #fff;
+  border-top: 1px solid #dee2e6;
+  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 950;
+}
+
+.paginator-footer mat-paginator {
+  background-color: #f8f9fa;
+  border: none;
+}
+
+.paginator-footer .mat-paginator-container {
+  padding: 12px 16px;
+  justify-content: center;
+}
+
+.container-pesquisa {
+  display: flex;
+  flex-direction: row;
+  min-height: 30px;
+}
+
+.action-container {
+  width: 100%;
+  display: flex;
+  direction: rtl;
+  align-self: end;
+}
+
+.edit-button {
+  background-color: #f5f5f5;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.edit-button:hover {
+  background-color: #e0e0e0;
+  /* transform: scale(1.1); */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.edit-icon {
+  font-size: 18px;
+  color: #1976d2;
+  font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .paginator-footer {
+    left: 0;
+  }
+
+  .floating-button {
+    bottom: 120px;
+    right: 16px;
+  }
+}
+
+/* Adicione se necessário um estilo específico para funcionarioToolBar */
+#funcionarioToolBar {
+  /* estilos específicos do funcionário se precisar */
 }

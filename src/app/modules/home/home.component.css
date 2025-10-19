@@ -1,4 +1,9 @@
-.outToolBar{
-position: absolute;
-left: 10%;   
+#homeToolBar {
+  /* Seus estilos aqui */
+}
+
+.homeToolBar {
+  position: absolute;
+  left: 10%;
+  /* Estilos compartilhados se necessário */
 }
