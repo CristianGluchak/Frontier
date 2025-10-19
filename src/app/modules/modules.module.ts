@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HomeComponent,
     DetalhesComponent,
     NewComponent,
+    SearchBarComponent,
   ],
   imports: [
     MatCardModule,
