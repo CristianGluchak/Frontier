@@ -18,6 +18,8 @@ import { environment } from 'src/environments/environment.development';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent, ToolbarComponent],
@@ -27,16 +29,20 @@ import { MatInputModule } from '@angular/material/input';
     MatInputModule,
     AppRoutingModule,
     CommonModule,
+    HttpClientModule,
     BrowserModule,
     ModulesModule,
     AuthModule,
-    AngularFireModule.initializeApp(environment),
     AngularFireDatabaseModule,
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
   ],
-  providers: [AuthService, ValidarCpfService],
+  providers: [
+    AuthService,
+    ValidarCpfService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

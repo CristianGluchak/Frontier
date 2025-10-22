@@ -7,16 +7,10 @@ import { AuthService } from '../auth/auth.service';
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css'],
 })
-export class ToolbarComponent implements OnInit {
+export class ToolbarComponent {
   mostrarToolBar: boolean = true;
-  //TODO: VOLTAR PARA FALSE O MOSTRARBARRA
-  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {
-    this.authService.mostrarToolBarEmitter.subscribe(
-      (mostrar) => (this.mostrarToolBar = mostrar)
-    );
-  }
+  constructor(private router: Router, private authService: AuthService) {}
 
   goToEmpresa() {
     this.router.navigate(['/empresa']);
@@ -32,6 +26,10 @@ export class ToolbarComponent implements OnInit {
 
   goToCalcularFolha() {
     this.router.navigate(['/calcula-folha']);
-    return console.log('caminho para calcular folha');
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['']);
   }
 }

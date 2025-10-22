@@ -10,7 +10,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px; /* Espaçamento automático entre os botões */
+  justify-content: space-between; /* Distribui o espaço entre início e fim */
+}
+
+.toolbar-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px; /* Espaçamento entre os botões do topo */
+}
+
+.toolbar-right {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 15px; /* Espaço do fundo */
 }
 
 .material-symbols-outlined {

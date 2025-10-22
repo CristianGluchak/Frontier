@@ -1,51 +1,51 @@
-import { EventEmitter, Injectable, NgZone } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Usuario } from './login/usuario';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+interface LoginResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private usuarioAutenticado: boolean = false;
+  private readonly apiUrl = `${environment.apiUrl}/auth`;
+  private mostrarToolbarSubject = new BehaviorSubject<boolean>(false);
+  mostrarToolbar$: Observable<boolean> =
+    this.mostrarToolbarSubject.asObservable();
 
-  mostrarToolBarEmitter = new EventEmitter<boolean>();
+  constructor(private http: HttpClient) {}
 
-  usuarioDados: any;
-
-  constructor(
-    private auth: AngularFireAuth,
-    private router: Router,
-    private ngZone: NgZone
-  ) {
-    this.auth.authState.subscribe((user) => {
-      if (user) {
-        this.usuarioDados = user;
-        localStorage.setItem('user', JSON.stringify(this.usuarioDados));
-      } else {
-        localStorage.setItem('user', 'null');
-      }
-    });
+  login(email: string, password: string): Observable<LoginResponse> {
+    return this.http
+      .post<LoginResponse>(`${this.apiUrl}/login`, { email, password })
+      .pipe(
+        tap((res) => {
+          localStorage.setItem('access_token', res.accessToken);
+          localStorage.setItem('refresh_token', res.refreshToken);
+          this.mostrarToolbarSubject.next(true);
+        })
+      );
   }
 
-  fazerLogin(usuario: Usuario) {
-    if (usuario.nome === 'test' && usuario.senha === '123') {
-      this.usuarioAutenticado = true;
-
-      this.mostrarToolBarEmitter.emit(true);
-
-      this.router.navigate(['/home']);
-    } else {
-      this.usuarioAutenticado = false;
-      this.mostrarToolBarEmitter.emit(false);
-    }
+  logout(): void {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    this.mostrarToolbarSubject.next(false);
   }
 
-  public logar(email: string, password: string) {
-    return this.auth.signInWithEmailAndPassword(email, password);
+  verificarLogin(): void {
+    const token = localStorage.getItem('access_token');
+    this.mostrarToolbarSubject.next(!!token);
   }
 
-  public registrar(email: string, password: string) {
-    return this.auth.createUserWithEmailAndPassword(email, password);
+  getAccessToken(): string | null {
+    return localStorage.getItem('access_token');
+  }
+
+  getRefreshToken(): string | null {
+    return localStorage.getItem('refresh_token');
   }
 }
