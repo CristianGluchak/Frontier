@@ -1,4 +1,8 @@
 #conteudo-principal {
-  margin-left: 60px; /* Mesma largura da toolbar */
-  padding-left: 20px; /* Para evitar que os elementos fiquem grudados */
+  transition: margin-left 0.3s ease;
+}
+
+#conteudo-principal.com-toolbar {
+  margin-left: 60px; /* aplica apenas se toolbar estiver visível */
+  padding-left: 20px;
 }

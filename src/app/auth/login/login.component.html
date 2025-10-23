@@ -1,21 +1,30 @@
-<div class="login-container col s6 offset-s6">
+<div class="login-container">
   <div id="loginToolBar">
+    <h2 class="login-title">Acessar Conta</h2>
+
     <input
       type="text"
       name="usuario"
       [(ngModel)]="usuario.email"
-      placeholder="Usuario"
+      placeholder="Usuário"
       class="centralUser"
     />
+
     <input
       type="password"
       name="senha"
       [(ngModel)]="usuario.password"
-      placeholder="senha"
+      placeholder="Senha"
       class="centralPassword"
     />
-    <button class="centralButton" (click)="login()">
-      <h2>Entrar</h2>
-    </button>
+
+    <button class="centralButton" (click)="login()">Entrar</button>
+
+    <div class="create-account-section">
+      <p>Não tem uma conta?</p>
+      <button class="create-account-button" (click)="goToCreateAccount()">
+        Criar Conta
+      </button>
+    </div>
   </div>
 </div>
