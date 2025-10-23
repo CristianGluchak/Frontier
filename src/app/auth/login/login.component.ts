@@ -20,7 +20,11 @@ export class LoginComponent implements OnInit {
       .login(this.usuario?.email, this.usuario?.password)
       .subscribe({
         next: () => this.router.navigate(['/home']),
-        error: () => alert('Login inválido'),
+        error: () => alert('Usuário ou senha incorretos'),
       });
+  }
+
+  goToCreateAccount() {
+    this.router.navigate(['/create-account']);
   }
 }

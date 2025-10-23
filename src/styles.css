@@ -6,15 +6,23 @@
   z-index: 1000 !important;
 }
 
-mat-sidenav-container,  /* se estiver usando */
+mat-sidenav-container,
 mat-drawer-container {
   transform: none !important;
 }
 
 body,
 html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: "Inter", sans-serif;
+}
+
 app-root {
-  overflow: visible !important;
-  position: static !important;
-  transform: none !important;
+  display: block;
+  height: 100%;
 }

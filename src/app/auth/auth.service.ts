@@ -48,4 +48,8 @@ export class AuthService {
   getRefreshToken(): string | null {
     return localStorage.getItem('refresh_token');
   }
+
+  createAccount(data: any): Observable<any> {
+    return this.http.post(`${this.apiUrl}/create-account`, data);
+  }
 }

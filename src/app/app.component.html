@@ -1,4 +1,5 @@
 <app-toolbar *ngIf="mostrarToolbar"></app-toolbar>
-<div id="conteudo-principal">
+
+<div id="conteudo-principal" [ngClass]="{ 'com-toolbar': mostrarToolbar }">
   <router-outlet></router-outlet>
 </div>
