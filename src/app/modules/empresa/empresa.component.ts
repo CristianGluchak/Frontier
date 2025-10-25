@@ -9,12 +9,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class EmpresaComponent implements OnInit {
   empresaForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-    this.empresaForm = this.formBuilder.group({
-      razaoSocial: ['', [Validators.required]],
-      nomeFantasia: ['', [Validators.required]],
+    this.empresaForm = this.fb.group({
+      razaoSocial: ['', Validators.required],
+      nomeFantasia: ['', Validators.required],
       cnpj: [
         '',
         [
@@ -23,18 +23,24 @@ export class EmpresaComponent implements OnInit {
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
-      cep: ['', [Validators.required]],
-      pais: ['', [Validators.required]],
-      uf: ['', [Validators.required]],
-      cidade: ['', [Validators.required]],
-      rua: ['', [Validators.required]],
-      numero: ['', [Validators.required]],
-      complemento: ['', []],
-      bairro: ['', [Validators.required]],
+      cep: ['', Validators.required],
+      pais: ['', Validators.required],
+      uf: ['', [Validators.required, Validators.maxLength(2)]],
+      cidade: ['', Validators.required],
+      rua: ['', Validators.required],
+      numero: ['', Validators.required],
+      complemento: [''],
+      bairro: ['', Validators.required],
     });
   }
 
-  send() {
-    console.log('Enviado');
+  send(): void {
+    if (this.empresaForm.valid) {
+      const payload = this.empresaForm.value;
+      console.log('Request:', payload);
+      // Aqui você pode chamar o service de cadastro da empresa
+    } else {
+      this.empresaForm.markAllAsTouched();
+    }
   }
 }

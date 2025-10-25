@@ -1,36 +1,112 @@
-.mat-error {
-  color: red;
+/* Container principal */
+.empresa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.mat-placeholder {
-  color: gray;
+/* Card */
+.section-card {
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  padding: 32px;
 }
-mat-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+
+/* Título */
+.card-section-title {
+  margin-bottom: 28px;
+  border-left: 4px solid #0078d4;
+  padding-left: 10px;
+}
+
+.card-section-title h3 {
+  color: #0078d4;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Grid dos campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 28px;
+}
+
+/* Campos */
+.form-grid mat-form-field {
+  width: 100%;
+  min-height: 60px;
+}
+
+/* Altura confortável e texto centralizado */
+.mat-mdc-form-field-flex {
+  align-items: center !important;
+  min-height: 3.8rem;
+}
+
+/* Corrige o contorno do campo para o label não cortar a borda */
+.mat-mdc-form-field-outline {
+  top: 0.25rem !important;
+}
+
+/* Ajusta o texto dentro do input */
+.mat-mdc-input-element {
+  line-height: 1.6 !important;
+  padding: 0.75rem 0.75rem !important;
+  box-sizing: border-box;
+}
+
+/* Mantém o label flutuante bem posicionado e sem cortar a borda */
+mat-label {
+  background-color: #fff;
+  padding: 0 6px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Botão de ação */
+.actions {
+  display: flex;
+  justify-content: flex-end;
   padding: 16px;
 }
 
-.botao-salvar {
-  background-color: #0095ff;
-  color: white;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+button[mat-fab] {
+  width: 80px;
+  height: 80px;
+  transition: transform 0.2s ease-in-out, background-color 0.3s;
 }
 
-.botao-salvar:hover {
-  background-color: #00e065;
+button[mat-fab]:hover {
   transform: scale(1.1);
+  background-color: #00c853;
 }
 
-.material-symbols-outlined {
-  font-size: 50px;
+mat-icon {
+  font-size: 42px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .empresa-container {
+    padding: 20px;
+  }
+
+  .section-card {
+    padding: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-section-title h3 {
+    font-size: 1.2rem;
+  }
 }
