@@ -110,3 +110,88 @@ mat-icon {
     font-size: 1.2rem;
   }
 }
+
+/* Ajusta o tom do erro para um vermelho mais suave */
+mat-error {
+  color: #e57373 !important; /* vermelho suave */
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Opcional: se quiser um leve espaçamento entre o campo e o erro */
+.mat-mdc-form-field-error-wrapper {
+  margin-top: 2px;
+}
+
+/* Mantém o foco vermelho padrão do Material mais sutil */
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__trailing {
+  border-color: #ef9a9a !important; /* mesmo tom leve */
+}
+/* Botão flutuante circular fixo */
+.save-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: linear-gradient(145deg, #43a047, #66bb6a);
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(67, 160, 71, 0.4);
+  transition: all 0.25s ease-in-out;
+  border-radius: 50% !important; /* ✅ força formato circular */
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.save-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(56, 142, 60, 0.5);
+}
+
+/* Ícone moderno e centralizado */
+.material-symbols-outlined {
+  font-size: 42px;
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 48;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* gdsafsfafdafasdsafafsdfa fda */
+.user-table {
+  width: 100%;
+  margin-top: 10px;
+}
+
+mat-header-cell {
+  font-weight: 600;
+  color: #0078d4;
+}
+
+.add-user {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+button[mat-stroked-button] mat-icon {
+  margin-right: 4px;
+}
+
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+
+.error-snackbar {
+  background-color: #e53935 !important;
+  color: #fff !important;
+}

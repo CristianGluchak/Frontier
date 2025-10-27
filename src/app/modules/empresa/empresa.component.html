@@ -33,10 +33,12 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-field">
+          <mat-form-field appearance="outline">
             <mat-label>CNPJ</mat-label>
             <input
               matInput
+              cnpjMask
+              maxlength="18"
               formControlName="cnpj"
               placeholder="00.000.000/0000-00"
             />
@@ -66,16 +68,82 @@
       </form>
     </mat-card-content>
   </mat-card>
-
   <div class="actions">
     <button
       mat-fab
-      color="primary"
+      class="save-button"
       aria-label="Salvar Empresa"
       (click)="send()"
       [disabled]="empresaForm.invalid"
     >
-      <mat-icon>check</mat-icon>
+      <mat-icon class="material-symbols-outlined">check</mat-icon>
     </button>
   </div>
+
+  <!-- seção usuários -->
+  <mat-card class="section-card">
+    <div class="card-section-title">
+      <h3>Usuários Vinculados</h3>
+    </div>
+
+    <mat-card-content>
+      <table
+        mat-table
+        [dataSource]="usuarios"
+        class="user-table"
+        *ngIf="usuarios.data.length > 0; else vazio"
+      >
+        <!-- Nome -->
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let usuario">{{ usuario.nome }}</td>
+        </ng-container>
+
+        <!-- E-mail -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>E-mail</th>
+          <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
+        </ng-container>
+
+        <!-- Ações -->
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let usuario">
+            <button
+              mat-icon-button
+              color="primary"
+              aria-label="Editar"
+              (click)="editUsuario(usuario)"
+            >
+              <mat-icon class="material-symbols-outlined">edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="warn"
+              aria-label="Remover"
+              (click)="removeUsuario(usuario.id)"
+            >
+              <mat-icon class="material-symbols-outlined">delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <!-- Mensagem se vazio -->
+      <ng-template #vazio>
+        <p class="text-center text-muted">Nenhum usuário vinculado.</p>
+      </ng-template>
+
+      <!-- Botão adicionar -->
+      <div class="add-user">
+        <button mat-stroked-button color="primary" (click)="addUsuario()">
+          <mat-icon class="material-symbols-outlined">person_add</mat-icon>
+          Adicionar Usuário
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
