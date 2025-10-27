@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EmpresaService, Empresa } from '../services/empresa.service';
 
 @Component({
   selector: 'app-empresa',
@@ -13,40 +13,62 @@ export class EmpresaComponent implements OnInit {
   empresaForm!: FormGroup;
   usuarios = new MatTableDataSource<any>([]);
   displayedColumns = ['nome', 'email', 'acoes'];
+  employerId =
+    localStorage.getItem('employerId') == null
+      ? ''
+      : localStorage.getItem('employerId')!;
 
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog
+    private empresaService: EmpresaService
   ) {}
 
   ngOnInit(): void {
-    // Mock inicial da empresa
     this.empresaForm = this.fb.group({
-      razaoSocial: ['Jhon’s Store LTDA', Validators.required],
-      nomeFantasia: ['Loja do Jhon', Validators.required],
-      cnpj: [
-        '22829957000188',
-        [Validators.required, Validators.pattern(/^\d{14}$/)],
-      ],
-      email: ['jhonstore@mail.com', [Validators.required, Validators.email]],
+      razaoSocial: ['', Validators.required],
+      nomeFantasia: ['', Validators.required],
+      cnpj: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]],
+      email: ['', [Validators.required, Validators.email]],
     });
 
-    // Mock inicial dos usuários
-    this.usuarios.data = [
-      { id: 1, nome: 'João da Silva', email: 'joao@mail.com' },
-      { id: 2, nome: 'Maria Oliveira', email: 'maria@mail.com' },
-      { id: 3, nome: 'Carlos Souza', email: 'carlos@mail.com' },
-    ];
+    this.loadEmpresa();
   }
 
-  /** ✅ Mock de envio da empresa */
+  /** 🔹 Carrega dados da empresa do endpoint */
+  loadEmpresa(): void {
+    this.empresaService.getEmpresa(this.employerId).subscribe({
+      next: (empresa: Empresa) => {
+        this.empresaForm.patchValue(empresa);
+      },
+      error: (err) => {
+        console.error('Erro ao buscar empresa:', err);
+        this.snackBar.open('Erro ao carregar dados da empresa.', 'Fechar', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+      },
+    });
+  }
+
+  /** 🔹 Atualiza os dados da empresa */
   send(): void {
     if (this.empresaForm.valid) {
-      console.log('Empresa enviada:', this.empresaForm.value);
-      this.snackBar.open('Empresa salva com sucesso!', 'OK', {
-        duration: 2000,
-        panelClass: ['success-snackbar'],
+      const empresa: Empresa = this.empresaForm.value;
+      this.empresaService.updateEmpresa(this.employerId, empresa).subscribe({
+        next: () => {
+          this.snackBar.open('Empresa salva com sucesso!', 'OK', {
+            duration: 2000,
+            panelClass: ['success-snackbar'],
+          });
+        },
+        error: (err) => {
+          console.error('Erro ao salvar empresa:', err);
+          this.snackBar.open('Erro ao salvar empresa.', 'Fechar', {
+            duration: 2000,
+            panelClass: ['error-snackbar'],
+          });
+        },
       });
     } else {
       this.empresaForm.markAllAsTouched();

@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 interface LoginResponse {
   accessToken: string;
   refreshToken: string;
+  employerId: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -25,6 +26,7 @@ export class AuthService {
         tap((res) => {
           localStorage.setItem('access_token', res.accessToken);
           localStorage.setItem('refresh_token', res.refreshToken);
+          localStorage.setItem('employerId', res.employerId);
           this.mostrarToolbarSubject.next(true);
         })
       );

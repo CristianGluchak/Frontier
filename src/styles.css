@@ -8,9 +8,9 @@
 
 .cdk-overlay-pane {
   position: fixed !important;
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
+
+  left: 40% !important;
+
   z-index: 2100 !important;
   pointer-events: all; /* permite interação dentro do modal */
 }
