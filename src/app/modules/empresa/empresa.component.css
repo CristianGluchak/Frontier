@@ -1,36 +1,197 @@
-.mat-error {
-  color: red;
+/* Container principal */
+.empresa-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 40px;
+  max-width: 1100px;
+  margin: 0 auto;
 }
 
-.mat-placeholder {
-  color: gray;
+/* Card */
+.section-card {
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.12);
+  background-color: #fff;
+  padding: 32px;
 }
-mat-card {
-  border: 1px solid #ccc;
-  border-radius: 8px;
+
+/* Título */
+.card-section-title {
+  margin-bottom: 28px;
+  border-left: 4px solid #0078d4;
+  padding-left: 10px;
+}
+
+.card-section-title h3 {
+  color: #0078d4;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Grid dos campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 28px;
+}
+
+/* Campos */
+.form-grid mat-form-field {
+  width: 100%;
+  min-height: 60px;
+}
+
+/* Altura confortável e texto centralizado */
+.mat-mdc-form-field-flex {
+  align-items: center !important;
+  min-height: 3.8rem;
+}
+
+/* Corrige o contorno do campo para o label não cortar a borda */
+.mat-mdc-form-field-outline {
+  top: 0.25rem !important;
+}
+
+/* Ajusta o texto dentro do input */
+.mat-mdc-input-element {
+  line-height: 1.6 !important;
+  padding: 0.75rem 0.75rem !important;
+  box-sizing: border-box;
+}
+
+/* Mantém o label flutuante bem posicionado e sem cortar a borda */
+mat-label {
+  background-color: #fff;
+  padding: 0 6px;
+  position: relative;
+  z-index: 2;
+}
+
+/* Botão de ação */
+.actions {
+  display: flex;
+  justify-content: flex-end;
   padding: 16px;
 }
 
-.botao-salvar {
-  background-color: #0095ff;
-  color: white;
-  width: 75px;
-  height: 75px;
-  border-radius: 50%;
+button[mat-fab] {
+  width: 80px;
+  height: 80px;
+  transition: transform 0.2s ease-in-out, background-color 0.3s;
+}
+
+button[mat-fab]:hover {
+  transform: scale(1.1);
+  background-color: #00c853;
+}
+
+mat-icon {
+  font-size: 42px;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .empresa-container {
+    padding: 20px;
+  }
+
+  .section-card {
+    padding: 20px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .card-section-title h3 {
+    font-size: 1.2rem;
+  }
+}
+
+/* Ajusta o tom do erro para um vermelho mais suave */
+mat-error {
+  color: #e57373 !important; /* vermelho suave */
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* Opcional: se quiser um leve espaçamento entre o campo e o erro */
+.mat-mdc-form-field-error-wrapper {
+  margin-top: 2px;
+}
+
+/* Mantém o foco vermelho padrão do Material mais sutil */
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__leading,
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__notch,
+.mat-mdc-form-field.mat-mdc-form-field-invalid .mdc-notched-outline__trailing {
+  border-color: #ef9a9a !important; /* mesmo tom leve */
+}
+/* Botão flutuante circular fixo */
+.save-button {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: linear-gradient(145deg, #43a047, #66bb6a);
+  color: #fff;
+  box-shadow: 0 6px 15px rgba(67, 160, 71, 0.4);
+  transition: all 0.25s ease-in-out;
+  border-radius: 50% !important; /* ✅ força formato circular */
+  width: 80px !important;
+  height: 80px !important;
+  min-width: 80px !important;
+  min-height: 80px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+}
+
+.save-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 20px rgba(56, 142, 60, 0.5);
+}
+
+/* Ícone moderno e centralizado */
+.material-symbols-outlined {
+  font-size: 42px;
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 48;
+  line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
 }
 
-.botao-salvar:hover {
-  background-color: #00e065;
-  transform: scale(1.1);
+/* gdsafsfafdafasdsafafsdfa fda */
+.user-table {
+  width: 100%;
+  margin-top: 10px;
 }
 
-.material-symbols-outlined {
-  font-size: 50px;
+mat-header-cell {
+  font-weight: 600;
+  color: #0078d4;
+}
+
+.add-user {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+button[mat-stroked-button] mat-icon {
+  margin-right: 4px;
+}
+
+.success-snackbar {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+
+.error-snackbar {
+  background-color: #e53935 !important;
+  color: #fff !important;
 }

@@ -1,28 +1,54 @@
-.cdk-overlay-container,
+/* 🩵 Corrige posição e cliques dos overlays (dialogs, menus, tooltips, etc.) */
+.cdk-overlay-container {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2000 !important;
+  pointer-events: none; /* impede o container de capturar cliques */
+}
+
 .cdk-overlay-pane {
   position: fixed !important;
-  top: 0;
-  left: 0;
-  z-index: 1000 !important;
+
+  left: 40% !important;
+
+  z-index: 2100 !important;
+  pointer-events: all; /* permite interação dentro do modal */
 }
 
-mat-sidenav-container,
-mat-drawer-container {
-  transform: none !important;
+/* 🔹 Fundo do diálogo (escurecido atrás do modal) */
+.cdk-overlay-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.45
+  ) !important; /* fundo semi-transparente */
+  z-index: 2000 !important;
+  pointer-events: all; /* permite clique no backdrop pra fechar */
 }
 
-body,
+/* 🔹 Garante que o resto do app fique abaixo dos modais */
+#conteudo-principal {
+  position: relative;
+  z-index: 1;
+}
 html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
-  overflow-x: hidden;
-  font-family: "Inter", sans-serif;
+  height: 100%;
+  background-color: transparent;
+  overflow: hidden; /* impede rolagem e flicker */
 }
 
-app-root {
-  display: block;
-  height: 100%;
+app-login,
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -6,7 +6,7 @@ import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { HomeComponent } from './home/home.component';
 import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
 import { NewComponent } from './funcionario/new/new.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
+import { CnpjMaskDirective } from './shared/pipes/cnpj-mask.directive';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,7 @@ import { SearchBarComponent } from './shared/search-bar/search-bar.component';
     DetalhesComponent,
     NewComponent,
     SearchBarComponent,
+    CnpjMaskDirective,
   ],
   imports: [
     MatCardModule,
@@ -38,6 +41,8 @@ import { SearchBarComponent } from './shared/search-bar/search-bar.component';
     MatSelectModule,
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
+  exports: [CnpjMaskDirective],
 })
 export class ModulesModule {}

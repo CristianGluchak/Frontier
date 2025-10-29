@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [AppComponent, ToolbarComponent],
@@ -27,6 +29,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     BrowserAnimationsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSnackBarModule,
+    MatDialogModule,
     AppRoutingModule,
     CommonModule,
     HttpClientModule,
