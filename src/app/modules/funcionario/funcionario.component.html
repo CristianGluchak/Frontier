@@ -1,105 +1,27 @@
-<div>
-  <div class="container-pesquisa">
-    <app-search-bar> </app-search-bar>
+<div class="funcionario-page">
+  <app-search-bar></app-search-bar>
+
+  <div class="ag-theme-alpine table-container">
+    <ag-grid-angular
+      style="width: 100%; height: 600px"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [pagination]="true"
+      [paginationPageSize]="15"
+      [rowSelection]="'single'"
+      [animateRows]="true"
+      (rowClicked)="onRowClicked($event)"
+    ></ag-grid-angular>
   </div>
-  <section
-    id="funcionarioToolBar"
-    class="example-container mat-elevation-z8"
-    tabindex="0"
+
+  <!-- Botão flutuante -->
+  <button
+    mat-fab
+    class="floating-button"
+    color="primary"
+    (click)="goToNew()"
+    matTooltip="Adicionar novo funcionário"
   >
-    <table mat-table [dataSource]="dataSource" class="mat-table">
-      <!-- ID Column -->
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef>ID</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.id }}</td>
-      </ng-container>
-
-      <!-- Nome Column -->
-      <ng-container matColumnDef="nome">
-        <th mat-header-cell *matHeaderCellDef>Nome</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.nome }}</td>
-      </ng-container>
-
-      <!-- CPF Column -->
-      <ng-container matColumnDef="cpf">
-        <th mat-header-cell *matHeaderCellDef>CPF</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.cpf }}</td>
-      </ng-container>
-
-      <!-- Cargo Column -->
-      <ng-container matColumnDef="cargo">
-        <th mat-header-cell *matHeaderCellDef>Cargo</th>
-        <td mat-cell *matCellDef="let funcionario">{{ funcionario.cargo }}</td>
-      </ng-container>
-
-      <!-- Horas Semanais Column -->
-      <ng-container matColumnDef="horasSemanais">
-        <th mat-header-cell *matHeaderCellDef>Horas Semanais</th>
-        <td mat-cell *matCellDef="let funcionario">
-          {{ funcionario.horasSemanais }}h
-        </td>
-      </ng-container>
-
-      <!-- Salário Column -->
-      <ng-container matColumnDef="salario">
-        <th mat-header-cell *matHeaderCellDef>Salário</th>
-        <td mat-cell *matCellDef="let funcionario">
-          R$ {{ funcionario.salario }}
-        </td>
-      </ng-container>
-
-      <!-- Ativo/Inativo Column -->
-      <ng-container matColumnDef="isEnable">
-        <th mat-header-cell *matHeaderCellDef>Ativo</th>
-        <td mat-cell *matCellDef="let funcionario">
-          {{ funcionario.isEnable ? "Sim" : "Não" }}
-        </td>
-      </ng-container>
-
-      <!-- Ações Column -->
-      <ng-container matColumnDef="acoes">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let funcionario">
-          <button
-            mat-icon-button
-            color="primary"
-            class="edit-button"
-            (click)="goToDetalhes(funcionario.id); $event.stopPropagation()"
-            matTooltip="Editar funcionário"
-            [style.visibility]="
-              funcionario === linhaSelecionada ? 'visible' : 'hidden'
-            "
-          >
-            <span class="material-symbols-outlined edit-icon"> edit </span>
-          </button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (click)="selecionarLinha(row)"
-        [class.selected]="row === linhaSelecionada"
-      ></tr>
-    </table>
-
-    <!-- Paginator dentro do contexto Material, mas posicionado na base -->
-    <div class="paginator-wrapper">
-      <mat-paginator
-        showFirstLastButtons
-        [hidePageSize]="true"
-        [pageSize]="15"
-        (page)="onPageChange($event)"
-      >
-      </mat-paginator>
-    </div>
-  </section>
-</div>
-
-<!-- Botão Flutuante para Adicionar Funcionário -->
-<div class="floating-button">
-  <button mat-fab color="primary" (click)="goToNew()">
-    <span class="material-symbols-outlined">add</span>
+    <mat-icon class="material-symbols-outlined">add</mat-icon>
   </button>
 </div>

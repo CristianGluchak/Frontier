@@ -1,35 +1,67 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-  AfterViewInit,
-} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Component, OnInit } from '@angular/core';
+import { ColDef } from 'ag-grid-community';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-funcionario',
   templateUrl: './funcionario.component.html',
   styleUrls: ['./funcionario.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class FuncionarioComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  displayedColumns: string[] = [
-    'id',
-    'nome',
-    'cpf',
-    'cargo',
-    'horasSemanais',
-    'salario',
-    'isEnable',
-    'acoes',
+export class FuncionarioComponent implements OnInit {
+  columnDefs: ColDef[] = [
+    {
+      headerName: 'Nome',
+      field: 'nome',
+      sortable: true,
+      filter: true,
+      flex: 1,
+    },
+    {
+      headerName: 'CPF',
+      field: 'cpf',
+      sortable: true,
+      filter: true,
+      width: 160,
+    },
+    {
+      headerName: 'Cargo',
+      field: 'cargo',
+      sortable: true,
+      filter: true,
+      flex: 1,
+    },
+    { headerName: 'Horas Semanais', field: 'horasSemanais', width: 140 },
+    {
+      headerName: 'Salário',
+      field: 'salario',
+      valueFormatter: (params) =>
+        `R$ ${params.value.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+        })}`,
+      width: 140,
+    },
+    {
+      headerName: 'Status',
+      field: 'isEnable',
+      width: 120,
+      cellRenderer: (params: any) =>
+        `<span style="font-weight:600; color: ${
+          params.value ? '#2e7d32' : '#c62828'
+        }">${params.value ? 'Ativo' : 'Inativo'}</span>`,
+    },
+    {
+      headerName: '',
+      field: 'acoes',
+      width: 80,
+      cellRenderer: () =>
+        `<button class="btn-edit" title="Editar">
+           <span class="material-symbols-outlined">edit</span>
+         </button>`,
+      onCellClicked: (event) => this.goToDetalhes(event.data.id),
+    },
   ];
 
-  funcionarios = [
+  rowData = [
     {
       id: 1,
       nome: 'Ana Souza',
@@ -57,280 +89,21 @@ export class FuncionarioComponent implements OnInit, AfterViewInit {
       salario: 6000,
       isEnable: false,
     },
-    {
-      id: 4,
-      nome: 'Fernando Rocha',
-      cpf: '321.654.987-00',
-      cargo: 'Suporte',
-      horasSemanais: 36,
-      salario: 3200,
-      isEnable: true,
-    },
-    {
-      id: 5,
-      nome: 'Patrícia Mendes',
-      cpf: '159.753.486-00',
-      cargo: 'Designer',
-      horasSemanais: 40,
-      salario: 5000,
-      isEnable: true,
-    },
-    {
-      id: 6,
-      nome: 'João Ricardo',
-      cpf: '741.852.963-00',
-      cargo: 'Analista Financeiro',
-      horasSemanais: 40,
-      salario: 5300,
-      isEnable: false,
-    },
-    {
-      id: 7,
-      nome: 'Samantha Castro',
-      cpf: '852.963.741-00',
-      cargo: 'Secretária',
-      horasSemanais: 30,
-      salario: 3500,
-      isEnable: true,
-    },
-    {
-      id: 8,
-      nome: 'Ricardo Alves',
-      cpf: '369.258.147-00',
-      cargo: 'Técnico de TI',
-      horasSemanais: 40,
-      salario: 4800,
-      isEnable: false,
-    },
-    {
-      id: 9,
-      nome: 'Beatriz Nunes',
-      cpf: '159.357.951-00',
-      cargo: 'Engenheira',
-      horasSemanais: 44,
-      salario: 9000,
-      isEnable: true,
-    },
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
   ];
-
-  dataSource = new MatTableDataSource(this.funcionarios);
-  linhaSelecionada: any = null;
 
   constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.dataSource.data = this.funcionarios;
-  }
+  ngOnInit() {}
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-  }
-
-  selecionarLinha(row: any) {
-    console.log('Linha clicada:', row); // Debug
-    this.linhaSelecionada = this.linhaSelecionada === row ? null : row;
-    console.log('Linha selecionada:', this.linhaSelecionada); // Debug
+  onRowClicked(event: any) {
+    console.log('Linha clicada:', event.data);
   }
 
   goToDetalhes(id: number) {
-    console.log('Indo para detalhes do funcionário:', id); // Debug
     this.router.navigate(['/funcionario', id]);
   }
 
   goToNew() {
     this.router.navigate(['/funcionario/novo']);
-  }
-
-  onPageChange(event: PageEvent) {
-    this.linhaSelecionada = null;
   }
 }

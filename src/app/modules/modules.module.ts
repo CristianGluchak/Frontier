@@ -18,6 +18,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { CnpjMaskDirective } from './shared/pipes/cnpj-mask.directive';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    AgGridModule,
   ],
   exports: [CnpjMaskDirective],
 })

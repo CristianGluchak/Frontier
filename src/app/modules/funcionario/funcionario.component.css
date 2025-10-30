@@ -1,111 +1,167 @@
-.example-container {
-  width: 100%;
-  margin: auto;
+/* 🔹 Estrutura principal */
+.funcionario-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
 }
 
+/* 🔹 Barra de pesquisa */
+.container-pesquisa {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
+}
+
+/* 🔹 Tabela */
+.table-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+
+  /* 🔧 Altura controlada sem scroll forçado */
+  min-height: 480px; /* Altura mínima */
+  max-height: 75vh; /* Altura máxima proporcional à tela */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 🔹 Tabela responsiva */
 .mat-table {
   width: 100%;
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
+  flex: 1;
+  border-collapse: separate;
+  border-spacing: 0;
 }
 
-th.mat-header-cell,
-td.mat-cell {
-  text-align: left;
+/* 🔹 Cabeçalho fixo e bem definido */
+th.mat-header-cell {
+  font-weight: 600;
+  color: #0078d4;
+  background-color: #f7f9fb;
   font-size: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  border-bottom: 1px solid #e0e0e0;
 }
 
-/* Estilização do botão flutuante */
-.floating-button {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  z-index: 1000;
+/* 🔹 Linhas e células */
+td.mat-cell {
+  font-size: 14px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
 
-button[mat-fab] {
-  background-color: #0095ff;
-  border-radius: 50%;
-  border: none;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+tr.mat-row:hover {
+  background-color: #f5faff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-button[mat-fab]:hover {
-  background-color: #007acc;
-  /* transform: scale(1.05); */
+tr.selected {
+  background-color: rgba(0, 120, 255, 0.12) !important;
 }
 
-/* Footer com paginator */
-.paginator-footer {
-  position: fixed;
-  bottom: 0;
-  left: 80px;
-  right: 0;
-  background-color: #fff;
-  border-top: 1px solid #dee2e6;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 950;
+/* 🔹 Status */
+.status {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 12px;
 }
 
-.paginator-footer mat-paginator {
-  background-color: #f8f9fa;
-  border: none;
+.status.ativo {
+  background-color: #e0f7ec;
+  color: #2e7d32;
 }
 
-.paginator-footer .mat-paginator-container {
-  padding: 12px 16px;
-  justify-content: center;
+.status.inativo {
+  background-color: #fdecea;
+  color: #c62828;
 }
 
-.container-pesquisa {
-  display: flex;
-  flex-direction: row;
-  min-height: 30px;
-}
-
-.action-container {
-  width: 100%;
-  display: flex;
-  direction: rtl;
-  align-self: end;
-}
-
+/* 🔹 Botão editar */
 .edit-button {
-  background-color: #f5f5f5;
+  transition: transform 0.2s ease, background-color 0.2s ease;
   border-radius: 50%;
-  transition: all 0.3s ease;
-  width: 40px;
-  height: 40px;
-  border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .edit-button:hover {
-  background-color: #e0e0e0;
-  /* transform: scale(1.1); */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+  background-color: #f0f6ff;
 }
 
-.edit-icon {
-  font-size: 18px;
-  color: #1976d2;
-  font-weight: 500;
+/* 🔹 Paginação */
+mat-paginator {
+  border-top: 1px solid #e0e0e0;
+  background-color: #fafafa;
+  border-radius: 0 0 8px 8px;
+  flex-shrink: 0;
+  padding-top: 4px;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .paginator-footer {
-    left: 0;
+/* 🔹 Botão flutuante */
+.floating-button {
+  position: fixed !important;
+  bottom: 90px;
+  right: 28px;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+  transition: transform 0.2s ease;
+}
+
+.floating-button:hover {
+  transform: scale(1.08);
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 900px) {
+  .funcionario-page {
+    padding: 16px;
+  }
+
+  .table-container {
+    min-height: 400px;
+    max-height: none;
+  }
+
+  th.mat-header-cell,
+  td.mat-cell {
+    font-size: 13px;
+    padding: 8px 10px;
   }
 
   .floating-button {
-    bottom: 120px;
+    bottom: 80px;
     right: 16px;
   }
 }
 
-/* Adicione se necessário um estilo específico para funcionarioToolBar */
-#funcionarioToolBar {
-  /* estilos específicos do funcionário se precisar */
+.ag-theme-alpine {
+  --ag-font-size: 14px;
+  --ag-font-family: "Roboto", sans-serif;
+  --ag-header-background-color: #f7f9fb;
+  --ag-header-foreground-color: #0078d4;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.btn-edit:hover {
+  transform: scale(1.1);
+  color: #0d47a1;
 }
