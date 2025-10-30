@@ -1,5 +1,199 @@
-#funcionarioToolBar {
-  position: absolute;
-  left: 10%;
-  font-size: xx-large;
+/* Container principal */
+.funcionario-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* Card */
+.section-card {
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+/* Título */
+.card-section-title {
+  margin-bottom: 18px;
+  border-left: 3px solid #0078d4;
+  padding-left: 8px;
+}
+
+.card-section-title h3 {
+  color: #0078d4;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Grid dos campos */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+/* Campos */
+.form-grid mat-form-field {
+  width: 100%;
+  min-height: 48px;
+}
+
+/* Ajustes visuais */
+.mat-mdc-form-field-flex {
+  align-items: center !important;
+  min-height: 2.8rem !important;
+}
+
+.mat-mdc-input-element {
+  font-size: 0.9rem !important;
+  padding: 0.5rem 0.5rem !important;
+}
+
+/* Labels */
+mat-label {
+  background-color: #fff;
+  padding: 0 4px;
+}
+
+/* Radio buttons */
+.radio-group-section {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0;
+  padding: 6px 0;
+}
+
+.radio-label {
+  font-weight: 600;
+  color: #0078d4;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+mat-radio-button {
+  font-size: 0.9rem;
+}
+
+/* Botão flutuante */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px;
+}
+
+.save-button {
+  position: fixed;
+  bottom: 20px;
+  right: 24px;
+  background: linear-gradient(145deg, #0078d4, #2196f3);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.3);
+  border-radius: 50%;
+  width: 60px !important;
+  height: 60px !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  transition: all 0.25s ease-in-out;
+}
+
+.save-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(33, 150, 243, 0.4);
+}
+
+.material-symbols-outlined {
+  font-size: 32px;
+}
+
+/* Erros */
+mat-error {
+  color: #e57373 !important;
+  font-weight: 500;
+  font-size: 0.8rem;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .funcionario-container {
+    padding: 16px;
+  }
+
+  .section-card {
+    padding: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .card-section-title h3 {
+    font-size: 1.05rem;
+  }
+
+  .save-button {
+    width: 56px !important;
+    height: 56px !important;
+  }
+}
+
+/* 🔹 Container geral de Dados Pessoais */
+.dados-pessoais-container {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* 🔹 Coluna de campos — ajuste de limite e espaçamento */
+.dados-pessoais-campos {
+  flex: 1 1 55%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+  gap: 40px 26px;
+  max-width: 520px; /* 🔹 evita que os campos se estiquem demais */
+}
+
+/* 🔹 Coluna de radio buttons (toggles) */
+.dados-pessoais-toggles {
+  flex: 1 1 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: flex-start;
+  padding-left: 20px;
+  border-left: 1.5px solid #e0e0e0;
+}
+
+/* Responsividade */
+@media (max-width: 900px) {
+  .dados-pessoais-container {
+    flex-direction: column;
+  }
+
+  .dados-pessoais-campos {
+    flex: 1 1 100%;
+    grid-template-columns: 1fr;
+    max-width: none;
+  }
+
+  .dados-pessoais-toggles {
+    border-left: none;
+    padding-left: 0;
+    margin-top: 8px;
+  }
 }
