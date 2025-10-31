@@ -7,29 +7,8 @@ import {
   IGetRowsParams,
 } from 'ag-grid-community';
 import { Router } from '@angular/router';
-import { HttpClient, HttpParams } from '@angular/common/http';
-
-interface Employee {
-  id: string;
-  name: string;
-  cpf: string;
-  position: string;
-  hours: string;
-  salary: number;
-  status: string;
-  inactivationDate?: string;
-  employerFantasyName?: string;
-}
-
-interface PagedResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  number: number;
-  size: number;
-  first: boolean;
-  last: boolean;
-}
+import { Employee } from './employee.model';
+import { FuncionarioService } from '../services/employee.service';
 
 @Component({
   selector: 'app-funcionario',
@@ -37,7 +16,6 @@ interface PagedResponse<T> {
   styleUrls: ['./funcionario.component.css'],
 })
 export class FuncionarioComponent implements OnInit {
-  /** 🔹 Colunas da tabela */
   columnDefs: ColDef[] = [
     { headerName: 'Nome', field: 'name', flex: 1 },
     {
@@ -84,21 +62,18 @@ export class FuncionarioComponent implements OnInit {
     },
   ];
 
-  /** 🔹 Estado interno */
   private gridApi!: GridApi;
   private currentSearch = '';
   totalElements = 0;
   pageSize = 17;
   loading = false;
 
-  /** 🔹 URL base da API */
-  private readonly apiUrl = 'http://localhost:8080/employee';
+  constructor(
+    private funcionarioService: FuncionarioService,
+    private router: Router
+  ) {}
 
-  constructor(private http: HttpClient, private router: Router) {}
-
-  ngOnInit(): void {
-    // nada aqui — o grid inicializa o datasource automaticamente
-  }
+  ngOnInit(): void {}
 
   /** 🔹 Quando o grid estiver pronto */
   onGridReady(event: GridReadyEvent): void {
@@ -106,32 +81,21 @@ export class FuncionarioComponent implements OnInit {
     this.gridApi.setDatasource(this.createDataSource());
   }
 
-  /** 🔹 Cria o datasource do modelo Infinite */
+  /** 🔹 Cria o datasource para busca paginada e com filtro */
   private createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
         const size = params.endRow - params.startRow;
         const page = Math.floor(params.startRow / size);
 
-        let httpParams = new HttpParams()
-          .set('page', page.toString())
-          .set('size', size.toString());
-
-        if (this.currentSearch) {
-          httpParams = httpParams.set('name', this.currentSearch);
-        }
-
         this.loading = true;
 
-        this.http
-          .get<PagedResponse<Employee>>(this.apiUrl, { params: httpParams })
+        this.funcionarioService
+          .getEmployees(page, size, this.currentSearch)
           .subscribe({
             next: (res) => {
-              const rows = res.content ?? [];
               this.totalElements = res.totalElements ?? 0;
-
-              // ✅ informa ao AG Grid quantas linhas existem no total
-              params.successCallback(rows, this.totalElements);
+              params.successCallback(res.content ?? [], this.totalElements);
             },
             error: (err) => {
               console.error('Erro ao carregar funcionários:', err);
@@ -143,28 +107,25 @@ export class FuncionarioComponent implements OnInit {
     };
   }
 
-  /** 🔹 Filtro simples (search bar) */
+  /** 🔹 Atualiza o filtro de nome e recarrega o grid */
   onSearch(name: string): void {
-    this.currentSearch = (name || '').trim();
+    this.currentSearch = name?.trim() || '';
 
-    // Limpa o cache e recarrega desde a primeira página
     if (this.gridApi) {
+      // 🔄 limpa o cache e força o grid a refazer a chamada ao backend
       this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
     }
   }
 
-  /** 🔹 Clique na linha */
   onRowClicked(event: any): void {
     console.log('Linha clicada:', event.data);
   }
 
-  /** 🔹 Navega para o detalhe */
   goToDetalhes(id: string): void {
     this.router.navigate(['/funcionario', id]);
   }
 
-  /** 🔹 Novo funcionário */
   goToNew(): void {
     this.router.navigate(['/funcionario/novo']);
   }

@@ -14,7 +14,7 @@ interface SearchField {
 })
 export class SearchBarComponent implements OnInit {
   @Input() fields: SearchField[] = [
-    { key: 'nome', label: 'Nome', placeholder: 'Buscar por nome...' },
+    { key: 'name', label: 'Nome', placeholder: 'Buscar por nome...' },
   ];
 
   @Output() search = new EventEmitter<{ [key: string]: string }>();

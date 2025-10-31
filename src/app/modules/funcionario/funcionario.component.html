@@ -1,12 +1,9 @@
 <div class="funcionario-page">
-  <!-- 🔹 Barra de pesquisa -->
   <app-search-bar (search)="onSearch($event['name'])"></app-search-bar>
 
-  <!-- 🔹 AG Grid -->
   <div class="ag-theme-alpine table-container">
     <ag-grid-angular
       style="width: 100%; height: 815px"
-      class="ag-theme-alpine"
       [columnDefs]="columnDefs"
       [rowModelType]="'infinite'"
       [cacheBlockSize]="pageSize"
@@ -18,7 +15,6 @@
       (rowClicked)="onRowClicked($event)"
     ></ag-grid-angular>
 
-    <!-- 🔹 Botão fixo dentro do footer -->
     <div class="grid-footer-fixed">
       <button
         mat-fab
