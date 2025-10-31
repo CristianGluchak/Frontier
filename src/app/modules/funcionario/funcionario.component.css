@@ -14,59 +14,83 @@
   padding: 12px 16px;
 }
 
-/* 🔹 Tabela */
+/* 🔹 Container da tabela (AG Grid) */
 .table-container {
+  position: relative;
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-
-  /* 🔧 Altura controlada sem scroll forçado */
-  min-height: 480px; /* Altura mínima */
-  max-height: 75vh; /* Altura máxima proporcional à tela */
+  min-height: 480px;
   display: flex;
   flex-direction: column;
 }
 
-/* 🔹 Tabela responsiva */
-.mat-table {
-  width: 100%;
-  flex: 1;
-  border-collapse: separate;
-  border-spacing: 0;
+/* 🔹 Tema base do AG Grid */
+.ag-theme-alpine {
+  --ag-font-size: 14px;
+  --ag-font-family: "Roboto", sans-serif;
+  --ag-header-background-color: #f7f9fb;
+  --ag-header-foreground-color: #0078d4;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* 🔹 Cabeçalho fixo e bem definido */
-th.mat-header-cell {
-  font-weight: 600;
-  color: #0078d4;
-  background-color: #f7f9fb;
-  font-size: 14px;
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-/* 🔹 Linhas e células */
-td.mat-cell {
-  font-size: 14px;
-  padding: 10px 16px;
-  border-bottom: 1px solid #f0f0f0;
-  vertical-align: middle;
-}
-
-tr.mat-row:hover {
-  background-color: #f5faff;
+/* 🔹 Botão de editar nas linhas */
+.btn-edit {
+  background: transparent;
+  border: none;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  color: #1976d2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
 }
 
-tr.selected {
-  background-color: rgba(0, 120, 255, 0.12) !important;
+.btn-edit:hover {
+  transform: scale(1.1);
+  color: #0d47a1;
 }
 
-/* 🔹 Status */
+/* 🔹 Footer fixo dentro do grid */
+.grid-footer-fixed {
+  position: absolute;
+
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+/* 🔹 Botão fixo “+ Novo” */
+.add-fixed-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0078d4, #2196f3);
+  color: white;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.35);
+  transition: all 0.25s ease-in-out;
+}
+
+.add-fixed-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(33, 150, 243, 0.4);
+}
+
+/* 🔹 Ajuste da paginação para não colidir com o botão */
+.ag-theme-alpine .ag-paging-panel {
+  justify-content: flex-start !important;
+  padding-left: 12px;
+  padding-right: 60px; /* reserva espaço para o botão */
+  background-color: #fafafa;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 8px 8px;
+}
+
+/* 🔹 Status de funcionário */
 .status {
   font-weight: 600;
   padding: 4px 10px;
@@ -84,84 +108,20 @@ tr.selected {
   color: #c62828;
 }
 
-/* 🔹 Botão editar */
-.edit-button {
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  border-radius: 50%;
-}
-
-.edit-button:hover {
-  transform: scale(1.1);
-  background-color: #f0f6ff;
-}
-
-/* 🔹 Paginação */
-mat-paginator {
-  border-top: 1px solid #e0e0e0;
-  background-color: #fafafa;
-  border-radius: 0 0 8px 8px;
-  flex-shrink: 0;
-  padding-top: 4px;
-}
-
-/* 🔹 Botão flutuante */
-.floating-button {
-  position: fixed !important;
-  bottom: 90px;
-  right: 28px;
-  z-index: 1000;
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
-  transition: transform 0.2s ease;
-}
-
-.floating-button:hover {
-  transform: scale(1.08);
-}
-
 /* 🔹 Responsividade */
 @media (max-width: 900px) {
   .funcionario-page {
     padding: 16px;
   }
 
-  .table-container {
-    min-height: 400px;
-    max-height: none;
+  .add-fixed-button {
+    width: 44px;
+    height: 44px;
+    right: 12px;
   }
 
-  th.mat-header-cell,
-  td.mat-cell {
-    font-size: 13px;
-    padding: 8px 10px;
+  .ag-theme-alpine .ag-paging-panel {
+    justify-content: center !important;
+    padding-right: 0;
   }
-
-  .floating-button {
-    bottom: 80px;
-    right: 16px;
-  }
-}
-
-.ag-theme-alpine {
-  --ag-font-size: 14px;
-  --ag-font-family: "Roboto", sans-serif;
-  --ag-header-background-color: #f7f9fb;
-  --ag-header-foreground-color: #0078d4;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-edit {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: #1976d2;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-}
-
-.btn-edit:hover {
-  transform: scale(1.1);
-  color: #0d47a1;
 }

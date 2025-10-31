@@ -1,27 +1,34 @@
 <div class="funcionario-page">
-  <app-search-bar></app-search-bar>
+  <!-- 🔹 Barra de pesquisa -->
+  <app-search-bar (search)="onSearch($event['name'])"></app-search-bar>
 
+  <!-- 🔹 AG Grid -->
   <div class="ag-theme-alpine table-container">
     <ag-grid-angular
-      style="width: 100%; height: 600px"
-      [rowData]="rowData"
+      style="width: 100%; height: 815px"
+      class="ag-theme-alpine"
       [columnDefs]="columnDefs"
+      [rowModelType]="'infinite'"
+      [cacheBlockSize]="pageSize"
       [pagination]="true"
-      [paginationPageSize]="15"
+      [paginationPageSize]="pageSize"
       [rowSelection]="'single'"
       [animateRows]="true"
+      (gridReady)="onGridReady($event)"
       (rowClicked)="onRowClicked($event)"
     ></ag-grid-angular>
-  </div>
 
-  <!-- Botão flutuante -->
-  <button
-    mat-fab
-    class="floating-button"
-    color="primary"
-    (click)="goToNew()"
-    matTooltip="Adicionar novo funcionário"
-  >
-    <mat-icon class="material-symbols-outlined">add</mat-icon>
-  </button>
+    <!-- 🔹 Botão fixo dentro do footer -->
+    <div class="grid-footer-fixed">
+      <button
+        mat-fab
+        color="primary"
+        class="add-fixed-button"
+        (click)="goToNew()"
+        matTooltip="Adicionar novo funcionário"
+      >
+        <mat-icon class="material-symbols-outlined">add</mat-icon>
+      </button>
+    </div>
+  </div>
 </div>

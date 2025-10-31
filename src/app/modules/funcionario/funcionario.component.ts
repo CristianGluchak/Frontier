@@ -1,6 +1,35 @@
 import { Component, OnInit } from '@angular/core';
-import { ColDef } from 'ag-grid-community';
+import {
+  ColDef,
+  GridApi,
+  GridReadyEvent,
+  IDatasource,
+  IGetRowsParams,
+} from 'ag-grid-community';
 import { Router } from '@angular/router';
+import { HttpClient, HttpParams } from '@angular/common/http';
+
+interface Employee {
+  id: string;
+  name: string;
+  cpf: string;
+  position: string;
+  hours: string;
+  salary: number;
+  status: string;
+  inactivationDate?: string;
+  employerFantasyName?: string;
+}
+
+interface PagedResponse<T> {
+  content: T[];
+  totalElements: number;
+  totalPages: number;
+  number: number;
+  size: number;
+  first: boolean;
+  last: boolean;
+}
 
 @Component({
   selector: 'app-funcionario',
@@ -8,50 +37,44 @@ import { Router } from '@angular/router';
   styleUrls: ['./funcionario.component.css'],
 })
 export class FuncionarioComponent implements OnInit {
+  /** 🔹 Colunas da tabela */
   columnDefs: ColDef[] = [
-    {
-      headerName: 'Nome',
-      field: 'nome',
-      sortable: true,
-      filter: true,
-      flex: 1,
-    },
+    { headerName: 'Nome', field: 'name', flex: 1 },
     {
       headerName: 'CPF',
       field: 'cpf',
-      sortable: true,
-      filter: true,
-      width: 160,
+      width: 150,
+      valueFormatter: (params) =>
+        params.value
+          ? params.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+          : '',
     },
-    {
-      headerName: 'Cargo',
-      field: 'cargo',
-      sortable: true,
-      filter: true,
-      flex: 1,
-    },
-    { headerName: 'Horas Semanais', field: 'horasSemanais', width: 140 },
+    { headerName: 'Cargo', field: 'position', flex: 1 },
+    { headerName: 'Horas Semanais', field: 'hours', width: 150 },
     {
       headerName: 'Salário',
-      field: 'salario',
+      field: 'salary',
+      width: 150,
       valueFormatter: (params) =>
-        `R$ ${params.value.toLocaleString('pt-BR', {
-          minimumFractionDigits: 2,
-        })}`,
-      width: 140,
+        params.value
+          ? `R$ ${params.value.toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+            })}`
+          : '',
     },
     {
       headerName: 'Status',
-      field: 'isEnable',
+      field: 'status',
       width: 120,
-      cellRenderer: (params: any) =>
-        `<span style="font-weight:600; color: ${
-          params.value ? '#2e7d32' : '#c62828'
-        }">${params.value ? 'Ativo' : 'Inativo'}</span>`,
+      cellRenderer: (params: any) => {
+        const ativo = params.value === 'ATIVO';
+        return `<span style="font-weight:600; color:${
+          ativo ? '#2e7d32' : '#c62828'
+        }">${ativo ? 'Ativo' : 'Inativo'}</span>`;
+      },
     },
     {
       headerName: '',
-      field: 'acoes',
       width: 80,
       cellRenderer: () =>
         `<button class="btn-edit" title="Editar">
@@ -61,49 +84,88 @@ export class FuncionarioComponent implements OnInit {
     },
   ];
 
-  rowData = [
-    {
-      id: 1,
-      nome: 'Ana Souza',
-      cpf: '123.456.789-00',
-      cargo: 'Gerente',
-      horasSemanais: 44,
-      salario: 7500,
-      isEnable: true,
-    },
-    {
-      id: 2,
-      nome: 'Carlos Pereira',
-      cpf: '987.654.321-00',
-      cargo: 'Analista',
-      horasSemanais: 40,
-      salario: 4500,
-      isEnable: true,
-    },
-    {
-      id: 3,
-      nome: 'Mariana Lima',
-      cpf: '456.789.123-00',
-      cargo: 'Desenvolvedor',
-      horasSemanais: 40,
-      salario: 6000,
-      isEnable: false,
-    },
-  ];
+  /** 🔹 Estado interno */
+  private gridApi!: GridApi;
+  private currentSearch = '';
+  totalElements = 0;
+  pageSize = 17;
+  loading = false;
 
-  constructor(private router: Router) {}
+  /** 🔹 URL base da API */
+  private readonly apiUrl = 'http://localhost:8080/employee';
 
-  ngOnInit() {}
+  constructor(private http: HttpClient, private router: Router) {}
 
-  onRowClicked(event: any) {
+  ngOnInit(): void {
+    // nada aqui — o grid inicializa o datasource automaticamente
+  }
+
+  /** 🔹 Quando o grid estiver pronto */
+  onGridReady(event: GridReadyEvent): void {
+    this.gridApi = event.api;
+    this.gridApi.setDatasource(this.createDataSource());
+  }
+
+  /** 🔹 Cria o datasource do modelo Infinite */
+  private createDataSource(): IDatasource {
+    return {
+      getRows: (params: IGetRowsParams) => {
+        const size = params.endRow - params.startRow;
+        const page = Math.floor(params.startRow / size);
+
+        let httpParams = new HttpParams()
+          .set('page', page.toString())
+          .set('size', size.toString());
+
+        if (this.currentSearch) {
+          httpParams = httpParams.set('name', this.currentSearch);
+        }
+
+        this.loading = true;
+
+        this.http
+          .get<PagedResponse<Employee>>(this.apiUrl, { params: httpParams })
+          .subscribe({
+            next: (res) => {
+              const rows = res.content ?? [];
+              this.totalElements = res.totalElements ?? 0;
+
+              // ✅ informa ao AG Grid quantas linhas existem no total
+              params.successCallback(rows, this.totalElements);
+            },
+            error: (err) => {
+              console.error('Erro ao carregar funcionários:', err);
+              params.failCallback();
+            },
+            complete: () => (this.loading = false),
+          });
+      },
+    };
+  }
+
+  /** 🔹 Filtro simples (search bar) */
+  onSearch(name: string): void {
+    this.currentSearch = (name || '').trim();
+
+    // Limpa o cache e recarrega desde a primeira página
+    if (this.gridApi) {
+      this.gridApi.purgeInfiniteCache();
+      this.gridApi.paginationGoToFirstPage();
+    }
+  }
+
+  /** 🔹 Clique na linha */
+  onRowClicked(event: any): void {
     console.log('Linha clicada:', event.data);
   }
 
-  goToDetalhes(id: number) {
+  /** 🔹 Navega para o detalhe */
+  goToDetalhes(id: string): void {
     this.router.navigate(['/funcionario', id]);
   }
 
-  goToNew() {
+  /** 🔹 Novo funcionário */
+  goToNew(): void {
     this.router.navigate(['/funcionario/novo']);
   }
 }
