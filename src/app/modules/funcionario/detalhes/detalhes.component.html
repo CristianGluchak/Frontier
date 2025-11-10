@@ -1,93 +1,157 @@
-<div id="funcionarioToolBar" class="col s6 offset-s6">
-  <p>detalhes works!</p>
-  <form [formGroup]="funcionarioForm">
-    <p>Nome <input type="text" formControlName="nome" /></p>
-    <p
-      *ngIf="
-        funcionarioForm.get('nome')?.invalid &&
-        (funcionarioForm.get('nome')?.dirty ||
-          funcionarioForm.get('nome')?.touched)
-      "
-    >
-      <span *ngIf="funcionarioForm.get('nome')?.errors?.['required']"
-        >Nome é obrigatório.</span
-      >
-      <span *ngIf="funcionarioForm.get('nome')?.errors?.['minlength']"
-        >Nome deve ter no mínimo 4 caracteres.</span
-      >
-    </p>
+<div class="funcionario-container" *ngIf="funcionarioForm">
+  <form [formGroup]="funcionarioForm" (ngSubmit)="onSubmit()">
+    <mat-card class="section-card">
+      <div class="card-section-title">
+        <h3>{{ isEditMode ? "Editar Funcionário" : "Novo Funcionário" }}</h3>
+      </div>
 
-    <p>CPF <input type="text" formControlName="cpf" /></p>
-    <p
-      *ngIf="
-        funcionarioForm.get('cpf')?.invalid &&
-        (funcionarioForm.get('cpf')?.dirty ||
-          funcionarioForm.get('cpf')?.touched)
-      "
-    >
-      <span *ngIf="funcionarioForm.get('cpf')?.errors?.['required']"
-        >CPF é obrigatório.</span
-      >
-      <span *ngIf="funcionarioForm.get('cpf')?.errors?.['cpfInvalido']"
-        >CPF inválido.</span
-      >
-    </p>
+      <mat-card-content>
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome Completo</mat-label>
+            <input matInput formControlName="name" />
+          </mat-form-field>
 
-    <p>Cargo <input type="text" formControlName="cargo" /></p>
-    <p
-      *ngIf="
-        funcionarioForm.get('cargo')?.invalid &&
-        (funcionarioForm.get('cargo')?.dirty ||
-          funcionarioForm.get('cargo')?.touched)
-      "
-    >
-      <span *ngIf="funcionarioForm.get('cargo')?.errors?.['required']"
-        >Cargo é obrigatório.</span
-      >
-      <span *ngIf="funcionarioForm.get('cargo')?.errors?.['minlength']"
-        >Cargo deve ter no mínimo 6 caracteres.</span
-      >
-    </p>
+          <mat-form-field appearance="outline">
+            <mat-label>CPF</mat-label>
+            <input
+              matInput
+              formControlName="cpf"
+              placeholder="000.000.000-00"
+            />
+          </mat-form-field>
 
-    <p>
-      Horas semanais <input type="number" formControlName="horasSemanais" />
-    </p>
-    <p
-      *ngIf="
-        funcionarioForm.get('horasSemanais')?.invalid &&
-        (funcionarioForm.get('horasSemanais')?.dirty ||
-          funcionarioForm.get('horasSemanais')?.touched)
-      "
-    >
-      <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['required']"
-        >Horas semanais são obrigatórias.</span
-      >
-      <span *ngIf="funcionarioForm.get('horasSemanais')?.errors?.['min']"
-        >Horas semanais devem ser um número positivo.</span
-      >
-    </p>
+          <mat-form-field appearance="outline">
+            <mat-label>Cargo</mat-label>
+            <input matInput formControlName="position" />
+          </mat-form-field>
 
-    <p>Salario <input type="number" formControlName="salario" /></p>
-    <p
-      *ngIf="
-        funcionarioForm.get('salario')?.invalid &&
-        (funcionarioForm.get('salario')?.dirty ||
-          funcionarioForm.get('salario')?.touched)
-      "
-    >
-      <span *ngIf="funcionarioForm.get('salario')?.errors?.['required']"
-        >Salário é obrigatório.</span
-      >
-      <span *ngIf="funcionarioForm.get('salario')?.errors?.['pattern']"
-        >Salário deve ser um número válido.</span
-      >
-      <span *ngIf="funcionarioForm.get('salario')?.errors?.['min']"
-        >Salário deve ser um número positivo.</span
-      >
-    </p>
+          <mat-form-field appearance="outline">
+            <mat-label>Horas Semanais</mat-label>
+            <input matInput type="number" formControlName="hours" />
+          </mat-form-field>
 
-    <p>Ativo <input type="checkbox" formControlName="isEnable" /></p>
+          <mat-form-field appearance="outline">
+            <mat-label>Salário</mat-label>
+            <input matInput type="number" formControlName="salary" />
+          </mat-form-field>
 
-    <button type="submit">Submit</button>
+          <mat-form-field appearance="outline">
+            <mat-label>Data de Inativação</mat-label>
+            <input matInput type="date" formControlName="inactivationDate" />
+          </mat-form-field>
+        </div>
+
+        <div class="radio-group-section">
+          <label class="radio-label">Status:</label>
+          <mat-radio-group formControlName="status" class="radio-group">
+            <mat-radio-button value="ATIVO">Ativo</mat-radio-button>
+            <mat-radio-button value="INATIVO">Inativo</mat-radio-button>
+          </mat-radio-group>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <div class="card-section-title">
+        <h3>Dados Pessoais</h3>
+      </div>
+
+      <div class="dados-pessoais-container">
+        <div class="dados-pessoais-campos form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Data de Nascimento</mat-label>
+            <input matInput type="date" formControlName="birthDate" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nacionalidade</mat-label>
+            <input matInput formControlName="nationality" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Telefone</mat-label>
+            <input matInput formControlName="phone" />
+          </mat-form-field>
+        </div>
+
+        <div class="dados-pessoais-toggles">
+          <div class="radio-group-section">
+            <label class="radio-label">Gênero:</label>
+            <mat-radio-group formControlName="gender" class="radio-group">
+              <mat-radio-button value="MASCULINO">Masculino</mat-radio-button>
+              <mat-radio-button value="FEMININO">Feminino</mat-radio-button>
+            </mat-radio-group>
+          </div>
+
+          <div class="radio-group-section">
+            <label class="radio-label">Estado Civil:</label>
+            <mat-radio-group formControlName="civilState" class="radio-group">
+              <mat-radio-button value="SOLTEIRO">Solteiro(a)</mat-radio-button>
+              <mat-radio-button value="CASADO">Casado(a)</mat-radio-button>
+              <mat-radio-button value="DIVORCIADO"
+                >Divorciado(a)</mat-radio-button
+              >
+              <mat-radio-button value="VIUVO">Viúvo(a)</mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+
+    <mat-card class="section-card">
+      <div class="card-section-title">
+        <h3>Endereço</h3>
+      </div>
+
+      <div formGroupName="address" class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Rua</mat-label>
+          <input matInput formControlName="street" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Número</mat-label>
+          <input matInput formControlName="number" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Bairro</mat-label>
+          <input matInput formControlName="district" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Cidade</mat-label>
+          <input matInput formControlName="city" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Estado</mat-label>
+          <input matInput formControlName="state" maxlength="2" />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>CEP</mat-label>
+          <input matInput formControlName="cep" placeholder="00000-000" />
+        </mat-form-field>
+      </div>
+    </mat-card>
+
+    <div class="actions">
+      <button
+        mat-fab
+        class="save-button"
+        aria-label="Salvar Funcionário"
+        [disabled]="funcionarioForm.invalid || loading"
+        type="submit"
+      >
+        <mat-icon class="material-symbols-outlined">check</mat-icon>
+      </button>
+    </div>
   </form>
 </div>

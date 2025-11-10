@@ -5,7 +5,6 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { HomeComponent } from './home/home.component';
 import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
-import { NewComponent } from './funcionario/new/new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { CnpjMaskDirective } from './shared/pipes/cnpj-mask.directive';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
   declarations: [
@@ -26,7 +26,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     CalculaFolhaComponent,
     HomeComponent,
     DetalhesComponent,
-    NewComponent,
     SearchBarComponent,
     CnpjMaskDirective,
   ],
@@ -42,6 +41,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    AgGridModule,
   ],
   exports: [CnpjMaskDirective],
 })

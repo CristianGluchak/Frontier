@@ -1,336 +1,132 @@
+import { Component, OnInit } from '@angular/core';
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-  AfterViewInit,
-} from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatPaginator, PageEvent } from '@angular/material/paginator';
+  ColDef,
+  GridApi,
+  GridReadyEvent,
+  IDatasource,
+  IGetRowsParams,
+} from 'ag-grid-community';
 import { Router } from '@angular/router';
+import { Employee } from './employee.model';
+import { FuncionarioService } from '../services/employee.service';
 
 @Component({
   selector: 'app-funcionario',
   templateUrl: './funcionario.component.html',
   styleUrls: ['./funcionario.component.css'],
-  encapsulation: ViewEncapsulation.None,
 })
-export class FuncionarioComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  displayedColumns: string[] = [
-    'id',
-    'nome',
-    'cpf',
-    'cargo',
-    'horasSemanais',
-    'salario',
-    'isEnable',
-    'acoes',
-  ];
-
-  funcionarios = [
+export class FuncionarioComponent implements OnInit {
+  columnDefs: ColDef[] = [
+    { headerName: 'Nome', field: 'name', flex: 1 },
     {
-      id: 1,
-      nome: 'Ana Souza',
-      cpf: '123.456.789-00',
-      cargo: 'Gerente',
-      horasSemanais: 44,
-      salario: 7500,
-      isEnable: true,
+      headerName: 'CPF',
+      field: 'cpf',
+      width: 150,
+      valueFormatter: (params) =>
+        params.value
+          ? params.value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+          : '',
+    },
+    { headerName: 'Cargo', field: 'position', flex: 1 },
+    { headerName: 'Horas Semanais', field: 'hours', width: 150 },
+    {
+      headerName: 'Salário',
+      field: 'salary',
+      width: 150,
+      valueFormatter: (params) =>
+        params.value
+          ? `R$ ${params.value.toLocaleString('pt-BR', {
+              minimumFractionDigits: 2,
+            })}`
+          : '',
     },
     {
-      id: 2,
-      nome: 'Carlos Pereira',
-      cpf: '987.654.321-00',
-      cargo: 'Analista',
-      horasSemanais: 40,
-      salario: 4500,
-      isEnable: true,
+      headerName: 'Status',
+      field: 'status',
+      width: 120,
+      cellRenderer: (params: any) => {
+        const ativo = params.value === 'ATIVO';
+        return `<span style="font-weight:600; color:${
+          ativo ? '#2e7d32' : '#c62828'
+        }">${ativo ? 'Ativo' : 'Inativo'}</span>`;
+      },
     },
     {
-      id: 3,
-      nome: 'Mariana Lima',
-      cpf: '456.789.123-00',
-      cargo: 'Desenvolvedor',
-      horasSemanais: 40,
-      salario: 6000,
-      isEnable: false,
-    },
-    {
-      id: 4,
-      nome: 'Fernando Rocha',
-      cpf: '321.654.987-00',
-      cargo: 'Suporte',
-      horasSemanais: 36,
-      salario: 3200,
-      isEnable: true,
-    },
-    {
-      id: 5,
-      nome: 'Patrícia Mendes',
-      cpf: '159.753.486-00',
-      cargo: 'Designer',
-      horasSemanais: 40,
-      salario: 5000,
-      isEnable: true,
-    },
-    {
-      id: 6,
-      nome: 'João Ricardo',
-      cpf: '741.852.963-00',
-      cargo: 'Analista Financeiro',
-      horasSemanais: 40,
-      salario: 5300,
-      isEnable: false,
-    },
-    {
-      id: 7,
-      nome: 'Samantha Castro',
-      cpf: '852.963.741-00',
-      cargo: 'Secretária',
-      horasSemanais: 30,
-      salario: 3500,
-      isEnable: true,
-    },
-    {
-      id: 8,
-      nome: 'Ricardo Alves',
-      cpf: '369.258.147-00',
-      cargo: 'Técnico de TI',
-      horasSemanais: 40,
-      salario: 4800,
-      isEnable: false,
-    },
-    {
-      id: 9,
-      nome: 'Beatriz Nunes',
-      cpf: '159.357.951-00',
-      cargo: 'Engenheira',
-      horasSemanais: 44,
-      salario: 9000,
-      isEnable: true,
-    },
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
-    },
-
-    {
-      id: 10,
-      nome: 'Fábio Moreira',
-      cpf: '258.147.369-00',
-      cargo: 'Vendedor',
-      horasSemanais: 40,
-      salario: 4200,
-      isEnable: true,
+      headerName: '',
+      width: 80,
+      cellRenderer: () =>
+        `<button class="btn-edit" title="Editar">
+           <span class="material-symbols-outlined">edit</span>
+         </button>`,
+      onCellClicked: (event) => this.goToDetalhes(event.data.id),
     },
   ];
 
-  dataSource = new MatTableDataSource(this.funcionarios);
-  linhaSelecionada: any = null;
+  private gridApi!: GridApi;
+  private currentSearch = '';
+  totalElements = 0;
+  pageSize = 17;
+  loading = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private funcionarioService: FuncionarioService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {
-    this.dataSource.data = this.funcionarios;
+  ngOnInit(): void {}
+
+  /** 🔹 Quando o grid estiver pronto */
+  onGridReady(event: GridReadyEvent): void {
+    this.gridApi = event.api;
+    this.gridApi.setDatasource(this.createDataSource());
   }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
+  /** 🔹 Cria o datasource para busca paginada e com filtro */
+  private createDataSource(): IDatasource {
+    return {
+      getRows: (params: IGetRowsParams) => {
+        const size = params.endRow - params.startRow;
+        const page = Math.floor(params.startRow / size);
+
+        this.loading = true;
+
+        this.funcionarioService
+          .getEmployees(page, size, this.currentSearch)
+          .subscribe({
+            next: (res) => {
+              this.totalElements = res.totalElements ?? 0;
+              params.successCallback(res.content ?? [], this.totalElements);
+            },
+            error: (err) => {
+              console.error('Erro ao carregar funcionários:', err);
+              params.failCallback();
+            },
+            complete: () => (this.loading = false),
+          });
+      },
+    };
   }
 
-  selecionarLinha(row: any) {
-    console.log('Linha clicada:', row); // Debug
-    this.linhaSelecionada = this.linhaSelecionada === row ? null : row;
-    console.log('Linha selecionada:', this.linhaSelecionada); // Debug
+  /** 🔹 Atualiza o filtro de nome e recarrega o grid */
+  onSearch(name: string): void {
+    this.currentSearch = name?.trim() || '';
+
+    if (this.gridApi) {
+      // 🔄 limpa o cache e força o grid a refazer a chamada ao backend
+      this.gridApi.purgeInfiniteCache();
+      this.gridApi.paginationGoToFirstPage();
+    }
   }
 
-  goToDetalhes(id: number) {
-    console.log('Indo para detalhes do funcionário:', id); // Debug
+  onRowClicked(event: any): void {
+    console.log('Linha clicada:', event.data);
+  }
+
+  goToDetalhes(id: string): void {
     this.router.navigate(['/funcionario', id]);
   }
 
-  goToNew() {
-    this.router.navigate(['/funcionario/novo']);
-  }
-
-  onPageChange(event: PageEvent) {
-    this.linhaSelecionada = null;
+  goToNew(): void {
+    this.router.navigate(['/funcionario/new']);
   }
 }

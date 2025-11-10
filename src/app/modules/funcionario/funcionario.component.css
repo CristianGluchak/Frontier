@@ -1,111 +1,127 @@
-.example-container {
-  width: 100%;
-  margin: auto;
+/* 🔹 Estrutura principal */
+.funcionario-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
 }
 
-.mat-table {
-  width: 100%;
-  border-radius: 8px 8px 0 0;
-  overflow: hidden;
-}
-
-th.mat-header-cell,
-td.mat-cell {
-  text-align: left;
-  font-size: 14px;
-}
-
-/* Estilização do botão flutuante */
-.floating-button {
-  position: fixed;
-  bottom: 100px;
-  right: 20px;
-  z-index: 1000;
-}
-
-button[mat-fab] {
-  background-color: #0095ff;
-  border-radius: 50%;
-  border: none;
-  color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-button[mat-fab]:hover {
-  background-color: #007acc;
-  /* transform: scale(1.05); */
-}
-
-/* Footer com paginator */
-.paginator-footer {
-  position: fixed;
-  bottom: 0;
-  left: 80px;
-  right: 0;
-  background-color: #fff;
-  border-top: 1px solid #dee2e6;
-  box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 950;
-}
-
-.paginator-footer mat-paginator {
-  background-color: #f8f9fa;
-  border: none;
-}
-
-.paginator-footer .mat-paginator-container {
-  padding: 12px 16px;
-  justify-content: center;
-}
-
+/* 🔹 Barra de pesquisa */
 .container-pesquisa {
-  display: flex;
-  flex-direction: row;
-  min-height: 30px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 12px 16px;
 }
 
-.action-container {
-  width: 100%;
+/* 🔹 Container da tabela (AG Grid) */
+.table-container {
+  position: relative;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  min-height: 480px;
   display: flex;
-  direction: rtl;
-  align-self: end;
+  flex-direction: column;
 }
 
-.edit-button {
-  background-color: #f5f5f5;
-  border-radius: 50%;
-  transition: all 0.3s ease;
-  width: 40px;
-  height: 40px;
+/* 🔹 Tema base do AG Grid */
+.ag-theme-alpine {
+  --ag-font-size: 14px;
+  --ag-font-family: "Roboto", sans-serif;
+  --ag-header-background-color: #f7f9fb;
+  --ag-header-foreground-color: #0078d4;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Botão de editar nas linhas */
+.btn-edit {
+  background: transparent;
   border: none;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.edit-button:hover {
-  background-color: #e0e0e0;
-  /* transform: scale(1.1); */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-.edit-icon {
-  font-size: 18px;
+  cursor: pointer;
   color: #1976d2;
-  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-  .paginator-footer {
-    left: 0;
-  }
-
-  .floating-button {
-    bottom: 120px;
-    right: 16px;
-  }
+.btn-edit:hover {
+  transform: scale(1.1);
+  color: #0d47a1;
 }
 
-/* Adicione se necessário um estilo específico para funcionarioToolBar */
-#funcionarioToolBar {
-  /* estilos específicos do funcionário se precisar */
+/* 🔹 Footer fixo dentro do grid */
+.grid-footer-fixed {
+  position: absolute;
+
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  z-index: 10;
+}
+
+/* 🔹 Botão fixo “+ Novo” */
+.add-fixed-button {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #0078d4, #2196f3);
+  color: white;
+  box-shadow: 0 4px 10px rgba(33, 150, 243, 0.35);
+  transition: all 0.25s ease-in-out;
+}
+
+.add-fixed-button:hover {
+  transform: scale(1.08);
+  box-shadow: 0 6px 14px rgba(33, 150, 243, 0.4);
+}
+
+/* 🔹 Ajuste da paginação para não colidir com o botão */
+.ag-theme-alpine .ag-paging-panel {
+  justify-content: flex-start !important;
+  padding-left: 12px;
+  padding-right: 60px; /* reserva espaço para o botão */
+  background-color: #fafafa;
+  border-top: 1px solid #e0e0e0;
+  border-radius: 0 0 8px 8px;
+}
+
+/* 🔹 Status de funcionário */
+.status {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 14px;
+  font-size: 12px;
+}
+
+.status.ativo {
+  background-color: #e0f7ec;
+  color: #2e7d32;
+}
+
+.status.inativo {
+  background-color: #fdecea;
+  color: #c62828;
+}
+
+/* 🔹 Responsividade */
+@media (max-width: 900px) {
+  .funcionario-page {
+    padding: 16px;
+  }
+
+  .add-fixed-button {
+    width: 44px;
+    height: 44px;
+    right: 12px;
+  }
+
+  .ag-theme-alpine .ag-paging-panel {
+    justify-content: center !important;
+    padding-right: 0;
+  }
 }
