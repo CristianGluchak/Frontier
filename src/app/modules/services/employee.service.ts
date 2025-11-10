@@ -29,4 +29,17 @@ export class FuncionarioService {
       withCredentials: true, // ✅ importante se o backend exige credenciais JWT ou cookies
     });
   }
+
+  updateEmployee(id: string, employee: Employee): Observable<Employee> {
+    return this.http.put<Employee>(`${this.apiUrl}/${id}`, employee);
+  }
+
+  /** 🔹 Cria um novo funcionário */
+  createEmployee(employee: Employee): Observable<Employee> {
+    return this.http.post<Employee>(this.apiUrl, employee);
+  }
+
+  getEmployeeById(id: string): Observable<Employee> {
+    return this.http.get<Employee>(`${this.apiUrl}/${id}`);
+  }
 }

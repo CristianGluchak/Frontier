@@ -127,6 +127,6 @@ export class FuncionarioComponent implements OnInit {
   }
 
   goToNew(): void {
-    this.router.navigate(['/funcionario/novo']);
+    this.router.navigate(['/funcionario/new']);
   }
 }

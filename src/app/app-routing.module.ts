@@ -5,7 +5,6 @@ import { FuncionarioComponent } from './modules/funcionario/funcionario.componen
 import { CalculaFolhaComponent } from './modules/calcula-folha/calcula-folha.component';
 import { HomeComponent } from './modules/home/home.component';
 import { DetalhesComponent } from './modules/funcionario/detalhes/detalhes.component';
-import { NewComponent } from './modules/funcionario/new/new.component';
 import { CreateAccountComponent } from './auth/create-account/create-account.component';
 
 const routes: Routes = [
@@ -17,7 +16,7 @@ const routes: Routes = [
   { path: 'empresa', component: EmpresaComponent },
   { path: 'funcionario', component: FuncionarioComponent },
   { path: 'calcula-folha', component: CalculaFolhaComponent },
-  { path: 'funcionario/new', component: NewComponent },
+  { path: 'funcionario/new', component: DetalhesComponent },
   { path: 'funcionario/:id', component: DetalhesComponent },
   { path: 'create-account', component: CreateAccountComponent },
 ];

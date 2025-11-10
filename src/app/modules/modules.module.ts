@@ -5,7 +5,6 @@ import { EmpresaComponent } from './empresa/empresa.component';
 import { FuncionarioComponent } from './funcionario/funcionario.component';
 import { HomeComponent } from './home/home.component';
 import { DetalhesComponent } from './funcionario/detalhes/detalhes.component';
-import { NewComponent } from './funcionario/new/new.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -27,7 +26,6 @@ import { AgGridModule } from 'ag-grid-angular';
     CalculaFolhaComponent,
     HomeComponent,
     DetalhesComponent,
-    NewComponent,
     SearchBarComponent,
     CnpjMaskDirective,
   ],

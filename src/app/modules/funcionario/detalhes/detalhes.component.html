@@ -1,9 +1,8 @@
 <div class="funcionario-container" *ngIf="funcionarioForm">
   <form [formGroup]="funcionarioForm" (ngSubmit)="onSubmit()">
-    <!-- 🔹 Seção: Dados do Funcionário -->
     <mat-card class="section-card">
       <div class="card-section-title">
-        <h3>Dados do Funcionário</h3>
+        <h3>{{ isEditMode ? "Editar Funcionário" : "Novo Funcionário" }}</h3>
       </div>
 
       <mat-card-content>
@@ -37,13 +36,12 @@
             <input matInput type="number" formControlName="salary" />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="mt-2">
+          <mat-form-field appearance="outline">
             <mat-label>Data de Inativação</mat-label>
-            <input matInput type="date" formControlName="inactivation_date" />
+            <input matInput type="date" formControlName="inactivationDate" />
           </mat-form-field>
         </div>
 
-        <!-- 🔹 Status em Radio Buttons -->
         <div class="radio-group-section">
           <label class="radio-label">Status:</label>
           <mat-radio-group formControlName="status" class="radio-group">
@@ -54,19 +52,16 @@
       </mat-card-content>
     </mat-card>
 
-    <!-- 🔹 Seção: Dados Pessoais -->
     <mat-card class="section-card">
       <div class="card-section-title">
         <h3>Dados Pessoais</h3>
       </div>
 
-      <!-- 🔹 Container principal dividido -->
       <div class="dados-pessoais-container">
-        <!-- 🧩 1️⃣ Campos (textos, datas etc.) -->
         <div class="dados-pessoais-campos form-grid">
           <mat-form-field appearance="outline">
             <mat-label>Data de Nascimento</mat-label>
-            <input matInput type="date" formControlName="birth_date" />
+            <input matInput type="date" formControlName="birthDate" />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -85,9 +80,7 @@
           </mat-form-field>
         </div>
 
-        <!-- 🧩 2️⃣ Radio Buttons (toggles) -->
         <div class="dados-pessoais-toggles">
-          <!-- 🔹 Gênero -->
           <div class="radio-group-section">
             <label class="radio-label">Gênero:</label>
             <mat-radio-group formControlName="gender" class="radio-group">
@@ -96,10 +89,9 @@
             </mat-radio-group>
           </div>
 
-          <!-- 🔹 Estado Civil -->
           <div class="radio-group-section">
             <label class="radio-label">Estado Civil:</label>
-            <mat-radio-group formControlName="civil_status" class="radio-group">
+            <mat-radio-group formControlName="civilState" class="radio-group">
               <mat-radio-button value="SOLTEIRO">Solteiro(a)</mat-radio-button>
               <mat-radio-button value="CASADO">Casado(a)</mat-radio-button>
               <mat-radio-button value="DIVORCIADO"
@@ -112,7 +104,6 @@
       </div>
     </mat-card>
 
-    <!-- 🔹 Seção: Endereço -->
     <mat-card class="section-card">
       <div class="card-section-title">
         <h3>Endereço</h3>
@@ -151,13 +142,12 @@
       </div>
     </mat-card>
 
-    <!-- 🔹 Botão flutuante -->
     <div class="actions">
       <button
         mat-fab
         class="save-button"
         aria-label="Salvar Funcionário"
-        [disabled]="funcionarioForm.invalid"
+        [disabled]="funcionarioForm.invalid || loading"
         type="submit"
       >
         <mat-icon class="material-symbols-outlined">check</mat-icon>
