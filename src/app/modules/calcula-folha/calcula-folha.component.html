@@ -1,1 +1,72 @@
-<p class="calculaFolhaToolBar">calcula-folha works!</p>
+<div class="funcionario-page">
+  <div class="actions-top">
+    <app-search-bar
+      [fields]="[
+        {
+          key: 'referenceMonth',
+          label: 'Mês de referência',
+          placeholder: 'yyyy-MM'
+        }
+      ]"
+      (search)="onSearch($event['referenceMonth'])"
+    ></app-search-bar>
+
+    <button class="calculate-all-btn" (click)="calculateAll()">
+      <span class="material-symbols-outlined"> calculate </span>
+      Calcular todas as folhas
+    </button>
+  </div>
+
+  <div class="ag-theme-alpine table-container">
+    <ag-grid-angular
+      style="width: 100%"
+      [style.height.px]="gridHeight"
+      [columnDefs]="columnDefs"
+      [rowModelType]="'infinite'"
+      [cacheBlockSize]="pageSize"
+      [pagination]="true"
+      [paginationPageSize]="pageSize"
+      [rowSelection]="'single'"
+      [animateRows]="true"
+      (gridReady)="onGridReady($event)"
+      (rowClicked)="onRowClicked($event)"
+    ></ag-grid-angular>
+  </div>
+
+  <div *ngIf="selectedPayroll" class="detail-panel">
+    <div class="detail-container">
+      <div class="detail-card">
+        <span>INSS</span>
+        <strong>R$ {{ selectedPayroll.inss | number : "1.2-2" }}</strong>
+      </div>
+      <div class="detail-card">
+        <span>IRRF</span>
+        <strong>R$ {{ selectedPayroll.irrf | number : "1.2-2" }}</strong>
+      </div>
+      <div class="detail-card">
+        <span>Bruto</span>
+        <strong>R$ {{ selectedPayroll.grossTotal | number : "1.2-2" }}</strong>
+      </div>
+      <div class="detail-card">
+        <span>Descontos</span>
+        <strong class="desconto">
+          R$ {{ selectedPayroll.totalDeductions | number : "1.2-2" }}
+        </strong>
+      </div>
+      <div class="detail-card">
+        <span>Líquido</span>
+        <strong class="liquido">
+          R$ {{ selectedPayroll.netTotal | number : "1.2-2" }}
+        </strong>
+      </div>
+
+      <button
+        class="recalculate-btn"
+        (click)="recalculatePayroll(selectedPayroll.id)"
+      >
+        <span class="material-symbols-outlined"> refresh </span>
+        Recalcular
+      </button>
+    </div>
+  </div>
+</div>

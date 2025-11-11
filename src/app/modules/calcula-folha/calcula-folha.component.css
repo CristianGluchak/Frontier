@@ -1,4 +1,134 @@
-.calculaFolhaToolBar {
-  position: absolute;
-  left: 10%;
+/* 🔹 Layout principal */
+.funcionario-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  padding: 16px 24px;
+  box-sizing: border-box;
+  gap: 12px;
+  overflow: hidden; /* 🔸 evita rolagem */
+}
+
+/* 🔹 Barra de ações */
+.actions-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* 🔹 Container do grid */
+.table-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* 🔹 Painel de detalhes fixo */
+.detail-panel {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 14px 16px;
+  box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.detail-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 8px;
+  padding: 10px 16px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  min-width: 120px;
+}
+
+.detail-card span {
+  display: block;
+  font-size: 13px;
+  color: #555;
+}
+
+.detail-card strong {
+  font-size: 15px;
+  margin-top: 4px;
+  display: block;
+}
+
+.detail-card .liquido {
+  color: #2e7d32;
+}
+
+.detail-card .desconto {
+  color: #c62828;
+}
+/* 🔹 Botão principal de cálculo */
+.calculate-all-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0078d4, #2196f3);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0, 120, 212, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.calculate-all-btn mat-icon {
+  font-size: 20px;
+  color: #fff;
+}
+
+.calculate-all-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(0, 120, 212, 0.4);
+  background: linear-gradient(135deg, #2196f3, #42a5f5);
+}
+
+.calculate-all-btn:active {
+  transform: scale(0.98);
+}
+
+/* 🔹 Botão individual de recalcular folha */
+.recalculate-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  color: #1976d2;
+  border: 2px solid #1976d2;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.25s ease-in-out;
+}
+
+.recalculate-btn mat-icon {
+  font-size: 18px;
+  color: inherit;
+}
+
+.recalculate-btn:hover {
+  background: #1976d2;
+  color: white;
+  box-shadow: 0 3px 6px rgba(25, 118, 210, 0.3);
+}
+
+.recalculate-btn:active {
+  transform: scale(0.97);
 }
