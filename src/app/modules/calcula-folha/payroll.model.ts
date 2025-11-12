@@ -1,8 +1,8 @@
 export interface Payroll {
   id: string;
-  employeeId: string;
+  employeeID: string;
   employeeName: string;
-  employerId: string;
+  employerID: string;
   referenceMonth: string;
   baseSalary: number;
   grossTotal: number;

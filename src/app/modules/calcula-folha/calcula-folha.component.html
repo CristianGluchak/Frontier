@@ -62,7 +62,9 @@
 
       <button
         class="recalculate-btn"
-        (click)="recalculatePayroll(selectedPayroll.id)"
+        (click)="
+          recalculatePayroll(selectedPayroll.employeeID, selectedPayroll.id)
+        "
       >
         <span class="material-symbols-outlined"> refresh </span>
         Recalcular

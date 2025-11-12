@@ -17,6 +17,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { CnpjMaskDirective } from './shared/pipes/cnpj-mask.directive';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AgGridModule } from 'ag-grid-angular';
 
 @NgModule({
@@ -32,6 +33,7 @@ import { AgGridModule } from 'ag-grid-angular';
   imports: [
     MatCardModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatInputModule,
     MatTableModule,
     MatRadioModule,

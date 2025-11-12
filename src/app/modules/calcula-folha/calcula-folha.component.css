@@ -132,3 +132,18 @@
 .recalculate-btn:active {
   transform: scale(0.97);
 }
+
+/* 🔹 Snackbar customizado */
+.snackbar-success {
+  background-color: #2e7d32 !important; /* verde */
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 6px;
+}
+
+.snackbar-error {
+  background-color: #c62828 !important; /* vermelho */
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 6px;
+}

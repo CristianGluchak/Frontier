@@ -13,6 +13,7 @@ import {
 } from 'ag-grid-community';
 import { Payroll } from './payroll.model';
 import { PayrollService } from '../services/payroll.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-calcula-folha',
@@ -64,7 +65,8 @@ export class CalculaFolhaComponent implements OnInit {
 
   constructor(
     private service: PayrollService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -135,17 +137,57 @@ export class CalculaFolhaComponent implements OnInit {
     });
   }
 
-  recalculatePayroll(id: string): void {
-    this.service.recalculateSingle(id).subscribe({
-      next: () => alert('✅ Folha recalculada com sucesso'),
-      error: (err) => console.error('Erro ao recalcular folha:', err),
+  recalculatePayroll(employeeID: string, id: string): void {
+    this.loading = true;
+
+    this.service.recalculateSingle(employeeID).subscribe({
+      next: () => {
+        // recarrega o detalhe da folha atual
+        this.service.getPayrollById(id).subscribe({
+          next: (res) => {
+            this.selectedPayroll = res;
+            this.showSnackbar('✅ Folha recalculada com sucesso!');
+            this.gridApi.refreshInfiniteCache(); // recarrega grid
+          },
+          error: () =>
+            this.showSnackbar(
+              '⚠️ Folha recalculada, mas houve erro ao atualizar o detalhe.'
+            ),
+          complete: () => (this.loading = false),
+        });
+      },
+      error: (err) => {
+        console.error('Erro ao recalcular folha:', err);
+        this.showSnackbar('❌ Erro ao recalcular folha.');
+        this.loading = false;
+      },
     });
   }
 
   calculateAll(): void {
+    this.loading = true;
     this.service.calculateAll().subscribe({
-      next: () => alert('✅ Todas as folhas recalculadas!'),
-      error: (err) => console.error('Erro ao recalcular todas:', err),
+      next: () => {
+        this.showSnackbar('✅ Todas as folhas recalculadas!');
+        this.gridApi.refreshInfiniteCache();
+      },
+      error: (err) => {
+        console.error('Erro ao recalcular todas:', err);
+        this.showSnackbar('❌ Erro ao recalcular todas as folhas.', 'error');
+      },
+      complete: () => (this.loading = false),
+    });
+  }
+
+  private showSnackbar(
+    message: string,
+    type: 'success' | 'error' = 'success'
+  ): void {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
     });
   }
 }
