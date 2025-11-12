@@ -1,0 +1,29 @@
+.historico-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  height: 100vh;
+  box-sizing: border-box;
+}
+
+.actions-top {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.table-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.ag-theme-alpine {
+  --ag-font-size: 14px;
+  --ag-header-background-color: #f7f9fb;
+  --ag-header-foreground-color: #0078d4;
+  border-radius: 8px;
+}

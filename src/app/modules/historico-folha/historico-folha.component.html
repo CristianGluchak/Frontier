@@ -1,0 +1,28 @@
+<div class="historico-page">
+  <div class="actions-top">
+    <app-search-bar
+      [fields]="[
+        {
+          key: 'referenceMonth',
+          label: 'Mês de referência',
+          placeholder: 'yyyy-MM'
+        }
+      ]"
+      (search)="onSearch($event['referenceMonth'])"
+    ></app-search-bar>
+  </div>
+
+  <div class="ag-theme-alpine table-container">
+    <ag-grid-angular
+      style="width: 100%"
+      [style.height.px]="gridHeight"
+      [columnDefs]="columnDefs"
+      [rowModelType]="'infinite'"
+      [cacheBlockSize]="pageSize"
+      [pagination]="true"
+      [paginationPageSize]="pageSize"
+      [animateRows]="true"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </div>
+</div>

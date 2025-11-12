@@ -6,6 +6,7 @@ import { CalculaFolhaComponent } from './modules/calcula-folha/calcula-folha.com
 import { HomeComponent } from './modules/home/home.component';
 import { DetalhesComponent } from './modules/funcionario/detalhes/detalhes.component';
 import { CreateAccountComponent } from './auth/create-account/create-account.component';
+import { HistoricoFolhaComponent } from './modules/historico-folha/historico-folha.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'funcionario/new', component: DetalhesComponent },
   { path: 'funcionario/:id', component: DetalhesComponent },
   { path: 'create-account', component: CreateAccountComponent },
+  { path: 'historico-folha', component: HistoricoFolhaComponent },
 ];
 
 @NgModule({
