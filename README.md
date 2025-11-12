@@ -1,27 +1,48 @@
-# Frontier
+# Frontier 🚀
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.0.
+Sistema simples e moderno para gestão de RH desenvolvido em Angular 15.
 
-## Development server
+## 🏃‍♂️ Como rodar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+**Pré-requisitos:** Node.js 16+ e Angular CLI
 
-## Code scaffolding
+1. **Instale as dependências:**
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+npm install
+```
 
-## Build
+2. **Execute o projeto:**
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```bash
+ng serve
+```
 
-## Running unit tests
+3. **Acesse:** http://localhost:4200
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## 📋 Funcionalidades
 
-## Running end-to-end tests
+- 🔐 **Autenticação** - Login seguro e criação de contas
+- 👥 **Funcionários** - Cadastro, listagem e busca de funcionários
+- 🏢 **Empresas** - Gestão de dados corporativos
+- 💰 **Folha de Pagamento** - Cálculo automático de salários
+- 📊 **Histórico** - Consulta de folhas anteriores
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 🛠️ Stack
 
-## Further help
+- **Frontend:** Angular 15 + TypeScript
+- **UI:** Angular Material + AG-Grid
+- **Navegação:** Sidebar com ícones Material Design
+- **Tabelas:** AG-Grid com paginação e filtros
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## 📁 Estrutura
+
+```
+src/app/
+├── auth/           # Login e cadastro
+├── modules/        # Módulos principais
+│   ├── funcionario/
+│   ├── empresa/
+│   └── calcula-folha/
+└── toolbar/        # Navegação lateral
+```
