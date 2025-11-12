@@ -80,7 +80,6 @@ export class CalculaFolhaComponent implements OnInit {
 
   adjustGridHeight(): void {
     const viewportHeight = window.innerHeight;
-    // 🔹 altura total menos header e painel de detalhes
     this.gridHeight = viewportHeight - 230;
   }
 
@@ -89,7 +88,6 @@ export class CalculaFolhaComponent implements OnInit {
     this.gridApi.setDatasource(this.createDataSource());
   }
 
-  /** 🔹 Cria o datasource para paginação real (server-side) */
   private createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
@@ -113,7 +111,7 @@ export class CalculaFolhaComponent implements OnInit {
   onSearch(month: string): void {
     this.currentMonth = month?.trim() || '';
     if (this.gridApi) {
-      this.gridApi.purgeInfiniteCache(); // 🔄 recarrega do backend
+      this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
     }
   }
@@ -121,7 +119,6 @@ export class CalculaFolhaComponent implements OnInit {
   onRowClicked(event: any): void {
     const id = event.data.id;
 
-    // 🔸 fecha se clicar no mesmo
     if (this.selectedPayroll?.id === id) {
       this.selectedPayroll = null;
       this.cdr.detectChanges();
@@ -138,41 +135,54 @@ export class CalculaFolhaComponent implements OnInit {
   }
 
   recalculatePayroll(employeeID: string, id: string): void {
-    this.loading = true;
+    if (!this.canRecalculateSelected()) {
+      this.showSnackbar(
+        '⚠️ Ainda não é possível recalcular folhas retroativas.',
+        'info'
+      );
+      return;
+    }
 
+    this.loading = true;
     this.service.recalculateSingle(employeeID).subscribe({
       next: () => {
-        // recarrega o detalhe da folha atual
         this.service.getPayrollById(id).subscribe({
           next: (res) => {
             this.selectedPayroll = res;
-            this.showSnackbar('✅ Folha recalculada com sucesso!');
-            this.gridApi.refreshInfiniteCache(); // recarrega grid
+            this.showSnackbar('✅ Folha recalculada com sucesso!', 'success');
+            this.gridApi.refreshInfiniteCache();
           },
           error: () =>
-            this.showSnackbar(
-              '⚠️ Folha recalculada, mas houve erro ao atualizar o detalhe.'
-            ),
+            this.showSnackbar('⚠️ Erro ao atualizar folha.', 'error'),
           complete: () => (this.loading = false),
         });
       },
-      error: (err) => {
-        console.error('Erro ao recalcular folha:', err);
-        this.showSnackbar('❌ Erro ao recalcular folha.');
+      error: () => {
+        this.showSnackbar('❌ Erro ao recalcular folha.', 'error');
         this.loading = false;
       },
     });
   }
 
   calculateAll(): void {
+    if (!this.isCurrentMonth()) {
+      this.showSnackbar(
+        '⚠️ Ainda não é possível calcular folhas retroativas.',
+        'info'
+      );
+      return;
+    }
+
     this.loading = true;
     this.service.calculateAll().subscribe({
       next: () => {
-        this.showSnackbar('✅ Todas as folhas recalculadas!');
+        this.showSnackbar(
+          '✅ Todas as folhas recalculadas com sucesso!',
+          'success'
+        );
         this.gridApi.refreshInfiniteCache();
       },
-      error: (err) => {
-        console.error('Erro ao recalcular todas:', err);
+      error: () => {
         this.showSnackbar('❌ Erro ao recalcular todas as folhas.', 'error');
       },
       complete: () => (this.loading = false),
@@ -181,13 +191,37 @@ export class CalculaFolhaComponent implements OnInit {
 
   private showSnackbar(
     message: string,
-    type: 'success' | 'error' = 'success'
+    type: 'info' | 'error' | 'success' = 'info'
   ): void {
     this.snackBar.open(message, 'Fechar', {
       duration: 3500,
       horizontalPosition: 'center',
       verticalPosition: 'top',
-      panelClass: type === 'success' ? 'snackbar-success' : 'snackbar-error',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
     });
+  }
+
+  /** 🔹 Garante validação de ano + mês (yyyy-MM) */
+  private getCurrentYearMonth(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
+  isCurrentMonth(): boolean {
+    return (
+      this.currentMonth === '' ||
+      this.currentMonth === this.getCurrentYearMonth()
+    );
+  }
+
+  canRecalculateSelected(): boolean {
+    return this.selectedPayroll?.referenceMonth === this.getCurrentYearMonth();
   }
 }
