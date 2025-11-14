@@ -8,6 +8,7 @@
           placeholder: 'yyyy-MM'
         }
       ]"
+      [initialValues]="{ referenceMonth: currentMonth }"
       (search)="onSearch($event['referenceMonth'])"
     ></app-search-bar>
 

@@ -1,4 +1,9 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  HostListener,
+  OnInit,
+} from '@angular/core';
 import {
   ColDef,
   GridApi,
@@ -68,13 +73,17 @@ export class HistoricoFolhaComponent implements OnInit {
   ];
 
   gridApi!: GridApi;
-  pageSize = 17;
+  pageSize = 15;
   totalElements = 0;
   gridHeight = 0;
   currentMonth = '';
   loading = false;
+  selectedPayroll: Payroll | null = null;
 
-  constructor(private service: PayrollService) {}
+  constructor(
+    private service: PayrollService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.adjustGridHeight();
@@ -88,7 +97,7 @@ export class HistoricoFolhaComponent implements OnInit {
 
   adjustGridHeight(): void {
     const viewportHeight = window.innerHeight;
-    this.gridHeight = viewportHeight - 180;
+    this.gridHeight = viewportHeight - 230;
   }
 
   /** 🔹 Inicializa o grid com datasource */
@@ -127,5 +136,21 @@ export class HistoricoFolhaComponent implements OnInit {
       this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
     }
+  }
+
+  onRowClicked(event: any): void {
+    const id = event.data.id;
+
+    if (this.selectedPayroll?.id === id) {
+      this.selectedPayroll = null;
+      return;
+    }
+
+    this.service.getPayrollById(id).subscribe({
+      next: (res) => {
+        this.selectedPayroll = res;
+        this.cdr.detectChanges();
+      },
+    });
   }
 }

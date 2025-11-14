@@ -59,6 +59,7 @@ export class CalculaFolhaComponent implements OnInit {
   selectedPayroll: Payroll | null = null;
   pageSize = 15;
   currentMonth = '';
+  currentSystemMonth = this.getCurrentYearMonth();
   gridHeight = 0;
   totalElements = 0;
   loading = false;
@@ -69,8 +70,19 @@ export class CalculaFolhaComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  // 🔹 Obtém mês atual (yyyy-MM)
+  private getCurrentYearMonth(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    return `${year}-${month}`;
+  }
+
   ngOnInit(): void {
     this.adjustGridHeight();
+
+    // 🔹 Se não houver parâmetro, sempre inicia no mês atual
+    this.currentMonth = this.currentSystemMonth;
   }
 
   @HostListener('window:resize')
@@ -85,6 +97,8 @@ export class CalculaFolhaComponent implements OnInit {
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
+
+    // 🔹 seta o datasource usando o mês inicial
     this.gridApi.setDatasource(this.createDataSource());
   }
 
@@ -99,17 +113,17 @@ export class CalculaFolhaComponent implements OnInit {
             this.totalElements = res.totalElements ?? 0;
             params.successCallback(res.content ?? [], this.totalElements);
           },
-          error: (err) => {
-            console.error('Erro ao carregar folhas:', err);
-            params.failCallback();
-          },
+          error: () => params.failCallback(),
         });
       },
     };
   }
 
+  /** 🔍 Filtro por mês (yyyy-MM) */
   onSearch(month: string): void {
-    this.currentMonth = month?.trim() || '';
+    // 🔹 se vazio → mantém mês atual
+    this.currentMonth = month?.trim() || this.currentSystemMonth;
+
     if (this.gridApi) {
       this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
@@ -121,7 +135,6 @@ export class CalculaFolhaComponent implements OnInit {
 
     if (this.selectedPayroll?.id === id) {
       this.selectedPayroll = null;
-      this.cdr.detectChanges();
       return;
     }
 
@@ -130,7 +143,6 @@ export class CalculaFolhaComponent implements OnInit {
         this.selectedPayroll = res;
         this.cdr.detectChanges();
       },
-      error: (err) => console.error('Erro ao buscar folha:', err),
     });
   }
 
@@ -206,22 +218,13 @@ export class CalculaFolhaComponent implements OnInit {
     });
   }
 
-  /** 🔹 Garante validação de ano + mês (yyyy-MM) */
-  private getCurrentYearMonth(): string {
-    const now = new Date();
-    const year = now.getFullYear();
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    return `${year}-${month}`;
-  }
-
+  /** 🔹 Só deixa calcular no mês atual */
   isCurrentMonth(): boolean {
-    return (
-      this.currentMonth === '' ||
-      this.currentMonth === this.getCurrentYearMonth()
-    );
+    return this.currentMonth === this.currentSystemMonth;
   }
 
+  /** 🔹 Só deixa recalcular se o item selecionado for do mês atual */
   canRecalculateSelected(): boolean {
-    return this.selectedPayroll?.referenceMonth === this.getCurrentYearMonth();
+    return this.selectedPayroll?.referenceMonth === this.currentSystemMonth;
   }
 }
