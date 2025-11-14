@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 interface SearchField {
@@ -12,10 +20,11 @@ interface SearchField {
   templateUrl: './search-bar.component.html',
   styleUrls: ['./search-bar.component.css'],
 })
-export class SearchBarComponent implements OnInit {
-  @Input() fields: SearchField[] = [
-    { key: 'name', label: 'Nome', placeholder: 'Buscar por nome...' },
-  ];
+export class SearchBarComponent implements OnInit, OnChanges {
+  @Input() fields: SearchField[] = [];
+
+  /** 🔹 Valores iniciais vindos do componente pai */
+  @Input() initialValues: { [key: string]: string } | null = null;
 
   @Output() search = new EventEmitter<{ [key: string]: string }>();
 
@@ -24,22 +33,48 @@ export class SearchBarComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
+    this.buildForm();
+    this.applyInitialValues();
+  }
+
+  /** 🔹 Detecta mudanças nos valores iniciais (caso venham depois do init) */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['initialValues'] && this.form) {
+      this.applyInitialValues();
+    }
+  }
+
+  private buildForm() {
     const controls: any = {};
     this.fields.forEach((f) => (controls[f.key] = ['']));
     this.form = this.fb.group(controls);
   }
 
+  /** 🔹 Preenche o form automaticamente com valores iniciais */
+  private applyInitialValues() {
+    if (this.initialValues) {
+      this.form.patchValue(this.initialValues, { emitEvent: false });
+
+      // dispara a busca automática usando os valores iniciais
+      this.onSearch();
+    }
+  }
+
   onSearch() {
     const values = this.form.value;
+
+    // 🔹 remove valores vazios
     const filtered = Object.entries(values)
-      .filter(([_, v]) => typeof v === 'string' && v.trim())
+      .filter((entry): entry is [string, string] => {
+        return (
+          typeof entry[1] === 'string' && (entry[1] as string).trim() !== ''
+        );
+      })
       .reduce(
-        (acc, [k, v]) => ({
-          ...acc,
-          [k]: typeof v === 'string' ? v.trim() : v,
-        }),
-        {}
+        (acc, [k, v]) => ({ ...acc, [k]: v.trim() }),
+        {} as { [key: string]: string }
       );
+
     this.search.emit(filtered);
   }
 

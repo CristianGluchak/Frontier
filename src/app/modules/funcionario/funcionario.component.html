@@ -1,5 +1,14 @@
 <div class="funcionario-page">
-  <app-search-bar (search)="onSearch($event['name'])"></app-search-bar>
+  <app-search-bar
+    [fields]="[
+      {
+        key: 'name',
+        label: 'Nome do funcionário',
+        placeholder: 'Digite o nome do funcionário'
+      }
+    ]"
+    (search)="onSearch($event['name'])"
+  ></app-search-bar>
 
   <div class="ag-theme-alpine table-container">
     <ag-grid-angular

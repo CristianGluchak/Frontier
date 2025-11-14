@@ -17,7 +17,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { SearchBarComponent } from './shared/search-bar/search-bar.component';
 import { CnpjMaskDirective } from './shared/pipes/cnpj-mask.directive';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AgGridModule } from 'ag-grid-angular';
+import { HistoricoFolhaComponent } from './historico-folha/historico-folha.component';
 
 @NgModule({
   declarations: [
@@ -28,10 +30,12 @@ import { AgGridModule } from 'ag-grid-angular';
     DetalhesComponent,
     SearchBarComponent,
     CnpjMaskDirective,
+    HistoricoFolhaComponent,
   ],
   imports: [
     MatCardModule,
     MatFormFieldModule,
+    MatSnackBarModule,
     MatInputModule,
     MatTableModule,
     MatRadioModule,

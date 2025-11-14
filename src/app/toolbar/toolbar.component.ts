@@ -28,6 +28,10 @@ export class ToolbarComponent {
     this.router.navigate(['/calcula-folha']);
   }
 
+  goqToHistoricoFolha() {
+    this.router.navigate(['/historico-folha']);
+  }
+
   logout() {
     this.authService.logout();
     this.router.navigate(['']);

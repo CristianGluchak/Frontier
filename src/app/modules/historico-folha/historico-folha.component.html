@@ -1,4 +1,4 @@
-<div class="funcionario-page">
+<div class="historico-page">
   <div class="actions-top">
     <app-search-bar
       [fields]="[
@@ -8,14 +8,8 @@
           placeholder: 'yyyy-MM'
         }
       ]"
-      [initialValues]="{ referenceMonth: currentMonth }"
       (search)="onSearch($event['referenceMonth'])"
     ></app-search-bar>
-
-    <button class="calculate-all-btn" (click)="calculateAll()">
-      <span class="material-symbols-outlined"> calculate </span>
-      Calcular todas as folhas
-    </button>
   </div>
 
   <div class="ag-theme-alpine table-container">
@@ -60,17 +54,6 @@
           R$ {{ selectedPayroll.netTotal | number : "1.2-2" }}
         </strong>
       </div>
-
-      <button
-        class="recalculate-btn"
-        matTooltip="Recalcular disponível apenas para o mês atual"
-        (click)="
-          recalculatePayroll(selectedPayroll.employeeID, selectedPayroll.id)
-        "
-      >
-        <span class="material-symbols-outlined"> refresh </span>
-        Recalcular
-      </button>
     </div>
   </div>
 </div>
