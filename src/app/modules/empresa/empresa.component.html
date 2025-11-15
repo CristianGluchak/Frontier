@@ -1,143 +1,79 @@
 <div class="empresa-container">
+  <!-- -------------------------------------- -->
+  <!--   CARD DE IDENTIFICAÇÃO DA EMPRESA     -->
+  <!-- -------------------------------------- -->
   <mat-card class="section-card">
-    <div class="card-section-title">
+    <div class="card-header">
       <h3>Identificação</h3>
+
+      <button
+        mat-mini-fab
+        class="save-button"
+        (click)="send()"
+        [disabled]="empresaForm.invalid"
+      >
+        <span class="material-symbols-outlined"> edit </span>
+      </button>
     </div>
 
     <mat-card-content>
       <form [formGroup]="empresaForm">
         <div class="form-grid">
+          <!-- Razão social -->
           <mat-form-field appearance="outline">
             <mat-label>Razão Social</mat-label>
             <input matInput formControlName="razaoSocial" />
-            <mat-error
-              *ngIf="
-                empresaForm.get('razaoSocial')?.invalid &&
-                empresaForm.get('razaoSocial')?.touched
-              "
-            >
-              Campo obrigatório.
-            </mat-error>
           </mat-form-field>
 
+          <!-- Nome fantasia -->
           <mat-form-field appearance="outline" class="full-field">
             <mat-label>Nome Fantasia</mat-label>
             <input matInput formControlName="nomeFantasia" />
-            <mat-error
-              *ngIf="
-                empresaForm.get('nomeFantasia')?.invalid &&
-                empresaForm.get('nomeFantasia')?.touched
-              "
-            >
-              Campo obrigatório.
-            </mat-error>
           </mat-form-field>
 
+          <!-- CNPJ -->
           <mat-form-field appearance="outline">
             <mat-label>CNPJ</mat-label>
-            <input
-              matInput
-              cnpjMask
-              maxlength="18"
-              formControlName="cnpj"
-              placeholder="00.000.000/0000-00"
-            />
-            <mat-error
-              *ngIf="
-                empresaForm.get('cnpj')?.invalid &&
-                empresaForm.get('cnpj')?.touched
-              "
-            >
-              CNPJ inválido ou obrigatório.
-            </mat-error>
+            <input matInput cnpjMask maxlength="18" formControlName="cnpj" />
           </mat-form-field>
 
+          <!-- Email -->
           <mat-form-field appearance="outline" class="full-field">
             <mat-label>E-mail</mat-label>
             <input matInput type="email" formControlName="email" />
-            <mat-error
-              *ngIf="
-                empresaForm.get('email')?.invalid &&
-                empresaForm.get('email')?.touched
-              "
-            >
-              E-mail inválido ou obrigatório.
-            </mat-error>
           </mat-form-field>
         </div>
       </form>
     </mat-card-content>
   </mat-card>
-  <div class="actions">
-    <button
-      mat-fab
-      class="save-button"
-      aria-label="Salvar Empresa"
-      (click)="send()"
-      [disabled]="empresaForm.invalid"
-    >
-      <mat-icon class="material-symbols-outlined">check</mat-icon>
-    </button>
-  </div>
 
-  <!-- seção usuários -->
+  <!-- -------------------------------------- -->
+  <!--            AG-GRID USUÁRIOS            -->
+  <!-- -------------------------------------- -->
   <mat-card class="section-card">
-    <div class="card-section-title">
+    <div class="card-section-title-VinculatedUsers">
       <h3>Usuários Vinculados</h3>
     </div>
 
     <mat-card-content>
-      <table
-        mat-table
-        [dataSource]="usuarios"
-        class="user-table"
-        *ngIf="usuarios.data.length > 0; else vazio"
-      >
-        <!-- Nome -->
-        <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
-          <td mat-cell *matCellDef="let usuario">{{ usuario.nome }}</td>
-        </ng-container>
+      <app-search-bar
+        [fields]="[
+          { key: 'name', label: 'Nome do usuário', placeholder: 'Pesquisar...' }
+        ]"
+        (search)="onSearch($event)"
+      ></app-search-bar>
 
-        <!-- E-mail -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>E-mail</th>
-          <td mat-cell *matCellDef="let usuario">{{ usuario.email }}</td>
-        </ng-container>
-
-        <!-- Ações -->
-        <ng-container matColumnDef="acoes">
-          <th mat-header-cell *matHeaderCellDef>Ações</th>
-          <td mat-cell *matCellDef="let usuario">
-            <button
-              mat-icon-button
-              color="primary"
-              aria-label="Editar"
-              (click)="editUsuario(usuario)"
-            >
-              <mat-icon class="material-symbols-outlined">edit</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              color="warn"
-              aria-label="Remover"
-              (click)="removeUsuario(usuario.id)"
-            >
-              <mat-icon class="material-symbols-outlined">delete</mat-icon>
-            </button>
-          </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </table>
-
-      <!-- Mensagem se vazio -->
-      <ng-template #vazio>
-        <p class="text-center text-muted">Nenhum usuário vinculado.</p>
-      </ng-template>
-
-      <!-- Botão adicionar -->
+      <div class="ag-theme-alpine user-grid-container">
+        <ag-grid-angular
+          style="width: 100%; height: 90%"
+          [columnDefs]="columnDefs"
+          [rowModelType]="'infinite'"
+          [cacheBlockSize]="pageSize"
+          [pagination]="true"
+          [paginationPageSize]="pageSize"
+          (gridReady)="onGridReady($event)"
+        ></ag-grid-angular>
+      </div>
       <div class="add-user">
         <button mat-stroked-button color="primary" (click)="addUsuario()">
           <mat-icon class="material-symbols-outlined">person_add</mat-icon>
@@ -146,5 +82,4 @@
       </div>
     </mat-card-content>
   </mat-card>
-  <!-- TODO: implementar usuarios e melhorar o edit da empresa -->
 </div>

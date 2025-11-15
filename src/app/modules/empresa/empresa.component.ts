@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  GridApi,
+  GridReadyEvent,
+  ColDef,
+  IDatasource,
+  IGetRowsParams,
+} from 'ag-grid-community';
 import { EmpresaService, Empresa } from '../services/empresa.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-empresa',
@@ -11,98 +18,142 @@ import { EmpresaService, Empresa } from '../services/empresa.service';
 })
 export class EmpresaComponent implements OnInit {
   empresaForm!: FormGroup;
-  usuarios = new MatTableDataSource<any>([]);
-  displayedColumns = ['nome', 'email', 'acoes'];
-  employerId =
-    localStorage.getItem('employerId') == null
-      ? ''
-      : localStorage.getItem('employerId')!;
+  gridApi!: GridApi;
+
+  displayedColumns = ['name', 'status', 'actions'];
+
+  pageSize = 15;
+  totalElements = 0;
+  filterName = '';
+
+  /** Colunas do AG-Grid */
+  columnDefs: ColDef[] = [
+    {
+      headerName: 'Nome',
+      field: 'name',
+      flex: 1,
+    },
+    {
+      headerName: 'Status',
+      field: 'status',
+      width: 150,
+      cellRenderer: (p: any) =>
+        `<span class="status ${p.value === 'ATIVO' ? 'ativo' : 'inativo'}">
+          ${p.value}
+        </span>`,
+    },
+    {
+      headerName: 'Ações',
+      width: 130,
+      cellRenderer: () => `
+        <button class="grid-btn edit-btn">✏️</button>
+        <button class="grid-btn delete-btn">🗑️</button>
+      `,
+      onCellClicked: (event) => {
+        const target = event?.event?.target as HTMLElement | null;
+        if (target && target.classList.contains('edit-btn')) {
+          this.editUsuario(event.data);
+        } else if (target && target.classList.contains('delete-btn')) {
+          this.removeUsuario(event.data.id);
+        }
+      },
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private empresaService: EmpresaService
+    private snack: MatSnackBar,
+    private empresaService: EmpresaService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.empresaForm = this.fb.group({
       razaoSocial: ['', Validators.required],
       nomeFantasia: ['', Validators.required],
-      cnpj: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]],
+      cnpj: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
     });
 
     this.loadEmpresa();
   }
 
-  /** 🔹 Carrega dados da empresa do endpoint */
-  loadEmpresa(): void {
-    this.empresaService.getEmpresa(this.employerId).subscribe({
-      next: (empresa: Empresa) => {
-        this.empresaForm.patchValue(empresa);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar empresa:', err);
-        this.snackBar.open('Erro ao carregar dados da empresa.', 'Fechar', {
-          duration: 3000,
+  /** ---- CARREGA EMPRESA ---- */
+  loadEmpresa() {
+    const employerId = localStorage.getItem('employerId') ?? '';
+
+    this.empresaService.getEmpresa(employerId).subscribe({
+      next: (empresa) => this.empresaForm.patchValue(empresa),
+      error: () =>
+        this.snack.open('Erro ao carregar empresa', 'Fechar', {
+          duration: 2000,
           panelClass: ['error-snackbar'],
-        });
-      },
+        }),
     });
   }
 
-  /** 🔹 Atualiza os dados da empresa */
-  send(): void {
-    if (this.empresaForm.valid) {
-      const empresa: Empresa = this.empresaForm.value;
-      this.empresaService.updateEmpresa(this.employerId, empresa).subscribe({
-        next: () => {
-          this.snackBar.open('Empresa salva com sucesso!', 'OK', {
-            duration: 2000,
-            panelClass: ['success-snackbar'],
-          });
-        },
-        error: (err) => {
-          console.error('Erro ao salvar empresa:', err);
-          this.snackBar.open('Erro ao salvar empresa.', 'Fechar', {
-            duration: 2000,
-            panelClass: ['error-snackbar'],
-          });
-        },
-      });
-    } else {
-      this.empresaForm.markAllAsTouched();
-      this.snackBar.open('Preencha os campos obrigatórios.', 'Fechar', {
+  /** ---- SALVA ---- */
+  send() {
+    if (!this.empresaForm.valid) {
+      this.snack.open('Preencha os campos obrigatórios.', '', {
         duration: 2000,
         panelClass: ['error-snackbar'],
       });
+      return;
     }
+
+    const employerId = localStorage.getItem('employerId') ?? '';
+    this.empresaService
+      .updateEmpresa(employerId, this.empresaForm.value)
+      .subscribe({
+        next: () =>
+          this.snack.open('Empresa editada com sucesso!', '', {
+            duration: 2000,
+            panelClass: ['successe-snackbar'],
+          }),
+      });
   }
 
-  /** ✅ Mock de adição de usuário */
-  addUsuario(): void {
-    const novo = {
-      id: Date.now(),
-      nome: 'Novo Usuário ' + (this.usuarios.data.length + 1),
-      email: 'novo' + (this.usuarios.data.length + 1) + '@mail.com',
+  /** ---- GRID READY ---- */
+  onGridReady(event: GridReadyEvent) {
+    this.gridApi = event.api;
+    this.gridApi.setDatasource(this.createDatasource());
+  }
+
+  /** ---- SERVER SIDE DATASOURCE ---- */
+  createDatasource(): IDatasource {
+    return {
+      getRows: (params: IGetRowsParams) => {
+        const page = params.startRow / this.pageSize;
+
+        this.userService
+          .listUsuarios(page, this.pageSize, this.filterName)
+          .subscribe({
+            next: (res: any) => {
+              params.successCallback(res.content, res.totalElements);
+            },
+            error: () => params.failCallback(),
+          });
+      },
     };
-    this.usuarios.data = [...this.usuarios.data, novo];
-    this.snackBar.open('Usuário adicionado!', '', { duration: 1500 });
   }
 
-  /** ✅ Mock de edição */
-  editUsuario(usuario: any): void {
-    const nomeAntigo = usuario.nome;
-    usuario.nome = usuario.nome + ' (Editado)';
-    this.usuarios.data = [...this.usuarios.data];
-    this.snackBar.open(`Usuário "${nomeAntigo}" editado!`, '', {
-      duration: 1500,
-    });
+  /** ---- FILTRO ---- */
+  onSearch(event: any) {
+    this.filterName = event.name ?? '';
+    this.gridApi!.purgeInfiniteCache();
   }
 
-  /** ✅ Mock de exclusão */
-  removeUsuario(id: number): void {
-    this.usuarios.data = this.usuarios.data.filter((u) => u.id !== id);
-    this.snackBar.open('Usuário removido.', '', { duration: 1500 });
+  /** ---- AÇÕES ---- */
+  editUsuario(usuario: any) {
+    this.snack.open(`Editar usuário: ${usuario.name}`, '', { duration: 2000 });
+  }
+
+  removeUsuario(id: string) {
+    this.snack.open(`Usuário removido.`, '', { duration: 2000 });
+  }
+
+  addUsuario() {
+    this.snack.open('Adicionar novo usuário...', '', { duration: 2000 });
   }
 }

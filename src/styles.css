@@ -52,3 +52,18 @@ app-login,
   align-items: center;
   justify-content: center;
 }
+
+.snackbar-info {
+  background-color: #1976d2;
+  color: #fff;
+}
+
+.snackbar-success {
+  background-color: #2e7d32;
+  color: #fff;
+}
+
+.snackbar-error {
+  background-color: #c62828;
+  color: #fff;
+}
