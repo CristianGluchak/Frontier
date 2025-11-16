@@ -68,18 +68,13 @@ export class EmpresaComponent implements OnInit {
 
     this.empresaService.getEmpresa(employerId).subscribe({
       next: (empresa) => this.empresaForm.patchValue(empresa),
-      error: () =>
-        this.snack.open('Erro ao carregar empresa', 'Fechar', {
-          duration: 2000,
-        }),
+      error: () => this.showSnackbar('Erro ao carregar empresa', 'error'),
     });
   }
 
   send() {
     if (this.empresaForm.invalid) {
-      this.snack.open('Preencha os campos obrigatórios.', '', {
-        duration: 2000,
-      });
+      this.showSnackbar('Preencha os campos obrigatórios.', 'info');
       return;
     }
 
@@ -88,9 +83,7 @@ export class EmpresaComponent implements OnInit {
       .updateEmpresa(employerId, this.empresaForm.value)
       .subscribe({
         next: () =>
-          this.snack.open('Empresa editada com sucesso!', '', {
-            duration: 2000,
-          }),
+          this.showSnackbar('Empresa editada com sucesso!', 'success'),
       });
   }
 
@@ -133,10 +126,7 @@ export class EmpresaComponent implements OnInit {
         this.usuarioForm.get('password')?.clearValidators();
         this.usuarioForm.get('password')?.updateValueAndValidity();
       },
-      error: () =>
-        this.snack.open('Erro ao carregar usuário', 'Fechar', {
-          duration: 2000,
-        }),
+      error: () => this.showSnackbar('Erro ao carregar usuário', 'error'),
     });
   }
 
@@ -154,9 +144,7 @@ export class EmpresaComponent implements OnInit {
 
   saveUsuario() {
     if (this.usuarioForm.invalid) {
-      this.snack.open('Preencha os campos corretamente.', '', {
-        duration: 2000,
-      });
+      this.showSnackbar('Preencha os campos corretamente.', 'info');
       return;
     }
 
@@ -169,7 +157,7 @@ export class EmpresaComponent implements OnInit {
       };
 
       this.userService.update(this.selectedUser.id, body).subscribe(() => {
-        this.snack.open('Usuário atualizado!', '', { duration: 1500 });
+        this.showSnackbar('Usuário atualizado!', 'success');
         this.gridApi.refreshInfiniteCache();
         this.cancelEdit();
       });
@@ -181,10 +169,27 @@ export class EmpresaComponent implements OnInit {
       };
 
       this.userService.create(body).subscribe(() => {
-        this.snack.open('Usuário criado!', '', { duration: 1500 });
+        this.showSnackbar('Usuário criado!', 'success');
         this.gridApi.refreshInfiniteCache();
         this.cancelEdit();
       });
     }
+  }
+
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snack.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
+    });
   }
 }

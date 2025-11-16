@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-account',
@@ -15,7 +16,8 @@ export class CreateAccountComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -58,14 +60,31 @@ export class CreateAccountComponent implements OnInit {
     this.authService.createAccount(requestData).subscribe({
       next: () => {
         const u = requestData.user;
+
         this.authService.login(u.email, u.password).subscribe({
           next: () => this.router.navigate(['/home']),
         });
       },
       error: () => {
-        alert('Erro ao criar conta. Tente novamente.');
+        this.showSnackbar('Erro ao criar conta. Tente novamente.', 'error');
         this.isLoading = false;
       },
+    });
+  }
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snackBar.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
     });
   }
 

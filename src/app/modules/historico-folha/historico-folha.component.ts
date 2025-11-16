@@ -13,6 +13,7 @@ import {
 } from 'ag-grid-community';
 import { Payroll } from '../calcula-folha/payroll.model';
 import { PayrollService } from '../services/payroll.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-historico-folha',
@@ -82,7 +83,8 @@ export class HistoricoFolhaComponent implements OnInit {
 
   constructor(
     private service: PayrollService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private snack: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -120,7 +122,7 @@ export class HistoricoFolhaComponent implements OnInit {
             params.successCallback(res.content ?? [], this.totalElements);
           },
           error: (err) => {
-            console.error('Erro ao carregar histórico:', err);
+            this.showSnackbar('Erro ao carregar histórico:', 'error');
             params.failCallback();
           },
           complete: () => (this.loading = false),
@@ -151,6 +153,23 @@ export class HistoricoFolhaComponent implements OnInit {
         this.selectedPayroll = res;
         this.cdr.detectChanges();
       },
+    });
+  }
+
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snack.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
     });
   }
 }

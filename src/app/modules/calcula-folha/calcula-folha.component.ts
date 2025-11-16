@@ -189,7 +189,7 @@ export class CalculaFolhaComponent implements OnInit {
     this.service.calculateAll().subscribe({
       next: () => {
         this.showSnackbar(
-          '✅ Todas as folhas recalculadas com sucesso!',
+          'Todas as folhas recalculadas com sucesso!',
           'success'
         );
         this.gridApi.refreshInfiniteCache();

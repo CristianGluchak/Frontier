@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 import { Employee } from '../employee.model';
 import { FuncionarioService } from '../../services/employee.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-detalhes-funcionario',
@@ -20,7 +21,8 @@ export class DetalhesComponent implements OnInit {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private funcionarioService: FuncionarioService
+    private funcionarioService: FuncionarioService,
+    private snack: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -71,7 +73,7 @@ export class DetalhesComponent implements OnInit {
         this.loading = false;
       },
       error: (err) => {
-        console.error('Erro ao carregar funcionário:', err);
+        this.showSnackbar('Erro ao carregar funcionário:', 'error');
         this.loading = false;
       },
     });
@@ -81,6 +83,7 @@ export class DetalhesComponent implements OnInit {
   onSubmit(): void {
     if (this.funcionarioForm.invalid) {
       this.funcionarioForm.markAllAsTouched();
+
       return;
     }
 
@@ -93,11 +96,11 @@ export class DetalhesComponent implements OnInit {
         .updateEmployee(this.employeeId, employeeData)
         .subscribe({
           next: () => {
-            alert('Funcionário atualizado com sucesso!');
+            this.showSnackbar('Funcionário atualizado com sucesso!', 'success');
             this.router.navigate(['/funcionario']);
           },
           error: (err) => {
-            console.error('Erro ao atualizar funcionário:', err);
+            this.showSnackbar('Erro ao atualizar funcionário:', 'error');
             this.loading = false;
           },
         });
@@ -105,14 +108,31 @@ export class DetalhesComponent implements OnInit {
       // 🆕 Cria novo funcionário
       this.funcionarioService.createEmployee(employeeData).subscribe({
         next: () => {
-          alert('Funcionário criado com sucesso!');
+          this.showSnackbar('Funcionário criado com sucesso!', 'success');
           this.router.navigate(['/funcionario']);
         },
         error: (err) => {
-          console.error('Erro ao criar funcionário:', err);
+          this.showSnackbar('Erro ao criar funcionário:', 'error');
           this.loading = false;
         },
       });
     }
+  }
+
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snack.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
+    });
   }
 }
