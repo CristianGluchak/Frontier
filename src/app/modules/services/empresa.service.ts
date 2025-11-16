@@ -19,12 +19,10 @@ export class EmpresaService {
 
   constructor(private http: HttpClient) {}
 
-  /** Busca os dados da empresa */
   getEmpresa(id: string): Observable<Empresa> {
     return this.http.get<Empresa>(`${this.apiUrl}/${id}`);
   }
 
-  /** Atualiza os dados da empresa */
   updateEmpresa(id: string, empresa: Empresa): Observable<Empresa> {
     return this.http.put<Empresa>(`${this.apiUrl}/${id}`, empresa);
   }

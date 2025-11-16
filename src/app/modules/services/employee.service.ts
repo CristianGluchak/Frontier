@@ -10,7 +10,6 @@ export class FuncionarioService {
 
   constructor(private http: HttpClient) {}
 
-  /** 🔹 Busca paginada de funcionários com filtro opcional por nome */
   getEmployees(
     page: number,
     size: number,
@@ -26,7 +25,7 @@ export class FuncionarioService {
 
     return this.http.get<PagedResponse<Employee>>(this.apiUrl, {
       params,
-      withCredentials: true, // ✅ importante se o backend exige credenciais JWT ou cookies
+      withCredentials: true,
     });
   }
 
@@ -34,7 +33,6 @@ export class FuncionarioService {
     return this.http.put<Employee>(`${this.apiUrl}/${id}`, employee);
   }
 
-  /** 🔹 Cria um novo funcionário */
   createEmployee(employee: Employee): Observable<Employee> {
     return this.http.post<Employee>(this.apiUrl, employee);
   }

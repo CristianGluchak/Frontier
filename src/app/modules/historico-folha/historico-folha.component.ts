@@ -21,7 +21,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./historico-folha.component.css'],
 })
 export class HistoricoFolhaComponent implements OnInit {
-  /** 🔹 Colunas principais */
   columnDefs: ColDef[] = [
     { headerName: 'Funcionário', field: 'employeeName', flex: 1 },
     { headerName: 'Referência', field: 'referenceMonth', width: 130 },
@@ -91,7 +90,6 @@ export class HistoricoFolhaComponent implements OnInit {
     this.adjustGridHeight();
   }
 
-  /** 🔹 Ajusta altura responsiva */
   @HostListener('window:resize')
   onResize() {
     this.adjustGridHeight();
@@ -102,13 +100,11 @@ export class HistoricoFolhaComponent implements OnInit {
     this.gridHeight = viewportHeight - 230;
   }
 
-  /** 🔹 Inicializa o grid com datasource */
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.gridApi.setDatasource(this.createDataSource());
   }
 
-  /** 🔹 Cria o datasource paginado com filtro opcional */
   private createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
@@ -131,7 +127,6 @@ export class HistoricoFolhaComponent implements OnInit {
     };
   }
 
-  /** 🔹 Filtro por mês (yyyy-MM) */
   onSearch(month: string): void {
     this.currentMonth = month?.trim() || '';
     if (this.gridApi) {

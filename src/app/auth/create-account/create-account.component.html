@@ -2,9 +2,6 @@
   <div class="form-container" [formGroup]="form">
     <h2>Criar Nova Conta</h2>
 
-    <!-- ========================== -->
-    <!--        DADOS DO USUÁRIO    -->
-    <!-- ========================== -->
     <div class="section" formGroupName="user">
       <h3>Dados do Usuário</h3>
 
@@ -76,9 +73,6 @@
       </div>
     </div>
 
-    <!-- ========================== -->
-    <!--     DADOS DA EMPRESA       -->
-    <!-- ========================== -->
     <div class="section" formGroupName="employer">
       <h3>Dados da Empresa</h3>
 
@@ -177,7 +171,6 @@
       </div>
     </div>
 
-    <!-- BOTÕES -->
     <div class="button-group">
       <button class="back-button" (click)="goBack()" [disabled]="isLoading">
         Voltar

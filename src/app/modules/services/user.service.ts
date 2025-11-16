@@ -11,7 +11,6 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  /** 🔹 Busca paginada de funcionários com filtro opcional por nome */
   list(
     page: number,
     size: number,
@@ -35,7 +34,6 @@ export class UserService {
     return this.http.put<UserUpdate>(`${this.apiUrl}/${id}`, user);
   }
 
-  /** 🔹 Cria um novo funcionário */
   create(user: UserCreate): Observable<UserCreate> {
     return this.http.post<UserCreate>(this.apiUrl, user);
   }

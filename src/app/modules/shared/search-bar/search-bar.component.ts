@@ -23,7 +23,6 @@ interface SearchField {
 export class SearchBarComponent implements OnInit, OnChanges {
   @Input() fields: SearchField[] = [];
 
-  /** 🔹 Valores iniciais vindos do componente pai */
   @Input() initialValues: { [key: string]: string } | null = null;
 
   @Output() search = new EventEmitter<{ [key: string]: string }>();
@@ -37,7 +36,6 @@ export class SearchBarComponent implements OnInit, OnChanges {
     this.applyInitialValues();
   }
 
-  /** 🔹 Detecta mudanças nos valores iniciais (caso venham depois do init) */
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['initialValues'] && this.form) {
       this.applyInitialValues();
@@ -50,12 +48,9 @@ export class SearchBarComponent implements OnInit, OnChanges {
     this.form = this.fb.group(controls);
   }
 
-  /** 🔹 Preenche o form automaticamente com valores iniciais */
   private applyInitialValues() {
     if (this.initialValues) {
       this.form.patchValue(this.initialValues, { emitEvent: false });
-
-      // dispara a busca automática usando os valores iniciais
       this.onSearch();
     }
   }
@@ -63,7 +58,6 @@ export class SearchBarComponent implements OnInit, OnChanges {
   onSearch() {
     const values = this.form.value;
 
-    // 🔹 remove valores vazios
     const filtered = Object.entries(values)
       .filter((entry): entry is [string, string] => {
         return (

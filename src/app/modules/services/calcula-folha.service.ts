@@ -18,7 +18,6 @@ export class CalculaFolhaServiceimplements implements OnInit {
   irrf!: number;
 
   calculateNetSalary() {
-    // Valida se o valor é maior que o salário mínimo ou os dependentes/dedução são negativos
     if (
       this.grossSalaryInput < 1412 ||
       this.dependentsInput < 0 ||
@@ -30,7 +29,6 @@ export class CalculaFolhaServiceimplements implements OnInit {
     this.inss = this.handleInss(this.grossSalaryInput);
     this.baseSalary = this.grossSalaryInput - this.inss;
 
-    // Desconto de 189.59 no salário base para cada dependente
     this.irrf = this.handleIrrf(
       this.baseSalary - this.dependentsInput * 189.59
     );
@@ -41,7 +39,6 @@ export class CalculaFolhaServiceimplements implements OnInit {
   }
 
   private handleIrrf(salary: number) {
-    //valores de 2024
     return (
       Math.round(
         (salary < 1903.99
@@ -58,7 +55,6 @@ export class CalculaFolhaServiceimplements implements OnInit {
   }
 
   private handleInss(salary: number) {
-    //valores de 2024
     return (
       Math.round(
         (salary < 1412.0

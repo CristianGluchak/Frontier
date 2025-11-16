@@ -27,8 +27,6 @@ export class DetalhesComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
-
-    // 🔹 Detecta modo edição ou criação
     this.employeeId = this.route.snapshot.paramMap.get('id') ?? undefined;
     this.isEditMode = !!this.employeeId;
 
@@ -37,7 +35,6 @@ export class DetalhesComponent implements OnInit {
     }
   }
 
-  /** 🔹 Inicializa o formulário vazio */
   private createForm(): void {
     this.funcionarioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
@@ -64,7 +61,6 @@ export class DetalhesComponent implements OnInit {
     });
   }
 
-  /** 🔹 Carrega os dados para edição */
   private loadEmployee(id: string): void {
     this.loading = true;
     this.funcionarioService.getEmployeeById(id).subscribe({
@@ -79,7 +75,6 @@ export class DetalhesComponent implements OnInit {
     });
   }
 
-  /** 🔹 Cria ou atualiza o funcionário */
   onSubmit(): void {
     if (this.funcionarioForm.invalid) {
       this.funcionarioForm.markAllAsTouched();
@@ -91,7 +86,6 @@ export class DetalhesComponent implements OnInit {
     this.loading = true;
 
     if (this.isEditMode && this.employeeId) {
-      // ✏️ Atualiza funcionário
       this.funcionarioService
         .updateEmployee(this.employeeId, employeeData)
         .subscribe({
@@ -105,7 +99,6 @@ export class DetalhesComponent implements OnInit {
           },
         });
     } else {
-      // 🆕 Cria novo funcionário
       this.funcionarioService.createEmployee(employeeData).subscribe({
         next: () => {
           this.showSnackbar('Funcionário criado com sucesso!', 'success');

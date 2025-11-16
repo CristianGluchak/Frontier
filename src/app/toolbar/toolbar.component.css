@@ -1,46 +1,46 @@
 #toolbar {
-  height: 100vh; /* Usa 100% da altura da tela */
-  width: 60px; /* Reduzi um pouco a largura para um design mais moderno */
+  height: 100vh;
+  width: 60px;
   position: fixed;
-  top: 0; /* Agora a barra começa no topo */
+  top: 0;
   left: 0;
   background-color: #009bff;
   padding: 15px 10px;
-  border-radius: 0 10px 10px 0; /* Arredondado apenas no lado direito */
+  border-radius: 0 10px 10px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between; /* Distribui o espaço entre início e fim */
+  justify-content: space-between;
 }
 
 .toolbar-left {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 15px; /* Espaçamento entre os botões do topo */
+  gap: 15px;
 }
 
 .toolbar-right {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 15px; /* Espaço do fundo */
+  margin-bottom: 15px;
 }
 
 .material-symbols-outlined {
-  font-size: 40px; /* Reduzi o tamanho para melhor proporção */
-  color: white; /* Melhor contraste */
+  font-size: 40px;
+  color: white;
 }
 
 .buttonToolBar {
-  background-color: transparent; /* Remove cor desnecessária */
+  background-color: transparent;
   border: none;
   cursor: pointer;
   padding: 10px;
   transition: background 0.3s ease;
-  border-radius: 50%; /* Mantém o botão arredondado */
+  border-radius: 50%;
 }
 
 .buttonToolBar:hover {
-  background-color: rgba(255, 255, 255, 0.2); /* Efeito hover mais sutil */
+  background-color: rgba(255, 255, 255, 0.2);
 }

@@ -70,7 +70,6 @@ export class CalculaFolhaComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  // 🔹 Obtém mês atual (yyyy-MM)
   private getCurrentYearMonth(): string {
     const now = new Date();
     const year = now.getFullYear();
@@ -80,8 +79,6 @@ export class CalculaFolhaComponent implements OnInit {
 
   ngOnInit(): void {
     this.adjustGridHeight();
-
-    // 🔹 Se não houver parâmetro, sempre inicia no mês atual
     this.currentMonth = this.currentSystemMonth;
   }
 
@@ -97,8 +94,6 @@ export class CalculaFolhaComponent implements OnInit {
 
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
-
-    // 🔹 seta o datasource usando o mês inicial
     this.gridApi.setDatasource(this.createDataSource());
   }
 
@@ -119,9 +114,7 @@ export class CalculaFolhaComponent implements OnInit {
     };
   }
 
-  /** 🔍 Filtro por mês (yyyy-MM) */
   onSearch(month: string): void {
-    // 🔹 se vazio → mantém mês atual
     this.currentMonth = month?.trim() || this.currentSystemMonth;
 
     if (this.gridApi) {
@@ -149,7 +142,7 @@ export class CalculaFolhaComponent implements OnInit {
   recalculatePayroll(employeeID: string, id: string): void {
     if (!this.canRecalculateSelected()) {
       this.showSnackbar(
-        '⚠️ Ainda não é possível recalcular folhas retroativas.',
+        'Ainda não é possível recalcular folhas retroativas.',
         'info'
       );
       return;
@@ -161,11 +154,10 @@ export class CalculaFolhaComponent implements OnInit {
         this.service.getPayrollById(id).subscribe({
           next: (res) => {
             this.selectedPayroll = res;
-            this.showSnackbar('✅ Folha recalculada com sucesso!', 'success');
+            this.showSnackbar('Folha recalculada com sucesso!', 'success');
             this.gridApi.refreshInfiniteCache();
           },
-          error: () =>
-            this.showSnackbar('⚠️ Erro ao atualizar folha.', 'error'),
+          error: () => this.showSnackbar('Erro ao atualizar folha.', 'error'),
           complete: () => (this.loading = false),
         });
       },
@@ -179,7 +171,7 @@ export class CalculaFolhaComponent implements OnInit {
   calculateAll(): void {
     if (!this.isCurrentMonth()) {
       this.showSnackbar(
-        '⚠️ Ainda não é possível calcular folhas retroativas.',
+        'Ainda não é possível calcular folhas retroativas.',
         'info'
       );
       return;
@@ -218,12 +210,10 @@ export class CalculaFolhaComponent implements OnInit {
     });
   }
 
-  /** 🔹 Só deixa calcular no mês atual */
   isCurrentMonth(): boolean {
     return this.currentMonth === this.currentSystemMonth;
   }
 
-  /** 🔹 Só deixa recalcular se o item selecionado for do mês atual */
   canRecalculateSelected(): boolean {
     return this.selectedPayroll?.referenceMonth === this.currentSystemMonth;
   }

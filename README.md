@@ -1,8 +1,8 @@
-# Frontier 🚀
+# Frontier
 
 Sistema simples e moderno para gestão de RH desenvolvido em Angular 15.
 
-## 🏃‍♂️ Como rodar
+## Como rodar
 
 **Pré-requisitos:** Node.js 16+ e Angular CLI
 
@@ -20,22 +20,22 @@ ng serve
 
 3. **Acesse:** http://localhost:4200
 
-## 📋 Funcionalidades
+## Funcionalidades
 
-- 🔐 **Autenticação** - Login seguro e criação de contas
-- 👥 **Funcionários** - Cadastro, listagem e busca de funcionários
-- 🏢 **Empresas** - Gestão de dados corporativos
-- 💰 **Folha de Pagamento** - Cálculo automático de salários
-- 📊 **Histórico** - Consulta de folhas anteriores
+- **Autenticação** - Login seguro e criação de contas
+- **Funcionários** - Cadastro, listagem e busca de funcionários
+- **Empresas** - Gestão de dados corporativos
+- **Folha de Pagamento** - Cálculo automático de salários
+- **Histórico** - Consulta de folhas anteriores
 
-## 🛠️ Stack
+## Stack
 
 - **Frontend:** Angular 15 + TypeScript
 - **UI:** Angular Material + AG-Grid
 - **Navegação:** Sidebar com ícones Material Design
 - **Tabelas:** AG-Grid com paginação e filtros
 
-## 📁 Estrutura
+## Estrutura
 
 ```
 src/app/

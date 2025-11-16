@@ -22,14 +22,12 @@ export class CnpjMaskDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Formata se já houver valor (ex: patchValue ao abrir a tela)
     const ctrl = this.ngControl.control;
     if (ctrl) {
       this.applyMaskToView(String(ctrl.value || ''));
 
-      // Mantém a view formatada quando o model mudar por código
       this.sub = ctrl.valueChanges.subscribe((v) => {
-        if (this.updatingView) return; // evita loop
+        if (this.updatingView) return;
         this.applyMaskToView(String(v ?? ''));
       });
     }
@@ -42,15 +40,13 @@ export class CnpjMaskDirective implements OnInit {
   @HostListener('input', ['$event'])
   onInput(ev: Event): void {
     const raw = (ev.target as HTMLInputElement).value || '';
-    const digits = raw.replace(/\D/g, '').slice(0, 14); // só números (máx. 14)
+    const digits = raw.replace(/\D/g, '').slice(0, 14);
     const formatted = this.format(digits);
 
-    // 1) Atualiza a VIEW (input) com a máscara
     this.updatingView = true;
     this.rd.setProperty(this.el.nativeElement, 'value', formatted);
     this.updatingView = false;
 
-    // 2) Mantém no FormControl apenas os dígitos
     this.ngControl.control?.setValue(digits, { emitEvent: false });
   }
 

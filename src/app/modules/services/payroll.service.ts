@@ -10,7 +10,6 @@ export class PayrollService {
 
   constructor(private http: HttpClient) {}
 
-  /** 🔹 Busca paginada de folhas de pagamento */
   getPayrolls(
     page: number,
     size: number,
@@ -29,7 +28,6 @@ export class PayrollService {
     });
   }
 
-  /** 🔹 Busca uma folha específica */
   getPayrollById(id: string): Observable<Payroll> {
     return this.http.get<Payroll>(`${this.apiUrl}/${id}`);
   }

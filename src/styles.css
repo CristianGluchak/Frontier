@@ -1,9 +1,8 @@
-/* 🩵 Corrige posição e cliques dos overlays (dialogs, menus, tooltips, etc.) */
 .cdk-overlay-container {
   position: fixed !important;
   inset: 0 !important;
   z-index: 2000 !important;
-  pointer-events: none; /* impede o container de capturar cliques */
+  pointer-events: none;
 }
 
 .cdk-overlay-pane {
@@ -12,24 +11,17 @@
   left: 40% !important;
 
   z-index: 2100 !important;
-  pointer-events: all; /* permite interação dentro do modal */
+  pointer-events: all;
 }
 
-/* 🔹 Fundo do diálogo (escurecido atrás do modal) */
 .cdk-overlay-backdrop {
   position: fixed !important;
   inset: 0 !important;
-  background-color: rgba(
-    0,
-    0,
-    0,
-    0.45
-  ) !important; /* fundo semi-transparente */
+  background-color: rgba(0, 0, 0, 0.45) !important;
   z-index: 2000 !important;
-  pointer-events: all; /* permite clique no backdrop pra fechar */
+  pointer-events: all;
 }
 
-/* 🔹 Garante que o resto do app fique abaixo dos modais */
 #conteudo-principal {
   position: relative;
   z-index: 1;
@@ -41,7 +33,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: transparent;
-  overflow: hidden; /* impede rolagem e flicker */
+  overflow: hidden;
 }
 
 app-login,
