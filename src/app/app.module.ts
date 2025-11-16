@@ -9,12 +9,6 @@ import { AuthModule } from './auth/auth.module';
 import { AuthService } from './auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { ValidarCpfService } from './modules/services/validar-cpf.service';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { environment } from 'src/environments/environment.development';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -37,10 +31,6 @@ import { MatDialogModule } from '@angular/material/dialog';
     BrowserModule,
     ModulesModule,
     AuthModule,
-    AngularFireDatabaseModule,
-    AngularFireStorageModule,
-    AngularFirestoreModule,
-    AngularFireAuthModule,
   ],
   providers: [
     AuthService,
