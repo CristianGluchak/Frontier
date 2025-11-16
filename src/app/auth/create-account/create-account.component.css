@@ -56,3 +56,12 @@
   background-color: #007bff;
   color: white;
 }
+.error {
+  color: #d32f2f;
+  font-size: 0.78rem;
+  margin-top: 4px;
+}
+
+.form-input.ng-invalid.ng-touched {
+  border: 1px solid #d32f2f;
+}

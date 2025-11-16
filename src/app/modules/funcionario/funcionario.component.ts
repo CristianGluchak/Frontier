@@ -75,13 +75,11 @@ export class FuncionarioComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  /** 🔹 Quando o grid estiver pronto */
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.gridApi.setDatasource(this.createDataSource());
   }
 
-  /** 🔹 Cria o datasource para busca paginada e com filtro */
   private createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
@@ -107,19 +105,13 @@ export class FuncionarioComponent implements OnInit {
     };
   }
 
-  /** 🔹 Atualiza o filtro de nome e recarrega o grid */
   onSearch(name: string): void {
     this.currentSearch = name?.trim() || '';
 
     if (this.gridApi) {
-      // 🔄 limpa o cache e força o grid a refazer a chamada ao backend
       this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
     }
-  }
-
-  onRowClicked(event: any): void {
-    console.log('Linha clicada:', event.data);
   }
 
   goToDetalhes(id: string): void {

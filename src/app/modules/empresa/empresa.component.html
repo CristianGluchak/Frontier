@@ -1,7 +1,4 @@
 <div class="empresa-container">
-  <!-- -------------------------------------- -->
-  <!--   CARD DE IDENTIFICAÇÃO DA EMPRESA     -->
-  <!-- -------------------------------------- -->
   <mat-card class="section-card">
     <div class="card-header">
       <h3>Identificação</h3>
@@ -19,37 +16,50 @@
     <mat-card-content>
       <form [formGroup]="empresaForm">
         <div class="form-grid">
-          <!-- Razão social -->
           <mat-form-field appearance="outline">
             <mat-label>Razão Social</mat-label>
             <input matInput formControlName="razaoSocial" />
+            <mat-error
+              *ngIf="empresaForm.get('razaoSocial')?.hasError('required')"
+            >
+              Campo obrigatório.
+            </mat-error>
           </mat-form-field>
 
-          <!-- Nome fantasia -->
-          <mat-form-field appearance="outline" class="full-field">
+          <mat-form-field appearance="outline">
             <mat-label>Nome Fantasia</mat-label>
             <input matInput formControlName="nomeFantasia" />
+            <mat-error
+              *ngIf="empresaForm.get('nomeFantasia')?.hasError('required')"
+            >
+              Campo obrigatório.
+            </mat-error>
           </mat-form-field>
 
-          <!-- CNPJ -->
           <mat-form-field appearance="outline">
             <mat-label>CNPJ</mat-label>
             <input matInput cnpjMask maxlength="18" formControlName="cnpj" />
+            <mat-error *ngIf="empresaForm.get('cnpj')?.hasError('required')">
+              Campo obrigatório.
+            </mat-error>
           </mat-form-field>
 
-          <!-- Email -->
-          <mat-form-field appearance="outline" class="full-field">
+          <mat-form-field appearance="outline">
             <mat-label>E-mail</mat-label>
             <input matInput type="email" formControlName="email" />
+            <mat-error *ngIf="empresaForm.get('email')?.hasError('required')">
+              Campo obrigatório.
+            </mat-error>
+            <mat-error *ngIf="empresaForm.get('email')?.hasError('email')">
+              E-mail inválido.
+            </mat-error>
           </mat-form-field>
         </div>
       </form>
     </mat-card-content>
   </mat-card>
-  <!-- ----------------------------------------------------- -->
-  <!--  AG-GRID + FORM DE USUÁRIO (CRIAR/EDITAR)            -->
-  <!-- ----------------------------------------------------- -->
 
+  <!-- USUÁRIOS -->
   <mat-card class="section-card">
     <div class="card-section-title-VinculatedUsers">
       <h3>Usuários Vinculados</h3>
@@ -78,16 +88,26 @@
 
       <div class="user-detail-card">
         <h4>{{ selectedUser ? "Editar Usuário" : "Novo Usuário" }}</h4>
+
         <form [formGroup]="usuarioForm">
           <div class="user-form-grid">
             <mat-form-field appearance="outline">
               <mat-label>Nome</mat-label>
               <input matInput formControlName="name" />
+              <mat-error *ngIf="usuarioForm.get('name')?.hasError('required')">
+                Campo obrigatório.
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
               <mat-label>Email</mat-label>
               <input matInput formControlName="email" />
+              <mat-error *ngIf="usuarioForm.get('email')?.hasError('required')">
+                Campo obrigatório.
+              </mat-error>
+              <mat-error *ngIf="usuarioForm.get('email')?.hasError('email')">
+                E-mail inválido.
+              </mat-error>
             </mat-form-field>
 
             <mat-form-field appearance="outline" *ngIf="!selectedUser">

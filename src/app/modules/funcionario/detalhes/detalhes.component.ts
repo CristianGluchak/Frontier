@@ -39,15 +39,15 @@ export class DetalhesComponent implements OnInit {
   private createForm(): void {
     this.funcionarioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(4)]],
-      cpf: ['', [Validators.required]],
+      cpf: ['', Validators.required],
       position: ['', [Validators.required, Validators.minLength(3)]],
       hours: ['', [Validators.required, Validators.min(1)]],
       salary: ['', [Validators.required, Validators.min(1)]],
       status: ['ATIVO', Validators.required],
       inactivationDate: [''],
       birthDate: [''],
-      gender: [''],
-      civilState: [''],
+      gender: ['', Validators.required],
+      civilState: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       phone: [''],
       nationality: [''],

@@ -10,30 +10,65 @@
           <mat-form-field appearance="outline">
             <mat-label>Nome Completo</mat-label>
             <input matInput formControlName="name" />
+            <mat-error
+              *ngIf="funcionarioForm.get('name')?.hasError('required')"
+            >
+              Campo obrigatório.
+            </mat-error>
+            <mat-error
+              *ngIf="funcionarioForm.get('name')?.hasError('minlength')"
+            >
+              Mínimo 4 caracteres.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>CPF</mat-label>
-            <input
-              matInput
-              formControlName="cpf"
-              placeholder="000.000.000-00"
-            />
+            <input matInput formControlName="cpf" />
+            <mat-error *ngIf="funcionarioForm.get('cpf')?.hasError('required')">
+              CPF é obrigatório.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Cargo</mat-label>
             <input matInput formControlName="position" />
+            <mat-error
+              *ngIf="funcionarioForm.get('position')?.hasError('required')"
+            >
+              Campo obrigatório.
+            </mat-error>
+            <mat-error
+              *ngIf="funcionarioForm.get('position')?.hasError('minlength')"
+            >
+              Mínimo 3 caracteres.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Horas Semanais</mat-label>
             <input matInput type="number" formControlName="hours" />
+            <mat-error
+              *ngIf="funcionarioForm.get('hours')?.hasError('required')"
+            >
+              Preencha as horas.
+            </mat-error>
+            <mat-error *ngIf="funcionarioForm.get('hours')?.hasError('min')">
+              Valor mínimo é 1 hora.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Salário</mat-label>
             <input matInput type="number" formControlName="salary" />
+            <mat-error
+              *ngIf="funcionarioForm.get('salary')?.hasError('required')"
+            >
+              Preencha o salário.
+            </mat-error>
+            <mat-error *ngIf="funcionarioForm.get('salary')?.hasError('min')">
+              Salário deve ser maior que 0.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -72,6 +107,14 @@
           <mat-form-field appearance="outline">
             <mat-label>Email</mat-label>
             <input matInput formControlName="email" />
+            <mat-error
+              *ngIf="funcionarioForm.get('email')?.hasError('required')"
+            >
+              Campo obrigatório.
+            </mat-error>
+            <mat-error *ngIf="funcionarioForm.get('email')?.hasError('email')">
+              E-mail inválido.
+            </mat-error>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -83,15 +126,16 @@
         <div class="dados-pessoais-toggles">
           <div class="radio-group-section">
             <label class="radio-label">Gênero:</label>
-            <mat-radio-group formControlName="gender" class="radio-group">
+            <mat-radio-group formControlName="gender">
               <mat-radio-button value="MASCULINO">Masculino</mat-radio-button>
               <mat-radio-button value="FEMININO">Feminino</mat-radio-button>
+              <mat-radio-button value="OUTRO">Outros</mat-radio-button>
             </mat-radio-group>
           </div>
 
           <div class="radio-group-section">
             <label class="radio-label">Estado Civil:</label>
-            <mat-radio-group formControlName="civilState" class="radio-group">
+            <mat-radio-group formControlName="civilState">
               <mat-radio-button value="SOLTEIRO">Solteiro(a)</mat-radio-button>
               <mat-radio-button value="CASADO">Casado(a)</mat-radio-button>
               <mat-radio-button value="DIVORCIADO"
@@ -137,7 +181,7 @@
 
         <mat-form-field appearance="outline">
           <mat-label>CEP</mat-label>
-          <input matInput formControlName="cep" placeholder="00000-000" />
+          <input matInput formControlName="cep" />
         </mat-form-field>
       </div>
     </mat-card>
