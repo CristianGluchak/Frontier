@@ -1,8 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { EmpresaService, Empresa } from '../services/empresa.service';
+import {
+  GridApi,
+  GridReadyEvent,
+  ColDef,
+  IDatasource,
+  IGetRowsParams,
+} from 'ag-grid-community';
+import { EmpresaService } from '../services/empresa.service';
+import { UserService } from '../services/user.service';
+import { UserCreate, UserUpdate } from './user.model';
 
 @Component({
   selector: 'app-empresa',
@@ -11,98 +19,177 @@ import { EmpresaService, Empresa } from '../services/empresa.service';
 })
 export class EmpresaComponent implements OnInit {
   empresaForm!: FormGroup;
-  usuarios = new MatTableDataSource<any>([]);
-  displayedColumns = ['nome', 'email', 'acoes'];
-  employerId =
-    localStorage.getItem('employerId') == null
-      ? ''
-      : localStorage.getItem('employerId')!;
+  gridApi!: GridApi;
+  selectedUser: any = null;
+
+  usuarioForm = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    status: ['ATIVO', Validators.required],
+  });
+
+  pageSize = 5;
+  filterName = '';
+
+  columnDefs: ColDef[] = [
+    { headerName: 'Nome', field: 'name', flex: 1 },
+    {
+      headerName: 'Status',
+      field: 'status',
+      width: 150,
+      cellRenderer: (p: any) =>
+        `<span class="status ${p.value === 'ATIVO' ? 'ativo' : 'inativo'}">${
+          p.value
+        }</span>`,
+    },
+  ];
 
   constructor(
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-    private empresaService: EmpresaService
+    private snack: MatSnackBar,
+    private empresaService: EmpresaService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.empresaForm = this.fb.group({
       razaoSocial: ['', Validators.required],
       nomeFantasia: ['', Validators.required],
-      cnpj: ['', [Validators.required, Validators.pattern(/^\d{14}$/)]],
+      cnpj: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
 
     this.loadEmpresa();
   }
 
-  /** 🔹 Carrega dados da empresa do endpoint */
-  loadEmpresa(): void {
-    this.empresaService.getEmpresa(this.employerId).subscribe({
-      next: (empresa: Empresa) => {
-        this.empresaForm.patchValue(empresa);
-      },
-      error: (err) => {
-        console.error('Erro ao buscar empresa:', err);
-        this.snackBar.open('Erro ao carregar dados da empresa.', 'Fechar', {
-          duration: 3000,
-          panelClass: ['error-snackbar'],
-        });
-      },
+  loadEmpresa() {
+    const employerId = localStorage.getItem('employerId') ?? '';
+
+    this.empresaService.getEmpresa(employerId).subscribe({
+      next: (empresa) => this.empresaForm.patchValue(empresa),
+      error: () => this.showSnackbar('Erro ao carregar empresa', 'error'),
     });
   }
 
-  /** 🔹 Atualiza os dados da empresa */
-  send(): void {
-    if (this.empresaForm.valid) {
-      const empresa: Empresa = this.empresaForm.value;
-      this.empresaService.updateEmpresa(this.employerId, empresa).subscribe({
-        next: () => {
-          this.snackBar.open('Empresa salva com sucesso!', 'OK', {
-            duration: 2000,
-            panelClass: ['success-snackbar'],
-          });
-        },
-        error: (err) => {
-          console.error('Erro ao salvar empresa:', err);
-          this.snackBar.open('Erro ao salvar empresa.', 'Fechar', {
-            duration: 2000,
-            panelClass: ['error-snackbar'],
-          });
-        },
+  send() {
+    if (this.empresaForm.invalid) {
+      this.showSnackbar('Preencha os campos obrigatórios.', 'info');
+      return;
+    }
+
+    const employerId = localStorage.getItem('employerId') ?? '';
+    this.empresaService
+      .updateEmpresa(employerId, this.empresaForm.value)
+      .subscribe({
+        next: () =>
+          this.showSnackbar('Empresa editada com sucesso!', 'success'),
+      });
+  }
+
+  onGridReady(event: GridReadyEvent) {
+    this.gridApi = event.api;
+    this.gridApi.setDatasource(this.createDatasource());
+  }
+
+  createDatasource(): IDatasource {
+    return {
+      getRows: (params: IGetRowsParams) => {
+        const page = params.startRow / this.pageSize;
+
+        this.userService.list(page, this.pageSize, this.filterName).subscribe({
+          next: (res) => params.successCallback(res.content, res.totalElements),
+          error: () => params.failCallback(),
+        });
+      },
+    };
+  }
+
+  onSearch(event: any) {
+    this.filterName = event.name ?? '';
+    this.gridApi.purgeInfiniteCache();
+  }
+
+  onRowClicked(event: any) {
+    const id = event.data.id;
+
+    this.userService.getByID(id).subscribe({
+      next: (user) => {
+        this.selectedUser = user;
+        this.usuarioForm.patchValue({
+          name: user.name,
+          email: user.email,
+          status: user.status,
+          password: '',
+        });
+
+        this.usuarioForm.get('password')?.clearValidators();
+        this.usuarioForm.get('password')?.updateValueAndValidity();
+      },
+      error: () => this.showSnackbar('Erro ao carregar usuário', 'error'),
+    });
+  }
+
+  cancelEdit() {
+    this.selectedUser = null;
+
+    this.usuarioForm.reset({ status: 'ATIVO' });
+
+    this.usuarioForm
+      .get('password')
+      ?.setValidators([Validators.required, Validators.minLength(6)]);
+
+    this.usuarioForm.get('password')?.updateValueAndValidity();
+  }
+
+  saveUsuario() {
+    if (this.usuarioForm.invalid) {
+      this.showSnackbar('Preencha os campos corretamente.', 'info');
+      return;
+    }
+
+    if (this.selectedUser) {
+      const body: UserUpdate = {
+        name: this.usuarioForm.value.name!,
+        email: this.usuarioForm.value.email!,
+        password: this.usuarioForm.value.password!,
+        status: this.usuarioForm.value.status!,
+      };
+
+      this.userService.update(this.selectedUser.id, body).subscribe(() => {
+        this.showSnackbar('Usuário atualizado!', 'success');
+        this.gridApi.refreshInfiniteCache();
+        this.cancelEdit();
       });
     } else {
-      this.empresaForm.markAllAsTouched();
-      this.snackBar.open('Preencha os campos obrigatórios.', 'Fechar', {
-        duration: 2000,
-        panelClass: ['error-snackbar'],
+      const body: UserCreate = {
+        name: this.usuarioForm.value.name!,
+        email: this.usuarioForm.value.email!,
+        password: this.usuarioForm.value.password!,
+      };
+
+      this.userService.create(body).subscribe(() => {
+        this.showSnackbar('Usuário criado!', 'success');
+        this.gridApi.refreshInfiniteCache();
+        this.cancelEdit();
       });
     }
   }
 
-  /** ✅ Mock de adição de usuário */
-  addUsuario(): void {
-    const novo = {
-      id: Date.now(),
-      nome: 'Novo Usuário ' + (this.usuarios.data.length + 1),
-      email: 'novo' + (this.usuarios.data.length + 1) + '@mail.com',
-    };
-    this.usuarios.data = [...this.usuarios.data, novo];
-    this.snackBar.open('Usuário adicionado!', '', { duration: 1500 });
-  }
-
-  /** ✅ Mock de edição */
-  editUsuario(usuario: any): void {
-    const nomeAntigo = usuario.nome;
-    usuario.nome = usuario.nome + ' (Editado)';
-    this.usuarios.data = [...this.usuarios.data];
-    this.snackBar.open(`Usuário "${nomeAntigo}" editado!`, '', {
-      duration: 1500,
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snack.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
     });
-  }
-
-  /** ✅ Mock de exclusão */
-  removeUsuario(id: number): void {
-    this.usuarios.data = this.usuarios.data.filter((u) => u.id !== id);
-    this.snackBar.open('Usuário removido.', '', { duration: 1500 });
   }
 }

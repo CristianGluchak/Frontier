@@ -151,18 +151,3 @@ button[disabled] {
   opacity: 0.6;
   cursor: not-allowed;
 }
-
-.snackbar-info {
-  background-color: #1976d2;
-  color: #fff;
-}
-
-.snackbar-success {
-  background-color: #2e7d32;
-  color: #fff;
-}
-
-.snackbar-error {
-  background-color: #c62828;
-  color: #fff;
-}

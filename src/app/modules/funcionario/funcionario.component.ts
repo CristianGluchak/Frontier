@@ -9,6 +9,7 @@ import {
 import { Router } from '@angular/router';
 import { Employee } from './employee.model';
 import { FuncionarioService } from '../services/employee.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-funcionario',
@@ -70,18 +71,17 @@ export class FuncionarioComponent implements OnInit {
 
   constructor(
     private funcionarioService: FuncionarioService,
-    private router: Router
+    private router: Router,
+    private snack: MatSnackBar
   ) {}
 
   ngOnInit(): void {}
 
-  /** 🔹 Quando o grid estiver pronto */
   onGridReady(event: GridReadyEvent): void {
     this.gridApi = event.api;
     this.gridApi.setDatasource(this.createDataSource());
   }
 
-  /** 🔹 Cria o datasource para busca paginada e com filtro */
   private createDataSource(): IDatasource {
     return {
       getRows: (params: IGetRowsParams) => {
@@ -98,7 +98,7 @@ export class FuncionarioComponent implements OnInit {
               params.successCallback(res.content ?? [], this.totalElements);
             },
             error: (err) => {
-              console.error('Erro ao carregar funcionários:', err);
+              this.showSnackbar('Erro ao carregar funcionários:', 'error');
               params.failCallback();
             },
             complete: () => (this.loading = false),
@@ -107,19 +107,13 @@ export class FuncionarioComponent implements OnInit {
     };
   }
 
-  /** 🔹 Atualiza o filtro de nome e recarrega o grid */
   onSearch(name: string): void {
     this.currentSearch = name?.trim() || '';
 
     if (this.gridApi) {
-      // 🔄 limpa o cache e força o grid a refazer a chamada ao backend
       this.gridApi.purgeInfiniteCache();
       this.gridApi.paginationGoToFirstPage();
     }
-  }
-
-  onRowClicked(event: any): void {
-    console.log('Linha clicada:', event.data);
   }
 
   goToDetalhes(id: string): void {
@@ -128,5 +122,22 @@ export class FuncionarioComponent implements OnInit {
 
   goToNew(): void {
     this.router.navigate(['/funcionario/new']);
+  }
+
+  private showSnackbar(
+    message: string,
+    type: 'info' | 'error' | 'success' = 'info'
+  ): void {
+    this.snack.open(message, 'Fechar', {
+      duration: 3500,
+      horizontalPosition: 'center',
+      verticalPosition: 'top',
+      panelClass:
+        type === 'error'
+          ? 'snackbar-error'
+          : type === 'success'
+          ? 'snackbar-success'
+          : 'snackbar-info',
+    });
   }
 }
