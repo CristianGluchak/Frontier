@@ -32,7 +32,7 @@ export class EmpresaComponent implements OnInit {
 
   displayedColumns = ['name', 'status', 'actions'];
 
-  pageSize = 7;
+  pageSize = 5;
   totalElements = 0;
   filterName = '';
 
@@ -139,12 +139,28 @@ export class EmpresaComponent implements OnInit {
   /** ---- AÇÕES ---- */
   editUsuario(usuario: any) {
     this.selectedUser = usuario;
-    this.usuarioForm.patchValue(usuario);
+    this.usuarioForm.patchValue({
+      name: usuario.name,
+      email: usuario.email,
+      status: usuario.status,
+      password: '', // sempre vazio ao editar
+    });
+
+    // 👉 Remove obrigatoriedade da senha ao editar
+    this.usuarioForm.get('password')?.clearValidators();
+    this.usuarioForm.get('password')?.updateValueAndValidity();
   }
 
   cancelEdit() {
     this.selectedUser = null;
     this.usuarioForm.reset({ status: 'ATIVO' });
+
+    // 👉 Agora senha é obrigatória novamente
+    this.usuarioForm
+      .get('password')
+      ?.setValidators([Validators.required, Validators.minLength(6)]);
+
+    this.usuarioForm.get('password')?.updateValueAndValidity();
   }
 
   saveUsuario() {
@@ -181,5 +197,22 @@ export class EmpresaComponent implements OnInit {
         this.cancelEdit();
       });
     }
+  }
+
+  onRowClicked(event: any) {
+    const userId = event.data.id;
+
+    this.userService.getByID(userId).subscribe({
+      next: (user) => {
+        this.selectedUser = user;
+        this.usuarioForm.patchValue(user);
+      },
+      error: () => {
+        this.snack.open('Erro ao carregar dados do usuário', 'Fechar', {
+          duration: 2000,
+          panelClass: ['error-snackbar'],
+        });
+      },
+    });
   }
 }

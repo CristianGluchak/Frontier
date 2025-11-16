@@ -72,15 +72,14 @@
           [pagination]="true"
           [paginationPageSize]="pageSize"
           (gridReady)="onGridReady($event)"
+          (rowClicked)="onRowClicked($event)"
         ></ag-grid-angular>
       </div>
 
-      <div class="card-section-title-VinculatedUsers">
+      <div class="user-detail-card">
         <h4>{{ selectedUser ? "Editar Usuário" : "Novo Usuário" }}</h4>
-      </div>
-      <form [formGroup]="usuarioForm">
-        <div class="user-form-grid">
-          <div>
+        <form [formGroup]="usuarioForm">
+          <div class="user-form-grid">
             <mat-form-field appearance="outline">
               <mat-label>Nome</mat-label>
               <input matInput formControlName="name" />
@@ -91,45 +90,55 @@
               <input matInput formControlName="email" />
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" *ngIf="!selectedUser">
               <mat-label>Senha</mat-label>
-              <input matInput formControlName="password" />
+              <input matInput formControlName="password" type="password" />
+              <mat-error
+                *ngIf="usuarioForm.get('password')?.hasError('required')"
+              >
+                Senha é obrigatória.
+              </mat-error>
+              <mat-error
+                *ngIf="usuarioForm.get('password')?.hasError('minlength')"
+              >
+                Mínimo 6 caracteres.
+              </mat-error>
             </mat-form-field>
           </div>
+
           <div class="radio-group-section">
             <div>
-              <label class="radio-label">Status:</label>
-              <mat-radio-group formControlName="status" class="radio-group">
+              <label class="radio-label">Status</label>
+              <mat-radio-group formControlName="status">
                 <mat-radio-button value="ATIVO">Ativo</mat-radio-button>
                 <mat-radio-button value="INATIVO">Inativo</mat-radio-button>
               </mat-radio-group>
             </div>
-            <div>
+
+            <div style="display: flex; gap: 10px">
               <button
                 class="save-button"
                 mat-flat-button
                 color="primary"
                 (click)="saveUsuario()"
               >
-                <span *ngIf="selectedUser" class="material-symbols-outlined">
-                  edit
-                </span>
-                <span *ngIf="!selectedUser" class="material-symbols-outlined">
-                  check
+                <span class="material-symbols-outlined">
+                  {{ selectedUser ? "edit" : "check" }}
                 </span>
               </button>
+
               <button
-                mat-stroked-button
-                class="cancel-button"
                 *ngIf="selectedUser"
+                class="cancel-button"
+                mat-stroked-button
                 (click)="cancelEdit()"
               >
                 <span class="material-symbols-outlined"> close </span>
               </button>
             </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>
