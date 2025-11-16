@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Employee, PagedResponse } from '../funcionario/employee.model';
 import { environment } from 'src/environments/environment';
-import { User } from '../empresa/employer.model';
+import { User, UserCreate, UserUpdate } from '../empresa/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -12,7 +12,7 @@ export class UserService {
   constructor(private http: HttpClient) {}
 
   /** 🔹 Busca paginada de funcionários com filtro opcional por nome */
-  listUsuarios(
+  list(
     page: number,
     size: number,
     nameFilter?: string
@@ -31,16 +31,16 @@ export class UserService {
     });
   }
 
-  updateEmployee(id: string, user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${id}`, user);
+  update(id: string, user: UserUpdate): Observable<UserUpdate> {
+    return this.http.put<UserUpdate>(`${this.apiUrl}/${id}`, user);
   }
 
   /** 🔹 Cria um novo funcionário */
-  createEmployee(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+  create(user: UserCreate): Observable<UserCreate> {
+    return this.http.post<UserCreate>(this.apiUrl, user);
   }
 
-  getEmployeeById(id: string): Observable<User> {
+  getByID(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
 }

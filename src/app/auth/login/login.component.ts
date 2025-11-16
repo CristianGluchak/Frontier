@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
-import { Usuario } from './usuario';
+import { LoginUser } from './usuario';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  public usuario: Usuario = new Usuario();
+  public usuario: LoginUser = new LoginUser();
 
   constructor(private authService: AuthService, private router: Router) {}
 

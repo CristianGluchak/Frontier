@@ -10,6 +10,7 @@ import {
 } from 'ag-grid-community';
 import { EmpresaService, Empresa } from '../services/empresa.service';
 import { UserService } from '../services/user.service';
+import { UserCreate, UserUpdate } from './user.model';
 
 @Component({
   selector: 'app-empresa',
@@ -20,9 +21,18 @@ export class EmpresaComponent implements OnInit {
   empresaForm!: FormGroup;
   gridApi!: GridApi;
 
+  selectedUser: any = null;
+
+  usuarioForm = this.fb.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', Validators.required],
+    status: ['ATIVO', Validators.required],
+  });
+
   displayedColumns = ['name', 'status', 'actions'];
 
-  pageSize = 15;
+  pageSize = 7;
   totalElements = 0;
   filterName = '';
 
@@ -41,22 +51,6 @@ export class EmpresaComponent implements OnInit {
         `<span class="status ${p.value === 'ATIVO' ? 'ativo' : 'inativo'}">
           ${p.value}
         </span>`,
-    },
-    {
-      headerName: 'Ações',
-      width: 130,
-      cellRenderer: () => `
-        <button class="grid-btn edit-btn">✏️</button>
-        <button class="grid-btn delete-btn">🗑️</button>
-      `,
-      onCellClicked: (event) => {
-        const target = event?.event?.target as HTMLElement | null;
-        if (target && target.classList.contains('edit-btn')) {
-          this.editUsuario(event.data);
-        } else if (target && target.classList.contains('delete-btn')) {
-          this.removeUsuario(event.data.id);
-        }
-      },
     },
   ];
 
@@ -126,14 +120,12 @@ export class EmpresaComponent implements OnInit {
       getRows: (params: IGetRowsParams) => {
         const page = params.startRow / this.pageSize;
 
-        this.userService
-          .listUsuarios(page, this.pageSize, this.filterName)
-          .subscribe({
-            next: (res: any) => {
-              params.successCallback(res.content, res.totalElements);
-            },
-            error: () => params.failCallback(),
-          });
+        this.userService.list(page, this.pageSize, this.filterName).subscribe({
+          next: (res: any) => {
+            params.successCallback(res.content, res.totalElements);
+          },
+          error: () => params.failCallback(),
+        });
       },
     };
   }
@@ -146,14 +138,48 @@ export class EmpresaComponent implements OnInit {
 
   /** ---- AÇÕES ---- */
   editUsuario(usuario: any) {
-    this.snack.open(`Editar usuário: ${usuario.name}`, '', { duration: 2000 });
+    this.selectedUser = usuario;
+    this.usuarioForm.patchValue(usuario);
   }
 
-  removeUsuario(id: string) {
-    this.snack.open(`Usuário removido.`, '', { duration: 2000 });
+  cancelEdit() {
+    this.selectedUser = null;
+    this.usuarioForm.reset({ status: 'ATIVO' });
   }
 
-  addUsuario() {
-    this.snack.open('Adicionar novo usuário...', '', { duration: 2000 });
+  saveUsuario() {
+    if (this.usuarioForm.invalid) {
+      this.snack.open('Preencha todos os campos corretamente', 'Fechar', {
+        duration: 2000,
+      });
+      return;
+    }
+
+    if (this.selectedUser) {
+      const body: UserUpdate = {
+        name: this.usuarioForm.value.name!,
+        email: this.usuarioForm.value.email!,
+        password: this.usuarioForm.value.password!,
+        status: this.usuarioForm.value.status!,
+      };
+      // Atualizar
+      this.userService.update(this.selectedUser.id, body).subscribe(() => {
+        this.snack.open('Usuário atualizado!', '', { duration: 1500 });
+        this.gridApi.refreshInfiniteCache();
+        this.cancelEdit();
+      });
+    } else {
+      const body: UserCreate = {
+        name: this.usuarioForm.value.name!,
+        password: this.usuarioForm.value.password!,
+        email: this.usuarioForm.value.email!,
+      };
+      // Criar
+      this.userService.create(body).subscribe(() => {
+        this.snack.open('Usuário criado!', '', { duration: 1500 });
+        this.gridApi.refreshInfiniteCache();
+        this.cancelEdit();
+      });
+    }
   }
 }

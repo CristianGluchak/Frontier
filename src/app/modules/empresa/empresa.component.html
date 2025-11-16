@@ -46,10 +46,10 @@
       </form>
     </mat-card-content>
   </mat-card>
+  <!-- ----------------------------------------------------- -->
+  <!--  AG-GRID + FORM DE USUÁRIO (CRIAR/EDITAR)            -->
+  <!-- ----------------------------------------------------- -->
 
-  <!-- -------------------------------------- -->
-  <!--            AG-GRID USUÁRIOS            -->
-  <!-- -------------------------------------- -->
   <mat-card class="section-card">
     <div class="card-section-title-VinculatedUsers">
       <h3>Usuários Vinculados</h3>
@@ -65,7 +65,7 @@
 
       <div class="ag-theme-alpine user-grid-container">
         <ag-grid-angular
-          style="width: 100%; height: 90%"
+          style="width: 100%; height: 100%"
           [columnDefs]="columnDefs"
           [rowModelType]="'infinite'"
           [cacheBlockSize]="pageSize"
@@ -74,12 +74,62 @@
           (gridReady)="onGridReady($event)"
         ></ag-grid-angular>
       </div>
-      <div class="add-user">
-        <button mat-stroked-button color="primary" (click)="addUsuario()">
-          <mat-icon class="material-symbols-outlined">person_add</mat-icon>
-          Adicionar Usuário
-        </button>
+
+      <div class="card-section-title-VinculatedUsers">
+        <h4>{{ selectedUser ? "Editar Usuário" : "Novo Usuário" }}</h4>
       </div>
+      <form [formGroup]="usuarioForm">
+        <div class="user-form-grid">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Nome</mat-label>
+              <input matInput formControlName="name" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput formControlName="email" />
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Senha</mat-label>
+              <input matInput formControlName="password" />
+            </mat-form-field>
+          </div>
+          <div class="radio-group-section">
+            <div>
+              <label class="radio-label">Status:</label>
+              <mat-radio-group formControlName="status" class="radio-group">
+                <mat-radio-button value="ATIVO">Ativo</mat-radio-button>
+                <mat-radio-button value="INATIVO">Inativo</mat-radio-button>
+              </mat-radio-group>
+            </div>
+            <div>
+              <button
+                class="save-button"
+                mat-flat-button
+                color="primary"
+                (click)="saveUsuario()"
+              >
+                <span *ngIf="selectedUser" class="material-symbols-outlined">
+                  edit
+                </span>
+                <span *ngIf="!selectedUser" class="material-symbols-outlined">
+                  check
+                </span>
+              </button>
+              <button
+                mat-stroked-button
+                class="cancel-button"
+                *ngIf="selectedUser"
+                (click)="cancelEdit()"
+              >
+                <span class="material-symbols-outlined"> close </span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
     </mat-card-content>
   </mat-card>
 </div>

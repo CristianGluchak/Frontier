@@ -6,16 +6,6 @@ export interface Employer {
   email: string;
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  status: string;
-  role: string;
-}
-
-export interface userCreate {}
-
 export interface PagedResponse<T> {
   content: T[];
   totalElements: number;
